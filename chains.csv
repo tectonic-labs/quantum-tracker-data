@@ -3,7 +3,7 @@ Bitcoin,BTC,C,L1,,f-nothing.svg,,a-done.svg,PoW (SHA-256) is hash-based and quan
 Ethereum,ETH,B,L1,,c-planned.svg,EIP-7702 shipped (Pectra 2025) enables AA-based PQ migration; EIP-8141/7701 + Falcon/ML-DSA precompile drafts in flight,b-dev.svg,leanSig + leanMultisig integrated across 5+ clients; pq-devnet 0–3 shipped; devnet-4 (recursive aggregation via leanVM) planned Mar 2026,f-nothing.svg,No PQC migration plan published for devp2p/libp2p,c-planned.svg,Strawmap J* milestone targets PQ sig precompiles; draft EIPs 7619/7592/8051/8052/7932 active,c-planned.svg,KZG blob commitments — Strawmap M* milestone replaces with STARK-based PQ alternatives,f-nothing.svg,No EC removal scheduled yet — Strawmap adds PQC alongside ECDSA but no fork commits to retiring EC,2026-04-30,,chains/l1/ethereum.md
 BNB Chain,BNB,D,L1,EVM-compatible; mostly inherits Ethereum exposure,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,d-discussed.svg,,f-nothing.svg,,f-nothing.svg,,2026-04-30,,chains/l1/bnb-chain.md
 XRP Ledger,XRP,B,L1,,b-dev.svg,,b-dev.svg,,f-nothing.svg,,,,f-nothing.svg,,f-nothing.svg,,2026-04-30,,chains/l1/xrp-ledger.md
-Solana,SOL,B,L1,,b-dev.svg,,d-discussed.svg,,f-nothing.svg,,c-planned.svg,,d-discussed.svg,,f-nothing.svg,,2026-04-30,,chains/l1/solana.md
+Solana,SOL,B,L1,,b-dev.svg,,d-discussed.svg,,f-nothing.svg,,b-dev.svg,SIMD-0461 Falcon precompile has a draft implementation PR (anza-xyz/solana-sdk#537) using liboqs,d-discussed.svg,,f-nothing.svg,,2026-04-30,,chains/l1/solana.md
 TRON,TRX,F,L1,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,d-discussed.svg,,f-nothing.svg,,2026-04-30,,chains/l1/tron.md
 Dogecoin,DOGE,D,L1,,f-nothing.svg,,a-done.svg,PoW (Scrypt) is hash-based and quantum-resistant,f-nothing.svg,,,,d-discussed.svg,,f-nothing.svg,,2026-04-30,,chains/l1/dogecoin.md
 Hyperliquid,HYPE,D,L1,Custom L1 for perps/DEX,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,d-discussed.svg,,f-nothing.svg,,2026-04-30,,chains/l1/hyperliquid.md
@@ -16,7 +16,7 @@ Zcash,ZEC,C,L1 (privacy),Quantum break is retroactive: forging shielded outputs 
 Litecoin,LTC,D,L1,,f-nothing.svg,,a-done.svg,PoW (Scrypt) is hash-based and quantum-resistant,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,2026-04-30,,chains/l1/litecoin.md
 Avalanche,AVAX,F,L1,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,2026-04-30,,chains/l1/avalanche.md
 Hedera,HBAR,C,L1,,f-nothing.svg,,d-discussed.svg,,d-discussed.svg,,d-discussed.svg,,d-discussed.svg,,f-nothing.svg,,2026-04-30,,chains/l1/hedera.md
-Sui,SUI,D,L1,,d-discussed.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,2026-04-30,,chains/l1/sui.md
+Sui,SUI,C,L1,,b-dev.svg,fastcrypto SLH-DSA-SHA2-128 build-out underway behind `experimental` feature flag (WOTS+ merged; FORS+XMSS+Hypertree and top-level sign/verify in flight); not yet wired into the tx-sig path,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,2026-04-30,,chains/l1/sui.md
 Bittensor,TAO,D,L1,AI/ML subnet network,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,b-dev.svg,,f-nothing.svg,,2026-04-30,,chains/l1/bittensor.md
 Toncoin,TON,F,L1,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,2026-04-30,,chains/l1/toncoin.md
 Cronos,CRO,D,L1,EVM-compatible,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,f-nothing.svg,,,,f-nothing.svg,,2026-04-30,,chains/l1/cronos.md
