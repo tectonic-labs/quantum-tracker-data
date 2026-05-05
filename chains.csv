@@ -3,7 +3,7 @@ Bitcoin,BTC,C,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,,f-nothing
 Ethereum,ETH,B,L1,c-planned.svg,b-dev.svg,f-nothing.svg,c-planned.svg,c-planned.svg,f-nothing.svg,2026-04-30,,chains/l1/ethereum.md
 BNB Chain,BNB,C,L1,b-dev.svg,b-dev.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,f-nothing.svg,2026-05-01,,chains/l1/bnb-chain.md
 XRP Ledger,XRP,B,L1,b-dev.svg,b-dev.svg,f-nothing.svg,,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/xrp-ledger.md
-Solana,SOL,B,L1,b-dev.svg,d-discussed.svg,f-nothing.svg,b-dev.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/solana.md
+Solana,SOL,B,L1,d-discussed.svg,d-discussed.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,f-nothing.svg,2026-05-04,,chains/l1/solana.md
 TRON,TRX,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/tron.md
 Dogecoin,DOGE,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/dogecoin.md
 Hyperliquid,HYPE,D,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/hyperliquid.md
@@ -53,49 +53,49 @@ Naoris Protocol,NAORIS,,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,d-
 XX Network,XX,,L1 (PQC-native — marketed),f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/xx-network.md
 Quip Network,QUIP,,L1 (PQC-native),b-dev.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,b-dev.svg,f-nothing.svg,2026-04-30,,chains/l1/quip-network.md
 QuStream,QST,,L1 (PQC-native — claims unverified),d-discussed.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/qustream.md
-Pi Network,PI,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/pi-network.md
-Aster,ASTER,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/aster.md
-Polygon,POL,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/polygon.md
-Stable,STABLE,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/stable.md
-Beldex,BDX,,L1 (privacy),f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/beldex.md
-Provenance Blockchain,HASH,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/provenance-blockchain.md
-Artificial Superintelligence Alliance,FET,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/asi-alliance.md
-Terra Luna Classic,LUNC,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/terra-luna-classic.md
-Injective,INJ,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/injective.md
-Celestia,TIA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/celestia.md
-Conflux,CFX,,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/conflux.md
-Kaia,KAIA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/kaia.md
-IOTA,IOTA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/iota.md
-Plasma,XPL,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/plasma.md
-Theta Network,THETA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/theta-network.md
-NEO,NEO,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/neo.md
-THORChain,RUNE,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/thorchain.md
-Story,IP,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/story.md
-Berachain,BERA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/berachain.md
-Movement Network,MOVE,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/movement-network.md
-Sonic,S,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/sonic.md
-Initia,INIT,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/initia.md
-0G,0G,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/0g.md
-Sahara AI,SAHARA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/sahara-ai.md
-Babylon,BABY,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/babylon.md
-Mantra,OM,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/mantra.md
-Akash Network,AKT,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/akash-network.md
-Agoric,BLD,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/agoric.md
-Kava,KAVA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/kava.md
-Osmosis,OSMO,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/osmosis.md
-Mina Protocol,MINA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/mina-protocol.md
-Kadena,KDA,,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/kadena.md
-Oasis Network,ROSE,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/oasis-network.md
-Casper Network,CSPR,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/casper-network.md
-Astar Network,ASTR,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/astar-network.md
-IoTeX,IOTX,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/iotex.md
-Zilliqa,ZIL,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/zilliqa.md
-Harmony,ONE,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/harmony.md
-Ravencoin,RVN,,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/ravencoin.md
-Nano,XNO,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/nano.md
-Symbol,XYM,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/symbol.md
-Beam,BEAMX,,L1 (privacy),f-nothing.svg,a-done.svg,f-nothing.svg,,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/beam.md
-Nervos Network,CKB,,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/nervos-network.md
-ICON,ICX,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/icon.md
-WAX,WAXP,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/wax.md
-EOS,EOS,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/eos.md
+Pi Network,PI,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,,,f-nothing.svg,2026-05-05,,chains/l1/pi-network.md
+Aster,ASTER,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/aster.md
+Polygon,POL,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/polygon.md
+Stable,STABLE,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/stable.md
+Beldex,BDX,,L1 (privacy),f-nothing.svg,f-nothing.svg,f-nothing.svg,,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/beldex.md
+Provenance Blockchain,HASH,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/provenance-blockchain.md
+Artificial Superintelligence Alliance,FET,,L1,d-discussed.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/asi-alliance.md
+Terra Luna Classic,LUNC,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/terra-luna-classic.md
+Injective,INJ,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/injective.md
+Celestia,TIA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,,a-done.svg,f-nothing.svg,2026-05-05,,chains/l1/celestia.md
+Conflux,CFX,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,,f-nothing.svg,2026-05-05,,chains/l1/conflux.md
+Kaia,KAIA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/kaia.md
+IOTA,IOTA,,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-05-05,,chains/l1/iota.md
+Plasma,XPL,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/plasma.md
+Theta Network,THETA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/theta-network.md
+NEO,NEO,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/neo.md
+THORChain,RUNE,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/thorchain.md
+Story,IP,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/story.md
+Berachain,BERA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/berachain.md
+Movement Network,MOVE,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/movement-network.md
+Sonic,S,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/sonic.md
+Initia,INIT,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/initia.md
+0G,0G,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/0g.md
+Sahara AI,SAHARA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/sahara-ai.md
+Babylon,BABY,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/babylon.md
+Mantra,OM,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/mantra.md
+Akash Network,AKT,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/akash-network.md
+Agoric,BLD,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/agoric.md
+Kava,KAVA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/kava.md
+Osmosis,OSMO,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/osmosis.md
+Mina Protocol,MINA,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/mina-protocol.md
+Kadena,KDA,,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/kadena.md
+Oasis Network,ROSE,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/oasis-network.md
+Casper Network,CSPR,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,,f-nothing.svg,2026-05-05,,chains/l1/casper-network.md
+Astar Network,ASTR,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/astar-network.md
+IoTeX,IOTX,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/iotex.md
+Zilliqa,ZIL,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/zilliqa.md
+Harmony,ONE,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/harmony.md
+Ravencoin,RVN,,L1,f-nothing.svg,a-done.svg,f-nothing.svg,,,f-nothing.svg,2026-05-05,,chains/l1/ravencoin.md
+Nano,XNO,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,,,f-nothing.svg,2026-05-05,,chains/l1/nano.md
+Symbol,XYM,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,,,f-nothing.svg,2026-05-05,,chains/l1/symbol.md
+Beam,BEAMX,,L1 (privacy),f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/beam.md
+Nervos Network,CKB,,L1,a-done.svg,a-done.svg,f-nothing.svg,a-done.svg,,f-nothing.svg,2026-05-05,,chains/l1/nervos-network.md
+ICON,ICX,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/icon.md
+WAX,WAXP,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/wax.md
+EOS,EOS,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/eos.md
