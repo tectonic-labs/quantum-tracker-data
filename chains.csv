@@ -43,7 +43,7 @@ Gnosis,GNO,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,,f-nothi
 Arc,ARC,B,L1,b-dev.svg,f-nothing.svg,f-nothing.svg,a-done.svg,,c-planned.svg,2026-04-30,,chains/l1/arc.md
 Monad,MON,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,,f-nothing.svg,2026-04-30,,chains/l1/monad.md
 MegaETH,MEGA,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/megaeth.md
-Tempo,TEMPO,,L1,,,,,,,2026-04-30,,chains/l1/tempo.md
+Tempo,TEMPO,,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-04,,chains/l1/tempo.md
 QRL,QRL,,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,b-dev.svg,a-done.svg,a-done.svg,2026-04-30,,chains/l1/qrl.md
 Cellframe,CELL,,L1 (PQC-native),a-done.svg,a-done.svg,a-done.svg,a-done.svg,a-done.svg,a-done.svg,2026-04-30,,chains/l1/cellframe.md
 QANplatform,QANX,,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,a-done.svg,,f-nothing.svg,2026-04-30,,chains/l1/qanplatform.md
