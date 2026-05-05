@@ -95,7 +95,7 @@ Ravencoin,RVN,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,,,f-nothing.svg,2026-0
 Nano,XNO,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,,,f-nothing.svg,2026-05-05,,chains/l1/nano.md
 Symbol,XYM,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,,,f-nothing.svg,2026-05-05,,chains/l1/symbol.md
 Beam,BEAMX,F,L1 (privacy),f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/beam.md
-Nervos Network,CKB,A,L1,a-done.svg,a-done.svg,f-nothing.svg,a-done.svg,,f-nothing.svg,2026-05-05,,chains/l1/nervos-network.md
+Nervos Network,CKB,,L1 (PQC-native),a-done.svg,a-done.svg,f-nothing.svg,a-done.svg,,f-nothing.svg,2026-05-05,,chains/l1/nervos-network.md
 ICON,ICX,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/icon.md
 WAX,WAXP,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/wax.md
 EOS,EOS,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/eos.md
