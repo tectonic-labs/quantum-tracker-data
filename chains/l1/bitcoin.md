@@ -15,7 +15,7 @@
 | Consensus | A | ✅ | Shipped |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | D | ⚠️ | Discussed |
-| Other Features | -- | -- | Not Applicable |
+| Other Features | ➖ | ➖ | Not Applicable |
 | EC Sunset | D | ⚠️ | Discussed |
 
 Bitcoin's PQC migration sits at the proposal stage. Two BIP-numbered drafts define complementary halves of a path: [BIP-360](https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki) (Pay-to-Merkle-Root) introduces a quantum-resistant output type, and [BIP-361](https://github.com/bitcoin/bips/blob/master/bip-0361.mediawiki) (Post Quantum Migration and Legacy Signature Sunset) phases out classical ECDSA/Schnorr spends after a separate PQ signature BIP activates. Neither has a soft-fork activation timeline. Reference sites: [bip360.org](https://bip360.org/), [bip361.org](https://bip361.org/).
@@ -87,7 +87,7 @@ Bitcoin does not support any special features.
 
 **Grade: D ⚠️**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Bitcoin's PQC-adoption ratings per category are: Tx Signatures 🗺️, Consensus ✅, P2P ❌, On-Chain ⚠️, Other --.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Bitcoin's PQC-adoption ratings per category are: Tx Signatures 🗺️, Consensus ✅, P2P ❌, On-Chain ⚠️, Other ➖.
 
 [BIP-361](https://github.com/bitcoin/bips/blob/master/bip-0361.mediawiki) is Bitcoin's first published proposal that confronts EC retirement directly. It defines a two-phase consensus-layer sunset for legacy ECDSA/Schnorr spends, gated on a separate PQ signature BIP being live. Phase A (160,000 blocks ≈ 3 years after activation) imposes wallet-level limits on sending funds *to* legacy address types. Phase B (~2 years after Phase A) rejects ECDSA/Schnorr spends at the consensus layer unless they satisfy a quantum-safe rescue protocol. Phase C is under research and explores zero-knowledge proof of BIP-39 seed-phrase ownership for frozen-coin recovery, designed to be compatible with an [Hourglass-style](https://groups.google.com/g/bitcoindev/c/zmg3U117aNc) spending throttle.
 
