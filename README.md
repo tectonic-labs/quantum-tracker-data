@@ -20,7 +20,7 @@ Each segment has a matching subdirectory carrying long-form public reports and p
 
 ## Status Indicator Values
 
-Status cells (the six `*_exposure` and `ec_sunset` columns) carry one of the following SVG filenames. The frontend resolves these to the corresponding icon. An empty cell is rendered as a grey hyphen (Not Applicable).
+Status cells (the six `*_exposure` and `ec_sunset` columns in `chains.csv`) carry one of the following SVG filenames. The frontend resolves these to the corresponding icon. Status cells must always be populated — empty is no longer a permitted value; use `n-not-applicable.svg` to mark categories that don't apply.
 
 | Value | Meaning |
 |-------|---------|
@@ -29,7 +29,9 @@ Status cells (the six `*_exposure` and `ec_sunset` columns) carry one of the fol
 | `c-planned.svg` | On Roadmap — published roadmap with credible plan; implementation not started. For EC Sunset: credible plan to retire EC. |
 | `d-discussed.svg` | Discussed — topic is being discussed in governance / EIPs / forums; no formal roadmap commitment. |
 | `f-nothing.svg` | Exposed — quantum-vulnerable, no migration shipped. For EC Sunset: no plans to remove EC. |
-| *(empty)* | Not Applicable — category does not apply to this entity. |
+| `n-not-applicable.svg` | Not Applicable — category does not apply to this entity. |
+
+Note: in `chains_commentary.csv`, the status columns are structural placeholders and remain empty; the authoritative status value lives in `chains.csv`.
 
 ## chains.csv schema
 
@@ -40,8 +42,8 @@ Columns mirror the Quantum Tracker product table, with a `_commentary` cell inse
 | 1 | `project` | string | Project name. |
 | 2 | `ticker` | string | Symbol if applicable; empty otherwise. |
 | 3 | `tier` | enum | Overall PQC-readiness grade: `S`, `A`, `B`, `C`, `D`, or `F`. Empty for chains not on the tier list (genesis-PQC chains, unevaluated chains). See "Tier values" below. |
-| 4 | `category` | string | e.g. `L1`, `L2 (optimistic)`, `L1 (privacy)`, `L1 (PQC-native)`. |
-| 5 | `category_commentary` | string | Optional caveat about classification (e.g. "marketed as PQC-native but blockchain layer is standard EC"). |
+| 4 | `category` | enum | Constrained vocabulary. L1 values: `L1`, `L1 (Privacy)`, `L1 (Enterprise)`, `L1 (PQC-native)`. L2 values follow the same pattern (e.g. `L2 (optimistic)`, `L2 (zk)`). Any further qualifier (`— claims unverified`, `— marketed`, sub-classification) belongs in `category_commentary`, not the category cell. |
+| 5 | `category_commentary` | string | Optional caveat about classification (e.g. "marketed as PQC-native but blockchain layer is standard EC", "claims unverified", "enterprise DLT"). |
 | 6 | `tx_signature_exposure` | status | See status values above. |
 | 7 | `tx_signature_commentary` | string | Optional caveat (e.g. "Falcon implemented for state proofs but not user txs"). |
 | 8 | `consensus_exposure` | status | |
