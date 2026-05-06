@@ -1,0 +1,64 @@
+name: Data correction
+description: Report inaccurate or outdated data in this dataset.
+title: "[Correction] <project> — <what is wrong>"
+labels: ["data-correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping keep the dataset accurate. Please fill in every field — corrections without a public source link cannot be acted on.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Which segment of the dataset does this entry belong to?
+      options:
+        - Chain (L1 / L2)
+        - Coin / Token
+        - Wallet
+        - NFT project
+        - Other / unsure
+    validations:
+      required: true
+
+  - type: input
+    id: project
+    attributes:
+      label: Project name and/or ticker
+      description: Identify the entry. Include the ticker if there is one.
+      placeholder: e.g. Ethereum (ETH), Bitcoin (BTC), USDC
+    validations:
+      required: true
+
+  - type: textarea
+    id: incorrect
+    attributes:
+      label: What is incorrect?
+      description: Identify the specific field, status cell, commentary, tier, or other content that is wrong. Quoting the current value helps.
+      placeholder: |
+        e.g. The `consensus_exposure` cell is set to `f-nothing.svg`, and the commentary says "no roadmap".
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed correction
+      description: What should the value, rating, or text be instead?
+      placeholder: |
+        e.g. Should be `c-planned.svg` with commentary "Roadmap published 2025-Q4 via XIP-XXXX targeting <milestone>."
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Public source link(s)
+      description: |
+        URLs to public primary sources supporting the correction — official docs, code repos, governance posts, published roadmaps, audit reports, etc. Marketing pages and social-media posts alone are usually not sufficient. Paywalled, private, or NDA-restricted material cannot be used.
+      placeholder: |
+        - https://...
+        - https://...
+    validations:
+      required: true
