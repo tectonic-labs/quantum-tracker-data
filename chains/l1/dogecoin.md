@@ -15,7 +15,7 @@
 | Transaction Signatures | F | ❌ | Not Discussed |
 | Consensus | A | ✅ | Shipped |
 | P2P Networking | F | ❌ | Not Discussed |
-| On-Chain Logic | ➖ | ➖ | Not Applicable |
+| On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | D | ⚠️ | Discussed |
 | EC Sunset | F | ❌ | Not Discussed |
 
@@ -61,9 +61,15 @@ Dogecoin's P2P layer is inherited from early Bitcoin. Nodes communicate over pla
 
 ## 4. On-Chain Logic
 
-**Grade: Not Applicable (➖)**
+**Grade: F ❌**
 
-Dogecoin runs Bitcoin Script — a stack-based, non-Turing-complete language used to gate spends. There are no general-purpose smart contracts and no exposed cryptographic precompiles beyond the standard hash and signature opcodes (OP_SHA256, OP_HASH160, OP_CHECKSIG, OP_CHECKMULTISIG). Without a smart-contract VM there is no general PQC-verification primitive to grade for this category. The proposed [OP_CHECKZKP opcode](https://blog.nexus.xyz/groth16-powered-smart-contracts-on-dogecoin/) addresses Groth16 ZK-proof verification rather than PQ signature verification, and Groth16 is not itself a post-quantum scheme.
+Dogecoin's on-chain logic is Bitcoin Script — a stack-based, non-Turing-complete language used to gate spends. The available signature opcodes verify ECDSA secp256k1 only: OP_CHECKSIG / OP_CHECKSIGVERIFY (ECDSA) and OP_CHECKMULTISIG (legacy ECDSA). Hash opcodes include OP_SHA256 and OP_HASH160 (SHA-256 + RIPEMD-160). There is no PQC verification opcode and no proposal in the [dogecoin/dogecoin](https://github.com/dogecoin/dogecoin) repository for one.
+
+The closest concrete on-chain proposal is [OP_CHECKZKP](https://blog.nexus.xyz/groth16-powered-smart-contracts-on-dogecoin/) from the DogeOS / MyDoge team, which would verify Groth16 zero-knowledge proofs natively on-chain. Groth16 uses BN254 elliptic-curve pairings and is itself not a post-quantum scheme. The PQC-named proposal [DIP-2241](https://github.com/dogecoin/dogecoin/issues/2241) gestures at NIST PQC schemes (**ML-KEM**, **ML-DSA**, **XMSS**) but is in informal discussion and is chain-wide rather than on-chain-opcode-specific.
+
+**Current state.** Bitcoin Script with ECDSA-only signature verification opcodes. No PQ verification opcode.
+
+**Planned future work.** No on-chain-specific PQ opcode has been proposed.
 
 ## 5. Other Features
 
@@ -77,7 +83,7 @@ Dogecoin runs Bitcoin Script — a stack-based, non-Turing-complete language use
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Dogecoin's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ➖, Other ⚠️.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Dogecoin's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ❌, Other ⚠️.
 
 We have found no public information indicating migration activity for Dogecoin in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 

@@ -5,8 +5,8 @@ Ripple,XRP,B,L1,b-dev.svg,b-dev.svg,f-nothing.svg,,f-nothing.svg,f-nothing.svg,2
 BNB Chain,BNB,C,L1,b-dev.svg,b-dev.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,f-nothing.svg,2026-05-01,,chains/l1/bnb-chain.md
 Solana,SOL,B,L1,d-discussed.svg,d-discussed.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,f-nothing.svg,2026-05-04,,chains/l1/solana.md
 TRON,TRX,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/tron.md
-Dogecoin,DOGE,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/dogecoin.md
-Hyperliquid,HYPE,D,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/hyperliquid.md
+Dogecoin,DOGE,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/dogecoin.md
+Hyperliquid,HYPE,D,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/hyperliquid.md
 Cardano,ADA,C,L1,f-nothing.svg,d-discussed.svg,f-nothing.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,2026-05-01,,chains/l1/cardano.md
 Bitcoin Cash,BCH,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/bitcoin-cash.md
 Zcash,ZEC,C,L1 (privacy),f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,b-dev.svg,c-planned.svg,2026-04-30,,

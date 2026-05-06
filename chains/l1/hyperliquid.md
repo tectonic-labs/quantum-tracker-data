@@ -15,8 +15,8 @@
 | Transaction Signatures | F | ❌ | Not Discussed |
 | Consensus | F | ❌ | Not Discussed |
 | P2P Networking | F | ❌ | Not Discussed |
-| On-Chain Logic | F | ❌ | Not Discussed |
-| Other Features | D | ⚠️ | Discussed |
+| On-Chain Logic | D | ⚠️ | Discussed |
+| Other Features | F | ❌ | Not Discussed |
 | EC Sunset | F | ❌ | Not Discussed |
 
 Hyperliquid's core team has not published a base-layer post-quantum migration plan. HyperBFT consensus signing, HyperEVM precompiles, and the chain's gossip-based P2P layer all rely on ECDSA secp256k1 (with Ed25519 available in some SDK paths). The chain's PQ-adjacent activity is concentrated in a third-party project: [01 Quantum's qONE protocol](https://01quantum.com), launched on HyperEVM in February 2026. qONE is a smart-contract overlay using IronCAP — a proprietary NIST-aligned post-quantum signature and encryption family — wrapped in Quantum Crypto Wrapper (QCW) and Quantum DeFi Wrapper (QDW) contracts. Phase 1 (token economic framework) launched on 2026-02-11; Phase 2 (cryptographic integration) targets late March 2026 per [The Quantum Insider](https://thequantuminsider.com/2026/02/03/01-quantum-quantum-resistant-blockchain-migration-toolkit/), with a Phase 3 roadmap combining IronCAP with zero-knowledge proofs.
@@ -49,29 +49,35 @@ We have found no public information indicating migration activity for Hyperliqui
 
 ## 4. On-Chain Logic
 
-**Grade: F ❌**
+**Grade: D ⚠️**
 
-We have found no public information indicating migration activity for Hyperliquid in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+[HyperEVM](https://hyperliquid.gitbook.io/hyperliquid-docs/hyperevm) (launched February 2025) is EVM-compatible and exposes the standard Ethereum precompile set: ecrecover (secp256k1), ecAdd / ecMul / ecPairing (BN254), and BLS12-381 ops where inherited. Hash precompiles cover SHA-256 and Keccak-256. Custom [HyperCore precompiles](https://medium.com/@ambitlabs/demystifying-the-hyperliquid-precompiles-and-corewriter-ef4507eb17ef) expose trading primitives (oracle prices at 0x0800+, vault asset values, position queries, order-book depth) — these are data primitives authenticated by HyperBFT consensus rather than new cryptographic schemes. No PQC verification precompile is shipped, on testnet, or proposed for HyperEVM itself.
+
+PQC availability on-chain comes through [qONE](https://www.newsfilecorp.com/release/271519/01-Quantum-and-qLABS-Provide-Further-Details-of-the-qLABS-Token---The-Foundation-of-Quantum-Safe-Web3-Infrastructure-on-Hyperliquid), 01 Quantum's smart-contract overlay deployed on HyperEVM. qONE is a smart-contract construct rather than a HyperEVM precompile or HyperBFT change. Phase 1 (token economic framework) launched 2026-02-11. Phase 2 — integrating **IronCAP**, a proprietary NIST-aligned post-quantum signature and encryption family, into Quantum Crypto Wrapper (QCW) and Quantum DeFi Wrapper (QDW) contracts for wallet, asset, and protocol authorization — targets late March 2026 per [The Quantum Insider](https://thequantuminsider.com/2026/02/03/01-quantum-quantum-resistant-blockchain-migration-toolkit/). Phase 3 combines IronCAP with zero-knowledge proofs.
+
+**Current state.** Standard EVM precompiles (all EC-based) plus HyperCore-specific data primitives. qONE Phase 1 (token only) is live on HyperEVM; no IronCAP code is deployed yet.
+
+**Planned future work.** qONE Phase 2 (IronCAP integration into QCW / QDW smart contracts) targets end of March 2026. Activation would be voluntary at the wallet / contract level rather than a HyperEVM precompile or HyperBFT change. No PQC precompile or syscall has been proposed for HyperEVM itself. The post-quantum scheme used is the proprietary IronCAP family rather than a NIST-finalized algorithm such as **ML-DSA**, **SLH-DSA**, or **Falcon**.
 
 ## 5. Other Features
 
-### qONE Quantum-Resistant Layer (smart-contract overlay)
+### Oracle System
 
-**Current state.** [qONE](https://www.newsfilecorp.com/release/271519/01-Quantum-and-qLABS-Provide-Further-Details-of-the-qLABS-Token---The-Foundation-of-Quantum-Safe-Web3-Infrastructure-on-Hyperliquid) launched on HyperEVM on 2026-02-11 with Phase 1 (token economic framework) live. The roadmap describes Phase 2 as integrating **IronCAP** post-quantum signatures and encryption inside Quantum Crypto Wrapper (QCW) and Quantum DeFi Wrapper (QDW) smart contracts for wallet, asset, and protocol transaction authorization, and Phase 3 as combining IronCAP with zero-knowledge proofs. The integration runs as a smart-contract overlay; it does not modify HyperBFT consensus signing, HyperEVM precompiles, or P2P transport.
+**Current state.** Validators publish [weighted-median spot prices](https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/oracle) every three seconds, used for funding rates, mark price, margining, liquidations, and TP/SL triggers. Oracle-data authenticity rides on HyperBFT block signatures (ECDSA secp256k1) rather than oracle-specific cryptography.
 
-**Planned future work.** Phase 2 ("end of March 2026" per published material) introduces a Layer 1 Migration Toolkit that targets multiple chains beyond Hyperliquid; activation on Hyperliquid would be voluntary at the wallet / contract level. Phase 3 timing is not pinned. The post-quantum scheme is the proprietary IronCAP family rather than a NIST-finalized algorithm such as **ML-DSA**, **SLH-DSA**, or **Falcon**.
+**Planned future work.** No oracle-specific PQ proposal is currently published. Oracle security tracks the consensus-layer signature scheme.
 
-### Oracle system, HyperEVM DEX precompiles, and perpetuals
+### Cross-Margin Perpetuals
 
-**Current state.** Hyperliquid validators publish [weighted-median spot prices](https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/oracle) every three seconds, used for funding, mark price, margining, liquidations, and TP/SL triggers. Oracle data authenticity rides on HyperBFT block signatures (ECDSA secp256k1). [Custom HyperEVM precompiles](https://medium.com/@ambitlabs/demystifying-the-hyperliquid-precompiles-and-corewriter-ef4507eb17ef) expose HyperCore trading primitives (oracle prices, vault asset values, position queries, order-book depth) to smart contracts; data integrity again derives from consensus block signatures. Cross-margin perpetuals account management uses ECDSA via EIP-712 structured signing.
+**Current state.** Account management and order signing use ECDSA secp256k1 via EIP-712 structured data signing. The perpetuals layer adds no cryptography beyond the chain-level signature scheme.
 
-**Planned future work.** No DEX-specific or oracle-specific PQ proposal is currently published. These features inherit whatever signature scheme HyperBFT uses; a base-layer migration would propagate, but no base-layer migration is on Hyperliquid's roadmap.
+**Planned future work.** No perpetuals-specific PQ proposal is currently published. Security tracks the transaction-layer signature scheme.
 
 ## 6. EC Sunset
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Hyperliquid's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ❌, P2P ❌, On-Chain ❌, Other ⚠️.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Hyperliquid's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ❌, P2P ❌, On-Chain ⚠️, Other ❌.
 
 We have found no public information indicating migration activity for Hyperliquid in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 
