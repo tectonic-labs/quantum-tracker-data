@@ -1,5 +1,5 @@
 project,ticker,tier,category,tx_signature_exposure,consensus_exposure,p2p_exposure,onchain_exposure,other_exposure,ec_sunset,date_last_updated,audit,report
-Bitcoin,BTC,C,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,,f-nothing.svg,2026-04-30,,chains/l1/bitcoin.md
+Bitcoin,BTC,C,L1,c-planned.svg,a-done.svg,f-nothing.svg,d-discussed.svg,,d-discussed.svg,2026-05-05,,chains/l1/bitcoin.md
 Ethereum,ETH,B,L1,c-planned.svg,b-dev.svg,f-nothing.svg,c-planned.svg,c-planned.svg,f-nothing.svg,2026-04-30,,chains/l1/ethereum.md
 BNB Chain,BNB,C,L1,b-dev.svg,b-dev.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,f-nothing.svg,2026-05-01,,chains/l1/bnb-chain.md
 XRP Ledger,XRP,B,L1,b-dev.svg,b-dev.svg,f-nothing.svg,,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/xrp-ledger.md
