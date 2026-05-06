@@ -125,6 +125,6 @@ Searches across `firedancer-io`, `anza-xyz`, and `Syndica` for `post-quantum`, `
 
 _Generated on 5 May 2026 based on information as of 4 May 2026._
 
-_Corrections and additions: contact channel pending launch._
+_[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
 _Editorial policy: none currently published._
