@@ -16,7 +16,7 @@
 | Consensus | A | ✅ | Shipped |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
-| Other Features | D | ⚠️ | Discussed |
+| Other Features | ➖ | ➖ | Not Applicable |
 | EC Sunset | F | ❌ | Not Discussed |
 
 Dogecoin's PQC posture is largely inherited from Bitcoin pre-2021. The chain uses ECDSA secp256k1 for all transaction signatures with no Schnorr / Taproot upgrade adopted, and the codebase has remained on Bitcoin-derived plaintext v1 P2P transport without [BIP-324](https://bips.dev/324/) v2 encryption. The one PQC-relevant proposal in the repository, [DIP-2241 ("Update Dogecoin to be Post Quantum Resistant")](https://github.com/dogecoin/dogecoin/issues/2241), is in informal discussion with no champion or accepted timeline. The closest concrete on-chain work is the [OP_CHECKZKP proposal](https://www.coindesk.com/tech/2025/07/23/dogecoin-could-soon-verify-zk-proofs-natively-thanks-to-dogeos-push) from the DogeOS / MyDoge team to verify Groth16 zero-knowledge proofs on-chain — Groth16 is itself EC-pairing-based and not quantum-safe, so the proposal is a smart-contract enabler rather than a PQ migration step.
@@ -73,17 +73,13 @@ The closest concrete on-chain proposal is [OP_CHECKZKP](https://blog.nexus.xyz/g
 
 ## 5. Other Features
 
-### OP_CHECKZKP (Zero-Knowledge Proof Verification Proposal)
-
-**Current state.** The [OP_CHECKZKP proposal](https://www.coindesk.com/tech/2025/07/23/dogecoin-could-soon-verify-zk-proofs-natively-thanks-to-dogeos-push) from the DogeOS / MyDoge team adds a new opcode that verifies Groth16 zero-knowledge proofs natively on-chain, enabling off-chain smart contracts (rollups, sidechains) to settle proofs to Dogecoin. The proposal is backward-compatible (older nodes treat the opcode as a no-op) and targets 10–20 ms verification per Groth16 proof, capped at one ZKP per script and five per block. Groth16 uses BN254 elliptic-curve pairings and is itself not quantum-safe.
-
-**Planned future work.** The proposal is under community review; no activation timeline has been set. STARK-based proofs are sometimes cited as the natural quantum-resistant alternative but the current proposal specifies Groth16.
+Dogecoin does not support any special features.
 
 ## 6. EC Sunset
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Dogecoin's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ❌, Other ⚠️.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Dogecoin's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ❌, Other ➖.
 
 We have found no public information indicating migration activity for Dogecoin in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 
