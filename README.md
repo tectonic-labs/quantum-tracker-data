@@ -4,14 +4,19 @@ CSV data files consumed by the Quantum Tracker website at runtime.
 
 ## Layout
 
-CSV files are organized by segment (one CSV per Phase 1 segment):
+CSV files are organized by segment (one CSV per segment):
 
-- `chains.csv` -- top 200 blockchains (L1 + L2) -- **populated (54 rows)**
+- `chains.csv` -- top 200 blockchains (L1 + L2) -- *populated*
 - `coins.csv` -- top 200 coins and tokens -- *pending*
-- `cex.csv` -- top 25 centralized exchanges -- *pending*
-- `dex.csv` -- top 25 decentralized exchanges -- *pending*
-- `nft.csv` -- top 100 NFT projects -- *pending*
-- `yield.csv` -- top 100 yield platforms -- *pending*
+- `wallets.csv` -- wallets -- *pending*
+- `nfts.csv` -- top 100 NFT projects -- *pending*
+
+Each segment has a matching subdirectory carrying long-form public reports and per-segment notes:
+
+- `chains/l1/` -- L1 chain PQC readiness reports (populated; see [`chains/l1/README.md`](chains/l1/README.md))
+- `coins/` -- *pending* (see [`coins/README.md`](coins/README.md))
+- `wallets/` -- *pending* (see [`wallets/README.md`](wallets/README.md))
+- `nfts/` -- *pending* (see [`nfts/README.md`](nfts/README.md))
 
 ## Status Indicator Values
 
