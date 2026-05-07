@@ -13,7 +13,7 @@
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Transaction Signatures | F | ❌ | Not Discussed |
+| Transaction Signatures | D | ⚠️ | Discussed |
 | Consensus | D | ⚠️ | Discussed |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | D | ⚠️ | Discussed |
@@ -35,7 +35,7 @@ The active proposal work sits in the [Cardano Improvement Proposals (CIPs)](http
 
 ## 1. Transaction Signatures
 
-**Grade: F ❌**
+**Grade: D ⚠️**
 
 Cardano's user transaction signatures use [Ed25519](https://developers.cardano.org/docs/operate-a-stake-pool/cardano-key-pairs/) (EdDSA on Curve25519) — broken by Shor's algorithm in the same way as ECDSA. Payment keys, stake keys, governance (DRep) keys, and HD wallets all derive from Ed25519. The [Valentine hard fork (2023)](https://docs.cardano.org/about-cardano/evolution/upgrades/valentine) added SECP curve verification (ECDSA and Schnorr over secp256k1) for interoperability, and Plutus V3 (2024) added BLS primitives — both EC-based, neither quantum-resistant. No PQ replacement for Ed25519 has been merged into cardano-node.
 
@@ -103,7 +103,7 @@ The constraint cited in [PlutusV3 material](https://iohk.io/en/blog/posts/2024/0
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Cardano's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ⚠️, P2P ❌, On-Chain ⚠️, Other ⚠️.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Cardano's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ⚠️, P2P ❌, On-Chain ⚠️, Other ⚠️.
 
 Cardano has no published plan to retire elliptic-curve cryptography from any layer. Public material from IOG describes a phased, research-driven approach: long-term hardening informed by Nightstream and the IOG PQ research program, with potential near-term checkpointing of ledger history through Mithril and Midnight. Public commentary from [Charles Hoskinson](https://decrypt.co/353161/cardano-hoskinson-warns-crypto-becoming-post-quantum-require-trade-offs) cites a roughly 10× performance / size cost as a concern and references the [DARPA Quantum Benchmarking Initiative](https://finance.yahoo.com/news/cardano-founder-says-crypto-quantum-threat-200255327.html) (targeting 2033) as a calibration point.
 

@@ -14,7 +14,7 @@
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | B | 🔧 | In Development |
 | Consensus | B | 🔧 | In Development |
-| P2P Networking | F | ❌ | Not Discussed |
+| P2P Networking | D | ⚠️ | Discussed |
 | On-Chain Logic | B | 🔧 | In Development |
 | Other Features | F | ❌ | Not Discussed |
 | EC Sunset | F | ❌ | Not Discussed |
@@ -57,11 +57,11 @@ bsc#3660 introduces `PQVoteAttestation`, a fast-finality construction that repla
 
 ## 3. P2P Networking
 
-**Grade: F ❌**
+**Grade: D ⚠️**
 
-BNB Chain inherits Ethereum's devp2p stack — RLPx with ECIES key exchange and secp256k1 node identity. Peer discovery uses Kademlia DHT (discv4 / discv5). bsc#3660 adds a `bsc4` sub-protocol to carry PQ vote messages alongside `bsc3`, but does not change devp2p key exchange or node identity.
+BNB Chain inherits Ethereum's devp2p stack — RLPx with ECIES key exchange and secp256k1 node identity. Peer discovery uses Kademlia DHT (discv4 / discv5). The bsc#3660 PoC adds a `bsc4` sub-protocol that carries PQ vote messages alongside the classical `bsc3` stream — chain-attributable in-repo work that touches the P2P layer in service of a PQC migration — but it does not change devp2p key exchange or node identity, and the underlying transport crypto remains EC-based.
 
-**Current state.** secp256k1 node identity, ECIES handshakes, no PQ alternatives drafted.
+**Current state.** secp256k1 node identity, ECIES handshakes; the new `bsc4` sub-protocol is the only PQ-related P2P artifact and only carries PQ payloads.
 
 **Planned future work.** No proposal for PQ transport encryption or PQ node identity is currently published.
 
@@ -95,7 +95,7 @@ bsc#3660 adds a **PQ Registry precompile at `0x70`** that stores **ML-DSA-44** p
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, BNB Chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus 🔧, P2P ❌, On-Chain 🔧, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, BNB Chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus 🔧, P2P ⚠️, On-Chain 🔧, Other ❌.
 
 bsc#3660 is structured as additive PQC rather than EC retirement. The classical ECDSA transaction path remains accepted, the BLS fast-finality path remains alongside `PQVoteAttestation`, all pre-existing precompiles (ecrecover, BN254, BLS12-381) are untouched, and the new `bsc4` sub-protocol runs in parallel with `bsc3`. The PR establishes a `IsPQFork` gate that allows incremental PQC adoption per fork; no fork-specific commitment to retire EC has been published.
 

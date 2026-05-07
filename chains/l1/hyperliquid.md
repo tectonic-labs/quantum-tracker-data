@@ -12,7 +12,7 @@
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Transaction Signatures | F | ❌ | Not Discussed |
+| Transaction Signatures | D | ⚠️ | Discussed |
 | Consensus | F | ❌ | Not Discussed |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | D | ⚠️ | Discussed |
@@ -27,13 +27,19 @@ The qONE work is application-layer rather than base-layer: it does not modify Hy
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **IronCAP** (proprietary NIST-aligned PQ scheme) | ECDSA secp256k1, Ed25519 | Other (qONE smart-contract overlay) | Discussed (Phase 1 token live; Phase 2 integration not yet shipped) |
+| **IronCAP** (proprietary NIST-aligned PQ scheme) | ECDSA secp256k1, Ed25519 | Tx Signatures, On-Chain (qONE smart-contract overlay) | Discussed (Phase 1 token live; Phase 2 integration not yet shipped) |
 
 ## 1. Transaction Signatures
 
-**Grade: F ❌**
+**Grade: D ⚠️**
 
-We have found no public information indicating migration activity for Hyperliquid in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+User transactions on Hyperliquid are signed with ECDSA secp256k1 via [EIP-712 structured-data signing](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/signing); Ed25519 is available as an alternative in some SDK paths. Both are EC-based and quantum-vulnerable. No protocol-envelope replacement has been proposed or merged into the HyperBFT / HyperEVM stack.
+
+The chain's chain-attributable PQ work for transaction-layer authorization is concentrated in a third-party project: [01 Quantum's qONE protocol](https://01quantum.com), launched on HyperEVM in February 2026. qONE Phase 2 (target end of March 2026) integrates **IronCAP** — a proprietary NIST-aligned post-quantum signature and encryption family — into Quantum Crypto Wrapper (QCW) and Quantum DeFi Wrapper (QDW) smart contracts that wallets and asset protocols can opt into for transaction authorization. This is a smart-contract-wallet pattern rather than a protocol-envelope change: outer transactions remain ECDSA, with the QCW contract verifying the inner IronCAP signature.
+
+**Current state.** Mainnet protocol envelope is exclusively ECDSA secp256k1 (with Ed25519 on some SDK paths). qONE Phase 1 (token only) is live; no IronCAP code is deployed yet.
+
+**Planned future work.** qONE Phase 2 (IronCAP integration into QCW / QDW contracts) targets end of March 2026 per [01 Quantum's published roadmap](https://thequantuminsider.com/2026/02/03/01-quantum-quantum-resistant-blockchain-migration-toolkit/). Activation is voluntary at the wallet / contract level rather than a protocol-envelope change. Hyperliquid's core team has not announced any base-layer signature replacement.
 
 ## 2. Consensus
 
@@ -77,7 +83,7 @@ PQC availability on-chain comes through [qONE](https://www.newsfilecorp.com/rele
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Hyperliquid's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ❌, P2P ❌, On-Chain ⚠️, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Hyperliquid's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ❌, P2P ❌, On-Chain ⚠️, Other ❌.
 
 We have found no public information indicating migration activity for Hyperliquid in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 
