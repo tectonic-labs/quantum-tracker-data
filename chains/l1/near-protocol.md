@@ -13,11 +13,11 @@
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Transaction Signatures | D | 🔧 | In Development |
+| Transaction Signatures | B | 🔧 | In Development |
 | Consensus | D | ⚠️ | Discussed |
 | P2P Networking | D | ⚠️ | Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
-| Other Features | D | 🔧 | In Development |
+| Other Features | B | 🔧 | In Development |
 | EC Sunset | F | ❌ | Not Discussed |
 
 NEAR Protocol's PQC posture improved materially in May 2026 with an [official blog announcement](https://www.near.org/blog/making-near-protocol-post-quantum-safe) from Near One CTO Anton Astafiev. The headline item is active development of **FIPS-204 (ML-DSA)** as a new signing scheme for user transactions, with a testnet target of Q2 2026. NEAR's account model — human-readable names decoupled from key material, with rotatable access keys — gives it a structural advantage: migrating an account to a PQC key is a single transaction. Consensus, P2P, and EC sunset remain in early discussion only, and on-chain logic has no PQC primitives on the roadmap.
@@ -30,7 +30,7 @@ NEAR Protocol's PQC posture improved materially in May 2026 with an [official bl
 
 ## 1. Transaction Signatures
 
-**Grade: D 🔧**
+**Grade: B 🔧**
 
 NEAR transactions are signed with Ed25519 (default) or ECDSA secp256k1. Both are broken by Shor's algorithm. NEAR already supports two signature schemes, so its runtime is designed to accommodate additional algorithms.
 
@@ -80,7 +80,7 @@ If PQC verification were needed on-chain today, contracts would have to include 
 
 ## 5. Other Features
 
-**Grade: D 🔧**
+**Grade: B 🔧**
 
 ### Chain Signatures
 
@@ -104,7 +104,7 @@ NEAR DA stores transaction and state commitments using Merkle tree roots validat
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, NEAR's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ⚠️, P2P ⚠️, On-Chain ❌, Other 🔧.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, NEAR's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ⚠️, P2P ⚠️, On-Chain ❌, Other 🔧. (Cross-walk only; does not change the EC Sunset rating.)
 
 NEAR's current strategy is additive: ML-DSA will be offered alongside Ed25519 and ECDSA, and users will rotate keys voluntarily. No deprecation, forced migration, or removal timeline has been announced for any EC-based cryptography across any layer.
 
