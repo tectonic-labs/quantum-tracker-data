@@ -7,6 +7,7 @@
 | **Website** | https://tron.network |
 | **GitHub** | https://github.com/tronprotocol |
 | **On-chain environment** | TVM (TRON Virtual Machine, EVM-compatible) |
+| **Mainnet genesis** | 2018-06-25 |
 
 ## Summary
 
@@ -91,7 +92,7 @@ No fork or amendment vote has been scheduled relating to PQ migration on TRON.
 
 ---
 
-_Generated on 06 May 2026 based on information as of 06 May 2026._
+_Generated on 07 May 2026 based on information as of 07 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

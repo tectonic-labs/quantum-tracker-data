@@ -39,7 +39,7 @@ The active proposal work sits in the [Cardano Improvement Proposals (CIPs)](http
 
 Cardano's user transaction signatures use [Ed25519](https://developers.cardano.org/docs/operate-a-stake-pool/cardano-key-pairs/) (EdDSA on Curve25519) — broken by Shor's algorithm in the same way as ECDSA. Payment keys, stake keys, governance (DRep) keys, and HD wallets all derive from Ed25519. The [Valentine hard fork (2023)](https://docs.cardano.org/about-cardano/evolution/upgrades/valentine) added SECP curve verification (ECDSA and Schnorr over secp256k1) for interoperability, and Plutus V3 (2024) added BLS primitives — both EC-based, neither quantum-resistant. No PQ replacement for Ed25519 has been merged into cardano-node.
 
-The [CIP #1144 survey](https://github.com/cardano-foundation/CIPs/pull/1144) catalogs the candidate PQ schemes (**SPHINCS+**, **Dilithium**, **Falcon**) but does not select one. CIP #1175 raises BIP32 / hash-based key derivation upgrade paths as an architectural question, with active discussion in early May 2026 on the limitations of pre-image reveal approaches for non-BIP32 keys. Both remain in CIP discussion; neither has produced cardano-node code.
+The [CIP #1144 survey (CPS-0027)](https://github.com/cardano-foundation/CIPs/pull/1144) catalogs the candidate PQ schemes (**SPHINCS+**, **Dilithium**, **Falcon**) but does not select one; it was opened 2026-01-29 and is in editor approval / fixups as of late April 2026. [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) proposes a quantum-secure settlement layer and raises BIP32 / hash-based key derivation upgrade paths as an architectural question, with active discussion in early May 2026 on the limitations of "pre-image reveal" approaches for non-BIP32 keys. Both remain in CIP discussion; neither has produced cardano-node code.
 
 **Current state.** Mainnet transactions are exclusively Ed25519. No PQ scheme is implemented or merged.
 
@@ -133,7 +133,7 @@ No fork has been scheduled or signaled for any cardano-node PQ change.
 
 ---
 
-_Generated on 06 May 2026 based on information as of 06 May 2026._
+_Generated on 07 May 2026 based on information as of 07 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

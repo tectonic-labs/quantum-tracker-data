@@ -7,6 +7,7 @@
 | **Website** | https://xrpl.org |
 | **GitHub** | https://github.com/XRPLF |
 | **On-chain environment** | XRPL native transactions; Hooks (WebAssembly) under development |
+| **Mainnet genesis** | 2012-01-01 |
 
 ## Summary
 
@@ -23,7 +24,7 @@ The XRP Ledger has shipped end-to-end PQC on a separate research network. The [A
 
 Mainnet groundwork is in flight. [XRPLF/rippled#5131](https://github.com/XRPLF/rippled/pull/5131) tracks the **ML-DSA** submodule integration into the production codebase but has been stalled with merge conflicts since September 2024. [XRPLF/rippled#6971](https://github.com/XRPLF/rippled/pull/6971), opened April 2026, adds a 51-assertion PQC readiness test suite verifying that rippled correctly handles oversized PQC key/signature sizes across publicKeyType, serialization, consensus, and signing code paths — defensive hardening rather than integration. An [April 2026 quantum-exposure analysis](https://themarketperiodical.com/2026/04/09/ripple-news-xrp-validator-says-300k-xrpl-accounts-with-2-4b-xrp-remain-safe/) of all 7.8M XRPL accounts found roughly 0.03% of XRP supply has revealed public keys on-chain, a lower exposure than most chains due to XRPL's account-rotation model.
 
-Ripple published a formal [4-phase PQC migration roadmap](https://xrpl.org/blog) on April 21, 2026, with a Project Eleven validator testing partnership in place. The roadmap targets full transition by 2028.
+Ripple published a formal [4-phase PQC migration roadmap](https://xrpl.org/blog) on April 21, 2026, with a Project Eleven validator testing partnership in place. The roadmap targets full transition by 2028. RippleX engineers have also begun making public appearances discussing quantum security posture, including a [May 2026 interview](https://youtu.be/wpPP4hdEhpw) on the Paul Barron Network.
 
 ## Proposed and Implemented PQC Algorithms
 
@@ -41,7 +42,7 @@ Mainnet XRPL transactions are signed with ECDSA secp256k1 (default) or Ed25519. 
 
 The [AlphaNet testnet](https://cryptoslate.com/xrpl-flips-to-quantum-safe-signatures-2420-byte-proofs-replace-elliptic-curves/) demonstrates a working **ML-DSA** transaction path end-to-end: Quantum Accounts hold Dilithium identities, Quantum Transactions carry Dilithium signatures (~2,420 bytes versus 64 bytes for ECDSA), and Quantum Consensus signs validator votes with the same scheme. AlphaNet does not preserve EC backwards compatibility — Dilithium is the sole signature scheme there.
 
-Ripple's formal 4-phase roadmap (published April 21, 2026) with Project Eleven outlines: Phase 1 Q-Day Readiness; Phase 2 Assessment + Testing (1H 2026) under real XRPL workloads; Phase 3 Controlled Integration (2H 2026) with phased validator rollout; Phase 4 Full Transition (by 2028). The 38× signature-size penalty (2,420 bytes versus 64) is a known engineering constraint under active evaluation.
+Ripple's formal 4-phase roadmap (published April 21, 2026) with Project Eleven outlines: Phase 1 Q-Day Readiness; Phase 2 Assessment + Testing (1H 2026) under real XRPL workloads; Phase 3 Controlled Integration (2H 2026) with phased validator rollout; Phase 4 Full Transition (by 2028). The 38x signature-size penalty (2,420 bytes versus 64) is a known engineering constraint under active evaluation.
 
 **Current state.** Mainnet uses ECDSA secp256k1 / Ed25519 only. AlphaNet runs **ML-DSA** end-to-end as a separate research network.
 
@@ -79,6 +80,8 @@ Because there is no general PQC-verification primitive to grade, this category i
 
 ## 5. Other Features
 
+**Grade: F ❌**
+
 ### Payment Channels and Escrow
 
 **Current state.** Payment channels authorize fund release via signed claim objects (ECDSA / Ed25519); claim signatures are verified on-ledger and would be forgeable under a quantum break. Escrow conditions support time-locks and SHA-256 hash-preimage conditions; both are quantum-safe in isolation, with the broader account security still tied to the transaction-signature scheme.
@@ -97,7 +100,7 @@ Because there is no general PQC-verification primitive to grade, this category i
 
 > Adding PQC alongside EC is not the same as retiring EC. For reference, XRP Ledger's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus 🔧, P2P ❌, On-Chain ➖, Other ❌.
 
-Ripple has committed publicly to maintaining ECDSA / Ed25519 on mainnet indefinitely. AlphaNet hard-cuts EC support on its testnet, but no equivalent step is scheduled for mainnet — the proposed mainnet path is parallel operation between EC and PQ accounts, not a deprecation. The 38× signature-size penalty (2,420 bytes versus 64) is cited in [public coverage](https://cryptorank.io/news/feed/2e33c-quantum-threat-to-crypto-overstated-says-ripple-cto-david-schwartz) as a reason to retain EC for lightweight clients.
+Ripple has committed publicly to maintaining ECDSA / Ed25519 on mainnet indefinitely. AlphaNet hard-cuts EC support on its testnet, but no equivalent step is scheduled for mainnet — the proposed mainnet path is parallel operation between EC and PQ accounts, not a deprecation. The 38x signature-size penalty (2,420 bytes versus 64) is cited in [public coverage](https://cryptorank.io/news/feed/2e33c-quantum-threat-to-crypto-overstated-says-ripple-cto-david-schwartz) as a reason to retain EC for lightweight clients.
 
 **Current state.** No mainnet EC retirement scheduled. AlphaNet is EC-free but is a separate testnet, not a deprecation milestone.
 
@@ -105,7 +108,7 @@ Ripple has committed publicly to maintaining ECDSA / Ed25519 on mainnet indefini
 
 ## Governance
 
-XRPL protocol changes follow the XRPLF amendment process. Amendments are proposed in the [XRPL-Standards repo](https://github.com/XRPLF/XRPL-Standards) and the [rippled repo](https://github.com/XRPLF/rippled), debated openly, and require validator supermajority (≥80%) sustained for two weeks to activate.
+XRPL protocol changes follow the XRPLF amendment process. Amendments are proposed in the [XRPL-Standards repo](https://github.com/XRPLF/XRPL-Standards) and the [rippled repo](https://github.com/XRPLF/rippled), debated openly, and require validator supermajority (>=80%) sustained for two weeks to activate.
 
 Active PQ-relevant work:
 
@@ -118,12 +121,13 @@ Implementation tracking:
 
 - [AlphaNet testnet](https://coinedition.com/xrp-ledger-alphanet-tests-quantum-resistant-security-upgrade/) — Quantum Accounts, Quantum Transactions, Quantum Consensus on **ML-DSA** since December 2025.
 - [Quantum-exposure analysis (April 2026)](https://www.coindesk.com/tech/2026/04/10/xrp-may-be-less-exposed-to-quantum-threats-than-bitcoin-experts-say) of all 7.8M XRPL accounts.
+- [Ripple 4-phase PQC roadmap](https://xrpl.org/blog) — published April 21, 2026; full transition targeted by 2028.
 
 No mainnet amendment vote has been scheduled.
 
 ---
 
-_Generated on 06 May 2026 based on information as of 06 May 2026._
+_Generated on 07 May 2026 based on information as of 07 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

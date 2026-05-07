@@ -4,96 +4,136 @@
 |---|---|
 | **Name** | Sui |
 | **Ticker** | SUI |
-| **Website** | <https://www.sui.io/> |
-| **GitHub** | <https://github.com/MystenLabs> |
-| **Twitter / X** | <https://x.com/suinetwork> |
-| **Derived from** | Diem (Meta), heavily modified |
-| **On-chain environment** | Move (Sui Move variant) |
+| **Website** | https://sui.io |
+| **GitHub** | https://github.com/MystenLabs/sui |
+| **On-chain environment** | Move VM (Sui Move variant) |
+| **Mainnet genesis** | 2023-05-03 |
 
 ## Summary
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Transaction Signatures | B | 🔧 | In Development |
+| Transaction Signatures | C | 🗺️ | Roadmapped |
 | Consensus | F | ❌ | Not Discussed |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | F | ❌ | Not Discussed |
 | EC Sunset | F | ❌ | Not Discussed |
 
-Sui is the most active chain in this batch on the post-quantum signature side. The crypto library that `sui-core` consumes for signature verification — [fastcrypto](https://github.com/MystenLabs/fastcrypto) — has been steadily landing a native FIPS 205 (SLH-DSA) implementation behind an `experimental` Cargo feature flag through April 2026. WOTS+ landed in [PR #947](https://github.com/MystenLabs/fastcrypto/pull/947) on 2026-04-21; FORS, single-tree XMSS, and Hypertree landed together in [PR #950](https://github.com/MystenLabs/fastcrypto/pull/950) on 2026-04-28. The remaining piece — the top-level `slh_keygen` / `slh_sign` / `slh_verify` API — is open in draft as [PR #951](https://github.com/MystenLabs/fastcrypto/pull/951). Once #951 lands, the FIPS 205 building blocks will be complete in `fastcrypto`; the work is not yet wired into Sui's transaction-signature path and remains library-level.
-
-The rest of the stack is elliptic-curve-based: [Ed25519, secp256k1, and secp256r1](https://docs.sui.io/concepts/cryptography/transaction-auth/keys-and-addresses) for transaction signatures, BLS12-381 aggregated signatures for [Mysticeti BFT consensus](https://docs.sui.io/concepts/how-sui-works/consensus), secp256k1 keys for validator and full-node identity in the P2P layer, and Ed25519 / secp256k1 / secp256r1 verification primitives in Move. The user-facing [zkLogin](https://docs.sui.io/concepts/cryptography/transaction-auth/zklogin) feature uses Groth16 SNARKs over BN254 pairings; a quantum break of the underlying curve would let an attacker forge zkLogin proofs and retroactively reveal which social accounts were used.
+Sui's PQC posture is early-stage. The only concrete work is happening in [fastcrypto](https://github.com/MystenLabs/fastcrypto), Mysten Labs' cryptographic library: FIPS 205 (SLH-DSA) building blocks — WOTS+, FORS, XMSS, and Hypertree — were merged on `main` in April 2026 behind an `experimental` feature flag. However, a PR implementing the top-level sign/verify API was closed without merge on 2026-05-06, leaving no callable SLH-DSA interface. No Sui Improvement Proposals (SIPs) for PQC integration have been filed. The remaining categories — consensus, networking, on-chain logic, and zkLogin — have no disclosed PQC plans.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **SLH-DSA-SHA2-128{s,f}** (FIPS 205, SPHINCS+ family) | Ed25519, secp256k1, secp256r1 (transaction signature path) | Tx Signatures | In Development (`fastcrypto` library; WOTS+ + FORS + XMSS + Hypertree merged behind `experimental` Cargo feature; top-level sign/verify API in draft as [PR #951](https://github.com/MystenLabs/fastcrypto/pull/951); not yet wired into `sui-core` transaction path) |
+| **SLH-DSA-SHA2-128** (SPHINCS+ / FIPS 205) | Ed25519, secp256k1 | Tx Signatures | Library building blocks merged; top-level API not yet available |
 
 ## 1. Transaction Signatures
 
-**Grade: B 🔧**
+**Grade: C 🗺️**
 
-Mainnet Sui transactions are signed with [Ed25519, secp256k1, or secp256r1](https://docs.sui.io/concepts/cryptography/transaction-auth/keys-and-addresses), composable through MultiSig threshold accounts. None of these is post-quantum.
+Sui transactions are signed with Ed25519 (primary), secp256k1 (secondary), or secp256r1 / NIST P-256 (used by zkLogin social-login authentication). MultiSig support allows threshold signatures using any combination of these schemes. All three are broken by Shor's algorithm.
 
-The active post-quantum work is at the cryptographic-library layer. [fastcrypto](https://github.com/MystenLabs/fastcrypto) is the Rust crypto library consumed by `sui-core` for signature verification, and it has been progressively gaining a native FIPS 205 (SLH-DSA) implementation behind an `experimental` Cargo feature flag. WOTS+ (the underlying one-time signature) landed in [PR #947](https://github.com/MystenLabs/fastcrypto/pull/947) on 2026-04-21. The FORS, single-tree XMSS (FIPS 205 §6), and Hypertree (FIPS 205 §7) building blocks landed together in [PR #950](https://github.com/MystenLabs/fastcrypto/pull/950) on 2026-04-28 (commit `76891b9`, merged by Deepak Maram). The remaining work — the top-level `slh_keygen` / `slh_sign` / `slh_verify` wrapper, MGF1-SHA-256 helpers, and NIST ACVP known-answer-test fixtures for SLH-DSA-SHA2-128s — is open in draft as [PR #951](https://github.com/MystenLabs/fastcrypto/pull/951). The SHAKE family and larger SLH-DSA parameter sets are tracked TODOs.
+Sui's signature architecture is extensible — new signature schemes can be added by registering a new scheme identifier and verification logic. This is a structural advantage for eventual PQC adoption.
 
-**Current state.** Mainnet uses Ed25519 / secp256k1 / secp256r1. SLH-DSA building blocks are in `fastcrypto` `main` behind the `experimental` Cargo feature; the top-level sign/verify API is in draft. The library is not yet wired into Sui's transaction-signature verification path.
+The most concrete PQC work is in [fastcrypto](https://github.com/MystenLabs/fastcrypto), the Rust cryptographic library consumed by Sui for signature verification. In April 2026, FIPS 205 (SLH-DSA) building blocks were merged on `main` behind the `experimental` Cargo feature flag:
 
-**Planned future work.** Land [PR #951](https://github.com/MystenLabs/fastcrypto/pull/951) to complete the FIPS 205 top-level API. No public Sui Improvement Proposal (SIP) describes promotion out of the `experimental` feature flag or wiring into `sui-core` transaction verification.
+- [fastcrypto#947](https://github.com/MystenLabs/fastcrypto/pull/947) — WOTS+ one-time signature scheme (merged 2026-04-21)
+- [fastcrypto#950](https://github.com/MystenLabs/fastcrypto/pull/950) — FORS, single-tree XMSS, Hypertree (merged 2026-04-28)
+
+A follow-up PR ([fastcrypto#951](https://github.com/MystenLabs/fastcrypto/pull/951)) implementing the top-level `slh_keygen` / `slh_sign` / `slh_verify` functions and NIST ACVP test vectors was **closed without merge on 2026-05-06** with no public explanation. As a result, the library contains SLH-DSA primitives but no callable signing or verification API.
+
+No SIPs have been filed for PQC transaction signatures. The library-level work indicates research intent but has stalled before producing a usable primitive. There is no published timeline for wiring PQC signatures into the transaction-verification path.
+
+**Current state.** Mainnet transactions are exclusively Ed25519/secp256k1/secp256r1. No test network runs PQC transactions.
+
+**Planned future work.** Monitor fastcrypto for a successor PR to #951. No SIP or protocol-level integration plan has been disclosed.
 
 ## 2. Consensus
 
 **Grade: F ❌**
 
-We have found no public information indicating migration activity for Sui in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+Sui uses [Mysticeti](https://docs.sui.io/concepts/how-sui-works/consensus), a low-latency BFT consensus protocol evolved from Narwhal/Bullshark. Validators sign blocks using BLS12-381 aggregated signatures. BLS12-381 is a pairing-based elliptic curve scheme broken by Shor's algorithm.
+
+No PQC alternative for consensus signing has been proposed, discussed, or disclosed.
+
+**Current state.** BLS12-381 aggregated signatures for all validator operations.
+
+**Planned future work.** None disclosed.
 
 ## 3. P2P Networking
 
 **Grade: F ❌**
 
-We have found no public information indicating migration activity for Sui in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+Sui runs a custom peer-to-peer networking layer. Node identity is based on secp256k1 keys. Handshake and transport encryption use secp256k1-based protocols. Both are vulnerable to quantum attack via Shor's algorithm.
+
+No PQC alternative for node identity or transport has been proposed or disclosed.
+
+**Current state.** secp256k1-based node identity and handshake.
+
+**Planned future work.** None disclosed.
 
 ## 4. On-Chain Logic
 
 **Grade: F ❌**
 
-We have found no public information indicating migration activity for Sui in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+Sui uses the Move programming language (Sui Move variant) for smart contracts. Built-in cryptographic modules provide Ed25519, secp256k1, and secp256r1 signature verification, plus SHA3-256, SHA3-512, and Blake2b-256 hashing.
+
+No PQC signature verification is available on-chain, either as a built-in module or as a precompile. While a pure-Move implementation of hash-based signature verification is theoretically possible, it would be prohibitively expensive without native support.
+
+**Current state.** EC-only signature verification modules. No PQC on-chain verification.
+
+**Planned future work.** No proposals for PQC precompiles or Move modules have been filed.
 
 ## 5. Other Features
 
-### zkLogin
+**Grade: F ❌**
 
-**Current state.** [zkLogin](https://docs.sui.io/concepts/cryptography/transaction-auth/zklogin) lets users authenticate to Sui through a social provider (Google, Twitch, etc.) by proving control of an OpenID account in zero knowledge, removing the need to manage a blockchain private key directly. The proof system is Groth16 over BN254 elliptic-curve pairings. A quantum break of the underlying curve would let an attacker forge zkLogin proofs (impersonating any user) and retroactively recover which social-provider accounts were associated with on-chain activity. Migration to a STARK-style hash-based ZK construction or another quantum-safe proof system would change the proof system, the trusted-setup status, and the user authentication flow.
+**zkLogin** is Sui's social-login authentication system, enabling users to authenticate using Google, Twitch, and other OpenID providers via zero-knowledge proofs. zkLogin uses [Groth16 SNARKs](https://docs.sui.io/concepts/cryptography/transaction-auth/zklogin) with BN254 elliptic-curve pairings. BN254 is broken by Shor's algorithm.
 
-**Planned future work.** No public SIP proposes migrating zkLogin to a post-quantum proof system.
+A quantum adversary could forge Groth16 proofs, impersonating any zkLogin-authenticated user. This break is **retroactive**: historical zkLogin proofs become forgeable, potentially revealing which social accounts were linked to on-chain identities.
+
+Replacing Groth16 with a quantum-safe proof system (e.g., STARK-based) would require significant protocol changes and user re-authentication.
+
+**Current state.** zkLogin is an active, user-facing feature using Groth16/BN254. No PQC alternative disclosed.
+
+**Planned future work.** No SIPs or public plans for migrating zkLogin to quantum-safe proofs.
 
 ## 6. EC Sunset
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ❌, P2P ❌, On-Chain ❌, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Sui's PQC-adoption ratings per category are: Tx Signatures 🗺️, Consensus ❌, P2P ❌, On-Chain ❌, Other ❌.
 
-We have found no public information indicating migration activity for Sui in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+Sui has no published roadmap or timeline for retiring elliptic-curve cryptography from any layer. The extensible signature architecture provides a structural path forward for transaction signatures, but no concrete EC deprecation plan exists.
+
+zkLogin introduces a novel EC dependency (Groth16/BN254) that complicates future migration — it is a user-facing feature tightly coupled to EC-pairing-based proofs and cannot be rotated without protocol changes and re-authentication.
+
+A full EC sunset would require: (1) adding PQC transaction signature schemes, (2) replacing BLS12-381 in consensus, (3) migrating node identity to PQC, (4) replacing zkLogin's proof system, and (5) adding PQC on-chain verification modules.
+
+**Current state.** No EC removal plans disclosed for any category.
+
+**Planned future work.** None disclosed.
 
 ## Governance
 
-Sui protocol changes flow through the [Sui Improvement Proposal (SIP)](https://github.com/MystenLabs/sui-improvement-proposals) process, with the [Sui Foundation](https://www.sui.io/) coordinating governance and Mysten Labs leading core protocol development. Releases are on a roughly monthly cadence with planned hard forks.
+Sui's protocol changes follow the [SIP (Sui Improvement Proposal)](https://github.com/MystenLabs/sui-improvement-proposals) process on GitHub. Core development is led by [Mysten Labs](https://mystenlabs.com), the original team behind the Diem-derived protocol, with oversight from the Sui Foundation.
 
-PQ-relevant work currently visible:
+No PQC-related SIPs have been filed.
 
-- [MystenLabs/fastcrypto #947 — SLH-DSA WOTS+](https://github.com/MystenLabs/fastcrypto/pull/947). Status: Merged 2026-04-21. Behind `experimental` Cargo feature.
-- [MystenLabs/fastcrypto #950 — SLH-DSA FORS + XMSS + Hypertree](https://github.com/MystenLabs/fastcrypto/pull/950). Status: Merged 2026-04-28 (commit `76891b9`, merged by Deepak Maram). Behind `experimental` Cargo feature.
-- [MystenLabs/fastcrypto #951 — SLH-DSA top-level sign/verify](https://github.com/MystenLabs/fastcrypto/pull/951). Status: Open / Draft (last activity 2026-04-29).
-- No SIP proposing wiring SLH-DSA into Sui's transaction-signature path has been filed.
-- No SIP proposing post-quantum cryptography for Mysticeti consensus, P2P transport, Move on-chain primitives, or zkLogin has been filed.
+The fastcrypto library, where SLH-DSA work has appeared, is maintained by Mysten Labs and is consumed directly by the Sui node software for cryptographic operations.
 
-No fork has been scheduled or signaled for any PQ migration.
+### References
+
+- [Sui documentation — Signature schemes](https://docs.sui.io/concepts/cryptography/transaction-auth/keys-and-addresses)
+- [Sui documentation — zkLogin](https://docs.sui.io/concepts/cryptography/transaction-auth/zklogin)
+- [Sui documentation — Mysticeti consensus](https://docs.sui.io/concepts/how-sui-works/consensus)
+- [fastcrypto repository](https://github.com/MystenLabs/fastcrypto)
+- [Sui Improvement Proposals](https://github.com/MystenLabs/sui-improvement-proposals)
 
 ---
 
-_Generated on 06 May 2026 based on information as of 01 May 2026._
+_Generated on 07 May 2026 based on information as of 07 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

@@ -4,10 +4,10 @@
 |---|---|
 | **Name** | Hedera |
 | **Ticker** | HBAR |
-| **Website** | <https://hedera.com/> |
-| **GitHub** | <https://github.com/hashgraph> |
-| **Twitter / X** | <https://x.com/hedera> |
-| **On-chain environment** | EVM (Smart Contract Service via Hyperledger Besu) |
+| **Website** | https://hedera.com |
+| **GitHub** | https://github.com/hashgraph |
+| **On-chain environment** | EVM (via Hyperledger Besu Smart Contract Service) |
+| **Mainnet genesis** | 2019-09-16 |
 
 ## Summary
 
@@ -20,100 +20,131 @@
 | Other Features | D | ⚠️ | Discussed |
 | EC Sunset | F | ❌ | Not Discussed |
 
-Hedera is a [Hashgraph](https://hedera.com/blog/post-quantum-crypto/) (asynchronous Byzantine Fault Tolerant) network governed by the [Hedera Council](https://hederacouncil.org/), a 31-member body of global enterprises (Google, IBM, Dell, Boeing, EDF, LG, and others). The platform's user-facing signature schemes are Ed25519 and ECDSA secp256k1 (the latter introduced via [HIP-222](https://hips.hedera.com/HIP/hip-222.html) for EVM compatibility), and these are the schemes that Hashgraph events themselves are signed with. The Smart Contract Service runs an [EVM via Hyperledger Besu](https://docs.hedera.com/hedera/core-concepts/smart-contracts/understanding-hederas-evm-differences-and-compatibility) and exposes the standard Ethereum precompile set (ecrecover, SHA-256, SHA-3, RIPEMD-160) plus the [Hedera Account Service system contract introduced in HIP-632](https://hips.hedera.com/HIP/hip-632.html), which adds an `isAuthorizedRaw()` interface for verifying Ed25519 signatures on Hedera-native accounts. None of the verification primitives is post-quantum.
-
-Hedera frames itself as quantum-aware by design: SHA-384 hashing (rather than 256-bit) is used for event hashing, certificate hashes, and ledger-binding constructions, and [public material](https://hedera.com/blog/are-ed25519-keys-quantum-resistant-exploring-the-future-of-cryptography/) describes the cryptographic-algorithm choice as a configuration parameter rather than a hard-coded protocol element to make future swaps easier. In December 2024, Hedera and [SEALSQ announced a partnership](https://www.sealsq.com/investors/news-releases/sealsq-partnering-with-hedera-in-the-next-generation-of-post-quantum-semiconductors) to integrate the QS7001 quantum-safe semiconductor platform; SEALSQ is in the qualification phase ahead of production. No PQC algorithm libraries have landed in `hedera-services` and no consensus or transaction-layer PQ migration timeline has been announced.
+Hedera uses Hashgraph consensus (asynchronous BFT) rather than a traditional blockchain. All user transactions and consensus events are signed with Ed25519 or ECDSA secp256k1 — both vulnerable to Shor's algorithm. Hedera was architecturally designed with pluggable cryptography, meaning signature algorithm swaps do not require deep protocol rewrites. The network uses SHA-384 hashing throughout (events, certificates, state proofs), which is quantum-resistant for preimage and collision attacks. However, no PQC signature algorithms have been implemented in the core protocol, and no formal migration timeline has been published. A [SEALSQ partnership](https://www.sealsq.com/investors/news-releases/sealsq-partnering-with-hedera-in-the-next-generation-of-post-quantum-semiconductors) for quantum-safe hardware (QS7001 chips) was announced in late 2024, signaling infrastructure-level interest but not a protocol-level commitment.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **ML-DSA** (Dilithium) | Ed25519 | Other (ecosystem; agent-identity certificates in [Swarm Spawner](https://github.com/hashgraph/awesome-hedera/pull/35)) | Discussed (ecosystem listing PR; not core protocol) |
+| **ML-DSA-65** (Dilithium / FIPS 204) | Ed25519, ECDSA secp256k1 | Tx Signatures | Discussed (ecosystem project only — third-party agent identity, not core protocol) |
 
-The [SEALSQ QS7001 hardware partnership](https://www.sealsq.com/investors/news-releases/sealsq-partnering-with-hedera-in-the-next-generation-of-post-quantum-semiconductors) targets infrastructure rather than a specific protocol-layer signature scheme, and Hedera has not publicly committed to a NIST post-quantum signature algorithm.
+No PQC algorithm libraries have been found in the `hedera-services` codebase. The only PQC-related activity in the Hedera ecosystem is an [ecosystem project PR](https://github.com/hashgraph/awesome-hedera/pull/35) referencing ML-DSA-65 for agent identity certificates in a third-party "Swarm Spawner" project. Hedera has publicly acknowledged NIST's finalization of ML-DSA, FN-DSA (Falcon), and SLH-DSA (SPHINCS+) as candidate algorithms for future adoption, but has not committed to a specific scheme.
 
 ## 1. Transaction Signatures
 
 **Grade: F ❌**
 
-Hedera transactions are signed with [Ed25519 or ECDSA secp256k1](https://docs.hedera.com/hedera/core-concepts/keys-and-signatures); ECDSA support was added by [HIP-222](https://hips.hedera.com/HIP/hip-222.html) for EVM-ecosystem alignment. Both schemes are elliptic-curve-based and quantum-vulnerable. Multi-key threshold accounts are supported, but each component key is one of these two EC schemes. Hedera's general framing — that algorithm choice is a configuration parameter rather than a protocol hard-coded value — is described in [Hedera's post-quantum-cryptography blog](https://hedera.com/blog/post-quantum-crypto/), and a partnership with [SEALSQ on the QS7001 quantum-safe hardware platform](https://www.sealsq.com/investors/news-releases/sealsq-partnering-with-hedera-in-the-next-generation-of-post-quantum-semiconductors) was announced in December 2024. Neither has produced a HIP, draft specification, or testnet activity that would replace Ed25519 / ECDSA on the transaction-signing path.
+Hedera supports two key types for user transactions:
 
-**Current state.** Mainnet transactions are exclusively Ed25519 or ECDSA secp256k1.
+- **Ed25519** — EdDSA over Curve25519. Used for native Hedera workflows and HCS topics.
+- **ECDSA secp256k1** — Added via [HIP-222](https://hips.hedera.com/HIP/hip-222.html) for EVM ecosystem alignment. Signing uses keccak256 hash of the transaction body, mirroring Ethereum's model.
 
-**Planned future work.** No HIP currently proposes a post-quantum signature scheme on the transaction-signing path.
+Both are elliptic curve schemes, vulnerable to Shor's algorithm on a cryptographically relevant quantum computer. No PQC signature schemes are currently supported for on-ledger transactions. Multi-key accounts with threshold signing are supported, but all component keys remain EC-based.
+
+**Current state.** All mainnet transactions use Ed25519 or ECDSA secp256k1 exclusively. No PQC transaction signatures exist on mainnet, testnet, or in any known Hedera fork.
+
+**Planned future work.** Hedera's pluggable cryptography architecture is designed to make PQC algorithm swaps straightforward once adopted. No HIP (Hedera Improvement Proposal) for PQC transaction signatures has been published.
 
 ## 2. Consensus
 
 **Grade: D ⚠️**
 
-Hedera's [Hashgraph](https://hedera.com/blog/post-quantum-crypto/) is asynchronous BFT: nodes gossip events whose hashes form a directed acyclic graph, and "virtual voting" infers consensus without explicit round messages. Each event is signed with Ed25519 (or ECDSA secp256k1) — quantum-vulnerable — and event hashing uses SHA-384, which is hash-based and considered post-quantum-secure for preimage resistance. Hedera describes the consensus layer as designed for an algorithm swap: signature schemes are not hard-coded into protocol rules. No consensus-layer PQ HIP has been opened, and no post-quantum signature scheme has been wired into `hedera-services` at this time.
+Hedera's Hashgraph consensus is asynchronous BFT (aBFT). Nodes exchange signed "events" via gossip-about-gossip, building a directed acyclic graph (DAG). Virtual voting infers consensus without explicit round-trip messages. The cryptographic components:
 
-**Current state.** Event signing remains Ed25519 / ECDSA. Event hashing is SHA-384.
+- **Event signing**: Consensus events are signed using Ed25519 (or ECDSA secp256k1). Each event includes a timestamp, parent hashes, transactions, and a signature — all EC-based and quantum-vulnerable.
+- **Hashing**: Events and consensus use SHA-384 hashing throughout. SHA-384 is quantum-resistant for preimage resistance (Grover provides at most quadratic speedup, leaving ~192-bit security). This is a deliberate design choice — the entire event history is cryptographically bound via 384-bit hashes.
+- **Migration architecture**: Hedera was explicitly designed so that signature algorithm swaps do not require deep protocol changes. The protocol does not hard-code one signature scheme; cryptography is configurable. This lowers the engineering barrier to PQC migration compared to most L1s.
 
-**Planned future work.** No consensus-layer PQ HIP has been filed. The chain's design framing emphasizes an algorithm-swap path; a specific scheme has not been proposed.
+**Current state.** Event signing relies entirely on Ed25519/ECDSA secp256k1. The hashing layer (SHA-384) is quantum-resistant, but the signature layer is not.
+
+**Planned future work.** Hedera has described its architecture as PQC-ready and follows NIST standardization closely, but no HIP or testnet experiment for PQC consensus signatures has been published. The SEALSQ hardware partnership may provide an infrastructure substrate, but protocol-level changes have not been specified.
 
 ## 3. P2P Networking
 
 **Grade: D ⚠️**
 
-Inter-node gossip is encrypted with [TLS 1.2 / 1.3](https://hedera.com/blog/network-upgrade-communications-a-new-previewnet-ip-proxies-and-tls-support/). Each node presents a TLS certificate whose SHA-384 fingerprint is published on-ledger, so the binding of a node identity to its on-ledger record is hash-based and post-quantum-secure for preimage resistance. The TLS handshake itself, including the certificate's signing key, uses standard EC algorithms and would need to migrate to a post-quantum or hybrid TLS suite alongside any signature-layer migration. No Hedera publication describes a hybrid PQ-TLS rollout for the gossip layer.
+Hedera's node-to-node communication layer:
 
-**Current state.** Standard TLS 1.2 / 1.3 with EC certificate signing; SHA-384 cert fingerprints published on-ledger.
+- **TLS transport**: All gossip communication is encrypted with TLS 1.2 / 1.3.
+- **Node identity**: Each node presents a TLS certificate issued by Hedera. The certificate hash (SHA-384) is published on-ledger for peer verification.
+- **Hashing**: Certificate hashes use SHA-384, which is quantum-resistant against preimage and collision attacks.
+- **Vulnerability**: The TLS certificate's signing key (ECDSA or RSA) is broken by Shor's algorithm. A quantum attacker who forges a TLS certificate could impersonate nodes. TLS 1.3 deprecates RSA signature use in favor of ECDSA, but both are EC-vulnerable.
 
-**Planned future work.** No HIP currently proposes a post-quantum or hybrid TLS suite for inter-node gossip.
+**Current state.** TLS certificates use EC/RSA signing keys. No PQC-based TLS (e.g., using ML-DSA or FN-DSA for certificate signing) has been deployed or tested.
+
+**Planned future work.** No proposal or HIP for post-quantum TLS has been published. Certificate infrastructure migration would likely need to coincide with transaction signature PQC adoption.
 
 ## 4. On-Chain Logic
 
 **Grade: D ⚠️**
 
-The [Hedera Smart Contract Service](https://docs.hedera.com/hedera/core-concepts/smart-contracts/understanding-hederas-evm-differences-and-compatibility) runs the EVM via Hyperledger Besu and exposes the standard Ethereum precompile set: ecrecover (secp256k1 ECDSA), SHA-256, SHA-3, RIPEMD-160. [HIP-632](https://hips.hedera.com/HIP/hip-632.html) introduced the Hedera Account Service system contract at a reserved EVM address, exposing `isAuthorizedRaw()` for on-chain verification of Ed25519 signatures on Hedera-native accounts. None of these primitives is a post-quantum signature scheme; the available signature-verification surface for Solidity contracts on Hedera is limited to ECDSA secp256k1 and Ed25519.
+Hedera's Smart Contract Service runs the EVM via Hyperledger Besu, supporting Solidity smart contracts. Available cryptographic primitives:
 
-**Current state.** EVM precompile set + HIP-632 Ed25519 verification. No PQ verification primitive exposed on-chain.
+- **EVM precompiles**: ECRECOVER (ECDSA secp256k1 public key recovery), SHA-256, SHA-3, RIPEMD-160. ECRECOVER is EC-vulnerable; the hashing precompiles are quantum-resistant.
+- **System contracts** ([HIP-632](https://hips.hedera.com/HIP/hip-632.html)): Hedera provides system contracts at reserved EVM addresses exposing HAPI functions, including `isAuthorizedRaw()` for Ed25519 signature verification on-chain.
+- **No PQC precompiles**: There are no ML-DSA, FN-DSA, or SLH-DSA verification precompiles. Smart contracts cannot verify NIST-standard PQC signatures on-chain.
+- **Native services**: HCS topics and HTS token operations rely on the same Ed25519/ECDSA stack with no on-chain PQC verification capability.
 
-**Planned future work.** No HIP currently proposes a post-quantum verification precompile or system-contract extension.
+**Current state.** No PQC verification is available on-chain. All signature verification (EVM precompiles and system contracts) is EC-based.
+
+**Planned future work.** No HIP for PQC precompiles or system contract extensions has been published. Hedera would need to add PQC verification primitives to support quantum-safe smart contract interactions.
 
 ## 5. Other Features
 
-### Hedera Consensus Service (HCS) and Hedera Token Service (HTS)
+**Grade: D ⚠️**
 
-**Current state.** [HCS](https://hedera.com/consensus-service) provides decentralized message ordering for off-chain applications, and [HTS](https://hedera.com/blog/hedera-token-service-hts-live-on-mainnet-with-over-60-initial-ecosystem-partners/) is the native token-issuance service. Both inherit the platform's signature stack: topic admin keys, token admin keys, mint / burn / transfer authorization, and freeze controls all use Ed25519 or ECDSA secp256k1 signatures. There is no privacy-tech overlay (no ring signatures, no shielded transactions); HCS and HTS state is fully transparent on-ledger.
+Hedera offers native services beyond smart contracts, each with distinct cryptographic dependencies:
 
-**Planned future work.** No HIP currently proposes a post-quantum signature scheme for HCS or HTS administrative keys; their security tracks the chain-level signature scheme.
+- **Hedera Consensus Service (HCS)**: Decentralized timestamping and ordering for cross-application workflows. Inherits Ed25519/ECDSA vulnerability from the consensus layer.
+- **Hedera Token Service (HTS)**: Native token creation with admin keys for mint, burn, transfer, and freeze operations — all signed with Ed25519/ECDSA. No privacy-enhancing cryptography (ring signatures, zk-SNARKs) is used; tokens are fully transparent on-ledger.
+- **SEALSQ partnership**: Hedera announced a collaboration with [SEALSQ Corp](https://www.sealsq.com/investors/news-releases/sealsq-partnering-with-hedera-in-the-next-generation-of-post-quantum-semiconductors) (December 2024) to integrate quantum-resistant hardware via the QS7001 platform. SEALSQ was in quality/functional testing for production launch in 2025. This signals infrastructure-level preparation for PQC, though no mainnet integration timeline has been announced.
+- **No privacy tech at risk**: Unlike chains with ring signatures or zk-SNARKs, Hedera has no privacy-enhancing cryptography that would be retroactively compromised by quantum computers.
 
-### SEALSQ QS7001 hardware partnership
+**Current state.** All native services (HCS, HTS) depend on the same EC-based signing stack. The SEALSQ hardware partnership is the most concrete PQC-adjacent activity.
 
-**Current state.** Hedera and [SEALSQ Corp](https://www.sealsq.com/investors/news-releases/sealsq-partnering-with-hedera-in-the-next-generation-of-post-quantum-semiconductors) announced a partnership in December 2024 to integrate the QS7001 quantum-safe semiconductor platform. SEALSQ is in qualification ahead of production. The partnership targets hardware infrastructure (e.g., key storage, signing hardware) rather than a specific protocol-layer signature replacement, and no on-ledger HIP has been opened to consume the hardware path.
-
-**Planned future work.** SEALSQ QS7001 production rollout was targeted for 2025 per public statements. Integration into Hedera's protocol path has not been announced.
+**Planned future work.** No protocol-level proposal for PQC integration into native services has been published.
 
 ## 6. EC Sunset
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ⚠️, P2P ⚠️, On-Chain ⚠️, Other ⚠️.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Hedera's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ⚠️, P2P ⚠️, On-Chain ⚠️, Other ⚠️.
 
-Hedera has no formal sunset timeline for Ed25519 or ECDSA. Public material from Hedera describes the platform as architected to make algorithm swaps trivial — signature schemes are framed as configuration parameters rather than hard-coded protocol elements — and Hedera explicitly tracks the [NIST post-quantum signature standardization process](https://csrc.nist.gov/projects/pqc-dig-sig) (ML-DSA / FN-DSA / SLH-DSA). Chief Scientist [Leemon Baird has publicly described the migration challenge as solvable on Y2K-style timelines](https://decrypt.co/11289/quantum-computing-hedera-bitcoin-bitcoin-safety) given sufficient lead time. None of this constitutes a scheduled retirement of EC primitives, and no committed migration timeline has been published.
+Hedera has no formal timeline for removing Ed25519 or ECDSA secp256k1 from the protocol. Hedera's Chief Scientist, Leemon Baird (inventor of Hashgraph), has [publicly compared](https://decrypt.co/11289/quantum-computing-hedera-bitcoin-bitcoin-safety) quantum breaks on signatures to Y2K — a solvable problem with sufficient lead time — reflecting confidence in migration capability without committing to a specific timeline or algorithm.
 
-**Current state.** No EC retirement scheduled.
+Key factors for Hedera's EC sunset posture:
 
-**Planned future work.** None published. Migration would require Hedera Council coordination and remains opportunity-driven (NIST standard maturity, hardware availability) rather than deadline-driven.
+- **Pluggable cryptography**: The protocol was designed so signature algorithms are configuration parameters, not hard-coded protocol rules. This lowers the barrier to adding PQC and potentially deprecating EC, but no plan to exercise this capability has been published.
+- **NIST alignment**: Hedera follows the CNSA (Commercial National Security Algorithm) standard and acknowledges NIST's 2024 finalization of ML-DSA, FN-DSA, and SLH-DSA. No commitment to adopt a specific NIST scheme has been made.
+- **Council governance**: The Hedera Council (31 global enterprises including Google, IBM, Dell, Boeing) must approve protocol changes. Council members have quantum-aware security strategies across their portfolios, which may accelerate PQC adoption, but no council vote or resolution on PQC migration has been disclosed.
+- **EVM precompiles**: ECRECOVER and Ed25519 verification via system contracts would need removal or replacement as part of a full EC sunset.
+
+**Current state.** No EC removal is planned or scheduled. No HIP addresses EC deprecation.
+
+**Planned future work.** None published. A phased migration — adding PQC algorithms first, then deprecating EC — would align with Hedera's architectural design but requires a council-approved HIP and network upgrade.
 
 ## Governance
 
-Hedera protocol changes flow through the [HIP (Hedera Improvement Proposal)](https://hips.hedera.com/) process. Network upgrades and significant protocol changes require approval by the [Hedera Council](https://hederacouncil.org/) (31 of up to 39 enterprise seats; three-year terms, max two consecutive). Council members vote with equal weight; majority decisions carry.
+Hedera's protocol changes follow the [HIP (Hedera Improvement Proposal)](https://hips.hedera.com/) process. Proposals are submitted by the community or Hedera staff, debated publicly, and approved by the Hedera Council (31 members with equal voting rights, 3-year terms, max 2 consecutive). Major network upgrades require council majority vote.
 
-PQ-relevant work currently visible:
+No PQ-specific HIPs have been published. Relevant existing HIPs:
 
-- [HIP-222 — Support ECDSA(secp256k1) keys](https://hips.hedera.com/HIP/hip-222.html). Status: Final. Adds ECDSA secp256k1 alongside Ed25519 for transaction signing — extends EC use; not a PQ migration.
-- [HIP-632 — Hedera Account Service (HAS) System Contract](https://hips.hedera.com/HIP/hip-632.html). Status: Final. Exposes `isAuthorizedRaw()` for Ed25519 verification in Solidity contracts — extends Ed25519 reach on-chain; not a PQ migration.
-- [SEALSQ partnership announcement (Dec 2024)](https://www.sealsq.com/investors/news-releases/sealsq-partnering-with-hedera-in-the-next-generation-of-post-quantum-semiconductors) — quantum-safe semiconductor collaboration; not a HIP.
-- [hashgraph/awesome-hedera #35 (Swarm Spawner using ML-DSA-65)](https://github.com/hashgraph/awesome-hedera/pull/35) — open ecosystem-listing PR for an agent-identity-certificate project that uses ML-DSA-65; this is an ecosystem listing, not a core protocol change.
+- [HIP-222](https://hips.hedera.com/HIP/hip-222.html) — Support for ECDSA (secp256k1) keys. Status: Final. Added the second EC key type alongside Ed25519.
+- [HIP-632](https://hips.hedera.com/HIP/hip-632.html) — Hedera Account Service (HAS) System Contract. Status: Final. Provides on-chain Ed25519 verification.
 
-No HIP proposing a post-quantum signature scheme on the transaction-signing path or in the consensus layer has been filed.
+Reference sources:
+
+- [Hedera Post-Quantum Crypto Blog](https://hedera.com/blog/post-quantum-crypto/)
+- [Are Ed25519 Keys Quantum-Resistant? — Hedera](https://hedera.com/blog/are-ed25519-keys-quantum-resistant-exploring-the-future-of-cryptography/)
+- [Hedera Keys and Signatures Docs](https://docs.hedera.com/hedera/core-concepts/keys-and-signatures)
+- [SEALSQ and Hedera Partner on Quantum-Resistant Semiconductors](https://www.sealsq.com/investors/news-releases/sealsq-partnering-with-hedera-in-the-next-generation-of-post-quantum-semiconductors)
+- [Leemon Baird on Quantum Computing — Decrypt](https://decrypt.co/11289/quantum-computing-hedera-bitcoin-bitcoin-safety)
+- [NIST Post-Quantum Cryptography Standardization](https://csrc.nist.gov/projects/pqc-dig-sig)
+- [Hedera Governing Council Overview](https://hederacouncil.org/)
 
 ---
 
-_Generated on 06 May 2026 based on information as of 30 Apr 2026._
+_Generated on 07 May 2026 based on information as of 07 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

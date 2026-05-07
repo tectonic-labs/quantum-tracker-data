@@ -7,6 +7,7 @@
 | **Website** | https://ethereum.org |
 | **GitHub** | https://github.com/ethereum |
 | **On-chain environment** | EVM |
+| **Mainnet genesis** | 2015-07-30 |
 
 ## Summary
 
@@ -54,7 +55,7 @@ At the smart-contract-wallet level, PQC is already feasible without a fork: pure
 
 Ethereum's consensus is Gasper (Casper FFG finality + LMD-GHOST fork choice), with block and attestation signing on BLS12-381 aggregated signatures, validator identity on BLS12-381 public keys, and RANDAO randomness. BLS12-381 is EC-pairing-based and quantum-vulnerable.
 
-The replacement is a hash-based stack designed for PQ security plus scalability via SNARK aggregation. **leanSig** is a generalized XMSS-style hash-based signature scheme (Winternitz variant) using Poseidon1 tweakable hashing; signing benchmarks at ~160μs (target ~150μs), verification at ~75μs (well under the 190μs target). **leanMultisig** is an aggregate signature scheme over leanSig, designed for compact validator-set aggregation, with [aggregate sizes currently 313–391% of target](https://github.com/leanEthereum/leanMultisig). **leanVM** is a minimal zkVM used to recursively aggregate PQ signatures into a single proof per message, replacing BLS aggregation's "free" pairing-based property; it is cited at approximately 250x compression ratio in May 2026 coverage.
+The replacement is a hash-based stack designed for PQ security plus scalability via SNARK aggregation. **leanSig** is a generalized XMSS-style hash-based signature scheme (Winternitz variant) using Poseidon1 tweakable hashing; signing benchmarks at ~160us (target ~150us), verification at ~75us (well under the 190us target). **leanMultisig** is an aggregate signature scheme over leanSig, designed for compact validator-set aggregation, with [aggregate sizes currently 313-391% of target](https://github.com/leanEthereum/leanMultisig). **leanVM** is a minimal zkVM used to recursively aggregate PQ signatures into a single proof per message, replacing BLS aggregation's "free" pairing-based property; it is cited at approximately 250x compression ratio in May 2026 coverage.
 
 PQ devnet progression to date ([leanroadmap.org](https://leanroadmap.org/)):
 
@@ -75,19 +76,13 @@ Eight client teams are building the PQ consensus layer (Ream, Zeam, Qlean-mini, 
 
 **Grade: F ❌**
 
-Ethereum's networking layer covers two transports: devp2p on the execution layer (RLPx with ECIES, secp256k1 node identity) and libp2p on the consensus layer (Noise XX framework, secp256k1 / Ed25519 node identity). Peer discovery uses Kademlia DHT (discv5) and gossipsub. All node identity and key exchange is EC-based.
-
-No specific PQC plan for P2P has been published. Gossipsub v2.0 work in [libp2p/specs](https://leanroadmap.org/) is scaling and censorship-resistance work, not PQ. The expectation in published material is that P2P migration follows after consensus and tx signatures land.
-
-**Current state.** secp256k1 / Ed25519 node identity, ECIES/Noise XX handshakes. No PQ alternatives drafted.
-
-**Planned future work.** No EIP, working-group thread, or specification is currently published for PQC P2P transport.
+We have found no public information indicating migration activity for Ethereum in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 
 ## 4. On-Chain Logic
 
 **Grade: C 🗺️**
 
-The EVM offers ecrecover (secp256k1), ecAdd/ecMul/ecPairing (BN254), BLS12-381 ops via [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537), and KZG point evaluation (EIP-4844). Hash precompiles include SHA-256, RIPEMD-160, Keccak-256, and Blake2f. No precompile currently verifies a PQC signature scheme. Pure-Solidity **Falcon-1024** verification has been demonstrated below 10M gas; **ML-DSA** work is in flight at the same level.
+The EVM offers ecrecover (secp256k1), ecAdd/ecMul/ecPairing (BN254), BLS12-381 ops via EIP-2537, and KZG point evaluation (EIP-4844). Hash precompiles include SHA-256, RIPEMD-160, Keccak-256, and Blake2f. No precompile currently verifies a PQC signature scheme. Pure-Solidity **Falcon-1024** verification has been demonstrated below 10M gas; **ML-DSA** work is in flight at the same level.
 
 A precompile-based path is on the published roadmap (Strawmap J* milestone, "PQ sig precompiles") with multiple competing draft EIPs:
 
@@ -129,13 +124,13 @@ The Ethereum Foundation targets L1 PQC adoption by 2029. Full execution-layer mi
 
 ## Governance
 
-Ethereum's protocol changes follow off-chain rough consensus via [All Core Devs (ACD) calls](https://github.com/ethereum/pm). Proposals are filed in the [EIP repo](https://github.com/ethereum/EIPs) and discussed on [Ethereum Magicians](https://ethereum-magicians.org/), [ethresear.ch](https://ethresear.ch/), and EF blog posts. Client team maintainers collectively hold merge power; the EF has influence but no veto. Hard forks ship roughly 1–2 per year.
+Ethereum's protocol changes follow off-chain rough consensus via [All Core Devs (ACD) calls](https://github.com/ethereum/pm). Proposals are filed in the [EIP repo](https://github.com/ethereum/EIPs) and discussed on [Ethereum Magicians](https://ethereum-magicians.org/), [ethresear.ch](https://ethresear.ch/), and EF blog posts. Client team maintainers collectively hold merge power; the EF has influence but no veto. Hard forks ship roughly 1-2 per year.
 
 PQ-relevant proposals on the EIP repo and Magicians forum:
 
 - [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) — EOA delegation. Status: Final. Shipped: Pectra, May 2025.
 - [EIP-7701](https://eips.ethereum.org/EIPS/eip-7701) — Native account abstraction with EOF. Status: Draft.
-- [EIP-8141](https://eips.ethereum.org/EIPS/eip-8141) — Frame Transactions. Status: Draft. CFI for Hegota; [dropped from Hegota headliners](https://bitcoinethereumnews.com/ethereum/ethereum-hegota-upgrade-drops-framework-transactions-over-complexity-concerns/) over complexity concerns; remains "considered for inclusion" for future forks. Filed 2026-01-29.
+- [EIP-8141](https://eips.ethereum.org/EIPS/eip-8141) — Frame Transactions. Status: Draft. CFI for Hegota; [dropped from Hegota headliners](https://bitcoinethereumnews.com/ethereum/ethereum-hegota-upgrade-drops-framework-transactions-over-complexity-concerns/) over complexity concerns; remains under review for future forks. Filed 2026-01-29.
 - [EIP-7932](https://eips.ethereum.org/EIPS/eip-7932) — Secondary Signature Algorithms registry. Status: Draft. Filed 2025-04-12.
 - [EIP-7619](https://ethereum-magicians.org/t/eip-7619-falcon-512-precompiled-generic-signature-verifier/18569) — Falcon-512 precompile. Status: Magicians draft.
 - [EIP-7592](https://ethereum-magicians.org/t/eip-7592-falcon-signature-verification-pre-compile/18053) — Falcon precompile. Status: Magicians draft.
@@ -150,7 +145,7 @@ EF process and venue activity:
 - 2026-02-18: EF publishes the [Protocol Priorities Update for 2026](https://blog.ethereum.org/en/2026/02/18/protocol-priorities-update-2026); the "Harden the L1" track explicitly names PQ security; "Improve UX" ties native AA to PQ migration.
 - 2026-02-26: EF Protocol team publishes the [Strawmap](https://strawmap.org/) as a strawman, not an official EF position; [press coverage](https://www.coindesk.com/tech/2026/02/26/vitalik-buterin-unveils-ethereum-roadmap-to-counter-quantum-computing-threat) at the time attributed it to Vitalik Buterin.
 - 2026-03-25: EF launches [pq.ethereum.org](https://pq.ethereum.org/) as a public PQ hub ([CoinDesk coverage](https://www.coindesk.com/tech/2026/03/25/ethereum-foundation-prepares-for-quantum-threat-with-new-cryptography-roadmap)).
-- 2026-04-21: Coinbase publishes an advisory paper co-authored by Justin Drake characterizing Ethereum as "early but complex (BLS deeply embedded)" and highlighting a "1-of-2 signing" recipe as a near-term migration pattern.
+- 2026-04-21: Coinbase publishes an advisory paper characterizing Ethereum as "early but complex (BLS deeply embedded)" and highlighting a "1-of-2 signing" recipe as a near-term migration pattern.
 - 2026 (Hegota planning): EIP-8141 dropped from Hegota headliners; remains under review for future forks.
 - 2026-05 (ongoing): Weekly PQ interop devnets run under EF's four-team PQ structure; pq-devnet-5+ is active.
 
@@ -168,7 +163,7 @@ Research and supporting material:
 
 ---
 
-_Generated on 06 May 2026 based on information as of 06 May 2026._
+_Generated on 07 May 2026 based on information as of 06 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

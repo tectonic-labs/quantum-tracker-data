@@ -4,53 +4,58 @@
 |---|---|
 | **Name** | Algorand |
 | **Ticker** | ALGO |
-| **Website** | https://algorand.co/ |
+| **Website** | https://algorand.co |
 | **GitHub** | https://github.com/algorandfoundation |
-| **Twitter / X** | https://x.com/AlgoFoundation |
-| **On-chain environment** | AVM (TEAL) |
+| **Twitter / X** | https://x.com/Algorand |
+| **On-chain environment** | AVM (Algorand Virtual Machine) |
+| **Mainnet genesis** | 2019-06-11 |
 
 ## Summary
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | B | 🔧 | In Development |
-| Consensus | D | ⚠️ | Discussed |
+| Consensus | F | ❌ | Not Discussed |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | B | 🔧 | In Development |
 | Other Features | A | ✅ | Shipped |
 | EC Sunset | F | ❌ | Not Discussed |
 
-Algorand executed [the first post-quantum transaction on a public blockchain mainnet](https://algorand.co/blog/technical-brief-quantum-resistant-transactions-on-algorand-with-falcon-signatures) on November 3, 2025, signed with Falcon-1024. Opt-in Falcon-1024 keys are now available for user accounts via CLI, and Algorand's State Proofs — compact certificates of ledger state generated every 256 blocks — have been Falcon-1024-signed since 2022. An experimental AVM opcode for Falcon verification is in development, which would let smart contracts verify post-quantum signatures directly. The chain's [published post-quantum roadmap](https://algorand.co/technology/post-quantum) sequences accounts first, then on-chain verification, then consensus.
+Algorand is one of the most PQC-advanced major blockchains. [State Proofs](https://algorand.co/technology/post-quantum) — compact attestations of ledger state generated every 256 blocks — have been signed with **Falcon-1024** since 2022, making them post-quantum secure in production. On November 3, 2025, Algorand executed the [first post-quantum transaction on a public blockchain mainnet](https://algorand.co/blog/technical-brief-quantum-resistant-transactions-on-algorand-with-falcon-signatures) using opt-in **Falcon-1024** account keys. An experimental AVM opcode for Falcon signature verification is under development, which would bring PQC verification to smart contracts.
 
-The remaining gap is consensus and EC retirement. Algorand's Pure Proof-of-Stake uses an elliptic-curve Verifiable Random Function for cryptographic sortition; lattice-based VRF replacements are under research, but no concrete proposal or schedule is published. Ed25519 remains the default account signature scheme and is not slated for removal.
+The principal remaining exposure is the consensus layer. Algorand's [Pure Proof-of-Stake](https://algorand.co/technology/pure-proof-of-stake) uses a Verifiable Random Function (VRF) based on Curve25519 for cryptographic sortition — the process by which validators are randomly selected. That VRF is elliptic-curve-based and quantum-vulnerable. Replacing it requires a lattice-based or hash-based alternative with equivalent security guarantees, and no specification or testnet activity has been announced.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **Falcon-1024** | Ed25519 | Tx Signatures, On-Chain, Other | Implemented (opt-in user accounts since Nov 2025; State Proofs since 2022); In Development (`falcon_verify` AVM opcode) |
+| **Falcon-1024 / FN-DSA** | Ed25519 (Curve25519) | Tx Signatures | In Development (opt-in live on mainnet since Nov 2025) |
+| **Falcon-1024 / FN-DSA** | Ed25519 (Curve25519) | Other (State Proofs) | Implemented (live since 2022) |
+| **Falcon-1024 / FN-DSA** | Ed25519 (Curve25519) | On-Chain | In Development (experimental AVM opcode) |
 
 ## 1. Transaction Signatures
 
 **Grade: B 🔧**
 
-Algorand transactions today are signed with Ed25519 (Curve25519). On November 3, 2025, the network executed the [first post-quantum transaction on a public blockchain mainnet](https://algorand.co/blog/technical-brief-quantum-resistant-transactions-on-algorand-with-falcon-signatures) using **Falcon-1024**. Falcon-1024 keys are now available as an opt-in for new accounts via CLI. Signatures are roughly 1,280 bytes with ~1,793-byte public keys, with verification typically under 100 microseconds. Account holders can voluntarily migrate Ed25519 accounts to Falcon keys via Algorand's native key-rotation mechanism without changing the account address.
+Algorand transactions are signed with Ed25519 (Curve25519) by default. Since November 2025, accounts can opt in to **Falcon-1024** signatures via CLI, making Algorand the first major L1 to support post-quantum transaction signing on a public mainnet. Signatures are approximately 1,280 bytes with approximately 1,793-byte public keys, and verification is fast (typically under 100 microseconds).
 
-**Current state.** Mainnet supports both Ed25519 (default) and **Falcon-1024** (opt-in) account types. New accounts choose at creation; existing accounts can rotate.
+The [technical brief](https://algorand.co/blog/technical-brief-quantum-resistant-transactions-on-algorand-with-falcon-signatures) describes the integration: core accounts remain Ed25519 by default, but account holders can voluntarily rotate to Falcon keys. Addresses remain compatible, and the protocol supports key rotation natively.
 
-**Planned future work.** [Algorand's post-quantum roadmap](https://algorand.co/technology/post-quantum) sequences PQC adoption: State Proofs (2022, done), opt-in user accounts (Nov 2025, live), AVM opcode for Falcon verification (in development), and consensus VRF replacement (planned, no schedule).
+**Current state.** Ed25519 is the default signing scheme. Falcon-1024 is available as an opt-in alternative. Accounts that have rotated to Falcon keys are post-quantum secure for transaction signing; accounts on Ed25519 remain exposed.
+
+**Planned future work.** The [2025+ roadmap](https://algorand.co/blog/algorands-2025-roadmap-building-for-real-world-use) positions the phased rollout as: State Proofs (complete), user account Falcon keys (live), AVM Falcon opcode (in progress), and consensus upgrade (planned, dependent on post-quantum VRF). Open pull requests include [go-algorand#6573](https://github.com/algorand/go-algorand/pull/6573) (quantum-hardened LogicSig address derivation) and [algorand/falcon#15](https://github.com/algorand/falcon/pull/15) (vectorized Falcon verification speedup).
 
 ## 2. Consensus
 
-**Grade: D ⚠️**
+**Grade: F ❌**
 
-Algorand uses [Pure Proof-of-Stake (PPoS)](https://algorand.co/technology/pure-proof-of-stake) with Verifiable Random Functions: each node independently runs a VRF over its secret key to determine committee membership for block proposal, soft vote, and certify vote phases. The VRF is built on Curve25519 — the same elliptic curve as Ed25519 transaction signatures. A quantum break against the VRF would let an attacker predict block proposers and disrupt consensus, even though Falcon-locked funds remain protected.
+Algorand's [Pure Proof-of-Stake](https://developer.algorand.org/docs/get-details/algorand_consensus/) consensus uses Verifiable Random Functions (VRFs) on Curve25519 for cryptographic sortition. All nodes independently run the VRF to determine committee membership for block proposal, soft vote, and certify vote phases. The VRF is elliptic-curve-based: a quantum adversary capable of breaking Curve25519 could predict block proposers and committee members, disrupting consensus — though this would not enable spending of Falcon-locked funds.
 
-The Algorand Foundation has stated that quantum-safe VRF replacements are under active research, including lattice-based VRFs in the NTRU family. The [published roadmap](https://algorand.co/technology/post-quantum) sequences consensus-layer migration as the final phase, after the in-development AVM Falcon-verify opcode. No concrete draft, specification, or testnet activity has been published yet.
+**Falcon-1024** signatures, which protect transaction signing and State Proofs, do not secure the consensus layer because consensus relies on VRF output, not signature verification.
 
-**Current state.** All consensus cryptography (sortition, committee selection, vote signing) is EC-based.
+**Current state.** The VRF uses Curve25519. No post-quantum VRF has been specified, prototyped, or tested.
 
-**Planned future work.** Foundation-led research on a quantum-safe VRF replacement is in progress. Consensus replacement requires a coordinated protocol upgrade rather than opt-in migration; no ETA, draft specification, or testnet has been published.
+**Planned future work.** The Algorand Foundation is researching lattice-based VRF replacements (NTRU family), but no ETA has been announced. A VRF replacement cannot be opt-in — consensus rules must align network-wide, requiring a protocol hard fork with formal safety proofs.
 
 ## 3. P2P Networking
 
@@ -62,47 +67,57 @@ We have found no public information indicating migration activity for Algorand i
 
 **Grade: B 🔧**
 
-The [Algorand Virtual Machine (AVM)](https://developer.algorand.org/docs/get-details/dapps/avm/) supports `ed25519verify` natively (opcode cost 1900) for in-contract Ed25519 signature verification. There is no PQC verification opcode on mainnet today. An experimental `falcon_verify` opcode is under development, which would let smart contracts and Logic Signatures verify **Falcon-1024** signatures directly.
+Algorand's [AVM](https://developer.algorand.org/docs/get-details/dapps/avm/) is a stack-based bytecode interpreter running on every node, with smart contracts written in [TEAL](https://developer.algorand.org/docs/get-details/dapps/avm/teal/) (Transaction Execution Approval Language) or higher-level languages that compile to TEAL. The existing `ed25519verify` opcode (cost 1900) enables on-chain Ed25519 signature verification.
 
-**Current state.** Smart contracts can verify Ed25519 signatures on-chain. **Falcon-1024** verification is not yet shipped as an opcode.
+An experimental **Falcon-1024** verification opcode (`falcon_verify`) is under development. When it ships, smart contracts will be able to verify Falcon signatures natively, enabling post-quantum-aware dApp logic such as PQC multi-sig schemes and on-chain attestation verification.
 
-**Planned future work.** The `falcon_verify` opcode is experimental and not yet on mainnet. Once shipped, it would enable PQC-aware smart-contract logic — multi-sig, threshold schemes, and dApps gating actions on Falcon signatures.
+**Current state.** On-chain signature verification is limited to Ed25519. The Falcon opcode is experimental and not yet available on mainnet.
+
+**Planned future work.** The Falcon verification opcode is listed in the phased rollout after user-account Falcon keys. No mainnet activation date has been published.
 
 ## 5. Other Features
 
 ### State Proofs
 
-**Current state.** [State Proofs](https://algorand.co/blog/technical-brief-quantum-resistant-transactions-on-algorand-with-falcon-signatures) are compact certificates of ledger state, generated every 256 blocks (~18 minutes on mainnet) and signed by a supermajority of stake using **Falcon-1024**. They have been live in production since 2022. ~1,280 bytes per signature; designed for light clients, bridges, and cross-chain verification.
+State Proofs are compact certificates of [Algorand ledger state](https://algorand.co/technology/post-quantum) generated every 256 blocks (approximately 18 minutes). They are signed by a supermajority of stake using **Falcon-1024** via a Merkle signature scheme. Each signature is approximately 1,280 bytes. State Proofs enable light clients, bridges, and cross-chain verification with post-quantum confidence.
 
-**Planned future work.** None disclosed for the State Proofs primitive itself.
+**Current state.** State Proofs have been live and **Falcon-1024**-signed on mainnet since 2022.
+
+**Planned future work.** No changes needed; the mechanism is already post-quantum secure.
 
 ### Algorand Standard Assets (ASA)
 
-**Current state.** [ASAs](https://developer.algorand.org/docs/get-details/asa/) are native token primitives whose security inherits from the account-level signature scheme. Tokens held by Falcon-locked accounts are post-quantum protected; tokens in Ed25519-only accounts remain EC-vulnerable.
-
-**Planned future work.** Migration occurs at the account layer (key rotation) rather than the asset layer. As accounts adopt Falcon, their ASA holdings inherit PQC security automatically.
+[ASAs](https://developer.algorand.org/docs/get-details/asa/) are native token primitives (not smart-contract-based) that use account-level signatures for transfers. ASA transfers from Falcon-locked accounts are post-quantum secure; transfers from Ed25519 accounts remain exposed. ASAs inherit the PQC status of the underlying account.
 
 ## 6. EC Sunset
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Algorand's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ⚠️, P2P ❌, On-Chain 🔧, Other ✅.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ❌, P2P ❌, On-Chain 🔧, Other ✅.
 
-The Algorand Foundation has positioned quantum resilience as a strategic priority, and the Falcon opt-in path at the account layer is intentional. However, Ed25519 is not slated for removal — it remains the default for new accounts and will be supported indefinitely for backward compatibility. Per the [published roadmap](https://algorand.co/technology/post-quantum), the migration model is opt-in rather than scheduled deprecation.
+Algorand's approach is additive: **Falcon-1024** has been added as an alternative to Ed25519, but Ed25519 is not being removed. The protocol guarantees indefinite backward compatibility with Ed25519 accounts. The phased rollout prioritizes adding PQC support — accounts first, then consensus — rather than deprecating EC.
 
-**Current state.** No timeline for Ed25519 deprecation. Curve25519 remains in active use for transaction signatures, VRF sortition, and consensus signing. New Ed25519 accounts can still be created.
+No deprecation timeline for Ed25519, Curve25519 VRF, or any EC primitive has been announced. The consensus layer's VRF replacement is the gating item for any eventual EC retirement: until a post-quantum VRF is deployed, Ed25519 remains structurally required for consensus participation.
 
-**Planned future work.** A consensus VRF replacement is planned but has no schedule. No protocol amendment has been published targeting Ed25519 retirement from the user signature path.
+**Current state.** Ed25519 remains the default and is not scheduled for removal. Falcon is opt-in alongside it.
+
+**Planned future work.** No EC deprecation roadmap has been published.
 
 ## Governance
 
-Algorand's protocol roadmap and PQC sequencing are published by the Algorand Foundation. The [post-quantum technology page](https://algorand.co/technology/post-quantum) and the [2025 roadmap progress](https://algorand.co/blog/2025-on-algorand-roadmap-progress) and [2025+ roadmap](https://algorand.co/blog/algorands-2025-roadmap-building-for-real-world-use) blog posts are the principal venues for status updates. The [Algorand Developer Portal](https://developer.algorand.org/) hosts the AVM and TEAL specifications that gate the on-chain Falcon-verify opcode work.
+Algorand protocol upgrades are coordinated by the Algorand Foundation, which funds research and development. Protocol changes follow a foundation-led model where the core development team proposes and implements upgrades; the broader community participates through [ARC](https://arc.algorand.foundation/ARCs/arc-0003) (Algorand Request for Comments) proposals and GitHub issue discussion on the [go-algorand](https://github.com/algorand/go-algorand) repository.
 
-Specific consensus-layer or signature-layer Algorand Improvement Proposals (AIPs) targeting PQC are not currently in flight on the public record beyond the Foundation roadmap commitments listed above.
+PQC-relevant governance activity:
+
+- **Falcon-1024 for State Proofs**: Deployed 2022; no formal ARC required (core protocol change).
+- **Falcon-1024 for user accounts**: [Launched November 2025](https://algorand.co/blog/technical-brief-quantum-resistant-transactions-on-algorand-with-falcon-signatures); opt-in via CLI.
+- **[go-algorand#6573](https://github.com/algorand/go-algorand/pull/6573)**: Open PR (2026-03-05) for quantum-hardened LogicSig address derivation via iterative hashing.
+- **[algorand/falcon#15](https://github.com/algorand/falcon/pull/15)**: Open PR (2026-02-17) for vectorized Falcon verification speedup.
+- **Post-quantum VRF**: Research stage; no ARC or specification published.
 
 ---
 
-_Generated on 06 May 2026 based on information as of 30 Apr 2026._
+_Generated on 07 May 2026 based on information as of 06 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
