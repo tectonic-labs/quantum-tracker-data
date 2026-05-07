@@ -4,8 +4,10 @@
 |---|---|
 | **Name** | Bitcoin |
 | **Ticker** | BTC |
-| **GitHub** | <https://github.com/bitcoin> |
+| **Website** | https://bitcoin.org |
+| **GitHub** | https://github.com/bitcoin |
 | **On-chain environment** | Bitcoin Script |
+| **Mainnet genesis** | 2009-01-03 |
 
 ## Summary
 
@@ -20,7 +22,7 @@
 
 Bitcoin's PQC migration sits at the proposal stage. Two BIP-numbered drafts define complementary halves of a path: [BIP-360](https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki) (Pay-to-Merkle-Root) introduces a quantum-resistant output type, and [BIP-361](https://github.com/bitcoin/bips/blob/master/bip-0361.mediawiki) (Post Quantum Migration and Legacy Signature Sunset) phases out classical ECDSA/Schnorr spends after a separate PQ signature BIP activates. Neither has a soft-fork activation timeline. Reference sites: [bip360.org](https://bip360.org/), [bip361.org](https://bip361.org/).
 
-The most concrete implementation work is happening off Bitcoin Core: [BTQ Technologies' Bitcoin Quantum Testnet v0.3.0](https://www.prnewswire.com/news-releases/btq-technologies-announces-first-deployment-of-bip-360-on-bitcoin-quantum-testnet-v0-3-0--302718592.html) deployed a working BIP-360 implementation in March 2026 with five **ML-DSA** signature opcodes in tapscript. That work is on a third-party fork, not Bitcoin Core's testnet, signet, or regtest, so it demonstrates feasibility without locking in the algorithms or output formats for the mainnet path.
+The most concrete implementation work is happening off Bitcoin Core: [BTQ Technologies' Bitcoin Quantum Testnet v0.3.0](https://www.prnewswire.com/news-releases/btq-technologies-announces-first-deployment-of-bip-360-on-bitcoin-quantum-testnet-v0-3-0--302718592.html) deployed a working BIP-360 implementation in March 2026 with five **ML-DSA** signature opcodes in tapscript. That work is on a third-party fork, not Bitcoin Core's testnet, signet, or regtest, so it demonstrates feasibility without locking in the algorithms or output formats for the mainnet path. Alongside BIPs, several complementary approaches have emerged: a WOTS+-based wallet requiring no consensus changes, a STARK-proof-based commit/reveal scheme, and a dual-key signing proposal from the Coinbase Advisory Council.
 
 ## Proposed and Implemented PQC Algorithms
 
@@ -29,7 +31,7 @@ The most concrete implementation work is happening off Bitcoin Core: [BTQ Techno
 | **ML-DSA** (Dilithium / FIPS 204) | ECDSA secp256k1, Schnorr secp256k1 | Tx Signatures, On-Chain | In Development (BTQ third-party fork only) |
 | **Falcon / FN-DSA** | ECDSA secp256k1, Schnorr secp256k1 | Tx Signatures, On-Chain | Discussed (named in earlier BIP-360 drafts; algorithm spec factored out) |
 | **SLH-DSA** (SPHINCS+) | ECDSA secp256k1, Schnorr secp256k1 | Tx Signatures, On-Chain | Discussed (named in earlier BIP-360 drafts; Project Eleven's "Quantum-Safe Taproot" SLH-DSA fallback) |
-| **WOTS+** (Winternitz one-time) | Schnorr secp256k1 | On-Chain | Discussed (conduition's OP_CAT-Winternitz construction; Kudinov & Nick paper) |
+| **WOTS+** (Winternitz one-time) | Schnorr secp256k1 | On-Chain | Discussed (conduition's OP_CAT-Winternitz construction; Kudinov & Nick paper; Quip.Network WOTS+ wallet) |
 
 ## 1. Transaction Signatures
 
@@ -40,6 +42,10 @@ Bitcoin transactions today are signed with ECDSA secp256k1 (legacy and SegWit v0
 Two BIPs define the published path. [BIP-360](https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki) (P2MR, formerly P2QRH/P2TSH) introduces a SegWit v3 output type with `bc1z` bech32m addresses that commits to a tapleaf merkle root rather than a key, so the spending public key is revealed only at spend time inside a script. Earlier drafts named **Falcon**, **ML-DSA**, and **SLH-DSA** explicitly; the algorithm specification was [factored out](https://delvingbitcoin.org/t/changes-to-bip-360-pay-to-quantum-resistant-hash-p2qrh/1811) into a separate future BIP so P2MR could be debated independently of algorithm selection. [BIP-361](https://github.com/bitcoin/bips/blob/master/bip-0361.mediawiki) (the legacy signature sunset) defines a two-phase wind-down of ECDSA/Schnorr spends gated on a separate PQ signature BIP being live.
 
 The most concrete implementation is [BTQ Bitcoin Quantum Testnet v0.3.0](https://thequantuminsider.com/2026/03/20/btq-technologies-implements-bip-360-quantum-resistant-bitcoin-transactions-testnet/), which ships full P2MR consensus with five **ML-DSA** signature opcodes enabled in the P2MR tapscript context. This is a separate fork, not Bitcoin Core's testnet, signet, or regtest, and there is no Bitcoin Core PR or feature flag wiring PQC sigs into the production codebase.
+
+Beyond the BIP track, complementary wallet-layer approaches have been published. Postquant Labs / Quip.Network [announced a WOTS+-based Bitcoin wallet](https://www.prnewswire.com/news-releases/btq-technologies-announces-first-deployment-of-bip-360-on-bitcoin-quantum-testnet-v0-3-0--302718592.html) in April 2026 that requires no consensus changes — **WOTS+** signatures are wrapped inside P2WSH commitments, narrowing the quantum-attack window to approximately two blocks. Dan Robinson of Paradigm published [PACTs](https://www.paradigm.xyz/2026/05/pacts-protecting-your-bitcoin-from-a-quantum-sunset) (May 2026), a privacy-preserving off-chain commit-and-reveal scheme using BIP-322 proofs and STARK unlocks for quantum migration. The Coinbase Advisory Council additionally proposed a "1-of-2 signing" pattern in April 2026 where wallets register both an EC and a PQ key, and either suffices until the network switches.
+
+The [Project Eleven Q-Day Prize](https://www.projecteleven.com) paid out in April 2026 for a 15-bit ECC quantum break on a neutral-atom quantum computer, underscoring that the engineering barrier to quantum attacks is actively dropping.
 
 **Current state.** Mainnet transactions are exclusively ECDSA/Schnorr secp256k1. No Bitcoin Core test network runs PQC transactions. A third-party fork (BTQ's Bitcoin Quantum Testnet) does, end-to-end, with **ML-DSA** opcodes.
 
@@ -91,7 +97,7 @@ Bitcoin does not support any special features.
 
 [BIP-361](https://github.com/bitcoin/bips/blob/master/bip-0361.mediawiki) is Bitcoin's first published proposal that confronts EC retirement directly. It defines a two-phase consensus-layer sunset for legacy ECDSA/Schnorr spends, gated on a separate PQ signature BIP being live. Phase A (160,000 blocks ≈ 3 years after activation) imposes wallet-level limits on sending funds *to* legacy address types. Phase B (~2 years after Phase A) rejects ECDSA/Schnorr spends at the consensus layer unless they satisfy a quantum-safe rescue protocol. Phase C is under research and explores zero-knowledge proof of BIP-39 seed-phrase ownership for frozen-coin recovery, designed to be compatible with an [Hourglass-style](https://groups.google.com/g/bitcoindev/c/zmg3U117aNc) spending throttle.
 
-The proposal is in Draft. There is no soft-fork activation timeline. BIP-361's stated motivation comes from [Jameson Lopp's "Against Allowing Quantum Recovery of Bitcoin"](https://blog.lopp.net/against-quantum-recovery-of-bitcoin/) (2025-03-16), which argued the network should burn quantum-vulnerable coins rather than allow extraction.
+The proposal is in Draft. There is no soft-fork activation timeline. BIP-361's stated motivation comes from [Jameson Lopp's "Against Allowing Quantum Recovery of Bitcoin"](https://blog.lopp.net/against-quantum-recovery-of-bitcoin/) (2025-03-16). The debate has attracted cross-ecosystem commentary: as of early May 2026 the community has converged around five recognized migration paths — BIP-360 P2MR (add PQC, keep EC), BIP-361 (phased EC sunset), WOTS+ wallet-layer mitigation (no consensus changes), [PACTs](https://www.paradigm.xyz/2026/05/pacts-protecting-your-bitcoin-from-a-quantum-sunset) (off-chain commit/reveal), and dual-key "1-of-2 signing."
 
 **Current state.** Consensus has no EC to sunset. P2P has neither a PQ proposal nor a retirement plan. On-Chain has no proposal to retire OP_CHECKSIG / OP_CHECKSIGADD. BIP-360 alone *adds* a PQC output type without removing existing ones; BIP-361 is the only proposal that schedules removal.
 
@@ -125,12 +131,13 @@ Research and overviews:
 - [Bitcoin Optech Newsletter #385 (2025 Year-in-Review)](https://bitcoinops.org/en/newsletters/2025/12/19/).
 - ["The Post-Quantum Security of Bitcoin's Taproot as a Commitment Scheme"](https://eprint.iacr.org/2025/1307.pdf) (eprint 2025/1307).
 - [Bitcoin Wiki on quantum computing threats](https://en.bitcoin.it/wiki/Quantum_computing_and_Bitcoin).
+- [Paradigm, "PACTs: Protecting Your Bitcoin from a Quantum Sunset"](https://www.paradigm.xyz/2026/05/pacts-protecting-your-bitcoin-from-a-quantum-sunset) (Dan Robinson, May 2026).
 
 No soft fork has been scheduled or signaled for any of the above.
 
 ---
 
-_Generated on 5 May 2026 based on information as of 5 May 2026._
+_Generated on 06 May 2026 based on information as of 06 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

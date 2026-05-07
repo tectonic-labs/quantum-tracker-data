@@ -4,9 +4,10 @@
 |---|---|
 | **Name** | Cardano |
 | **Ticker** | ADA |
-| **Website** | <https://cardano.org> |
-| **GitHub** | <https://github.com/cardano-foundation> |
+| **Website** | https://cardano.org |
+| **GitHub** | https://github.com/cardano-foundation |
 | **On-chain environment** | Plutus (Haskell-based) |
+| **Mainnet genesis** | 2017-09-29 |
 
 ## Summary
 
@@ -21,7 +22,7 @@
 
 Cardano's PQC posture is research-led without code-level integration. [IOG (Input Output Global)](https://iohk.io/en/blog/posts/2018/02/01/research-program-to-work-on-hardening-cardano-against-quantum-computers/) has run a PQ research program since February 2018 and announced the [Nightstream initiative](https://www.coinreporter.io/2026/02/ada-price-in-focus-as-cardano-expands-interoperability-and-post-quantum-push/) in February 2026, a lattice-based cryptography collaboration with Google and Microsoft Research. As of the most recent recon scan, no PQC algorithm libraries have landed in the cardano-node source code.
 
-The active proposal work sits in the [Cardano Improvement Proposals (CIPs)](https://github.com/cardano-foundation/CIPs) repository. [CIP #1144 (CPS-0027)](https://github.com/cardano-foundation/CIPs/pull/1144) surveys post-quantum signature approaches — naming **SPHINCS+**, **Dilithium**, and **Falcon** as candidates — without committing to one; it was opened 2026-01-29 and is in editor approval / fixups. [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) proposes a quantum-secure settlement layer at the architectural level; it was introduced as an agenda item at the 2026-04-28 CIP meeting with active follow-up on BIP32 / hash-based key upgrade paths. [CIP #1167](https://github.com/cardano-foundation/CIPs/pull/1167) refines Leios with quantum considerations from BuidlerFest discussions.
+The active proposal work sits in the [Cardano Improvement Proposals (CIPs)](https://github.com/cardano-foundation/CIPs) repository. [CIP #1144 (CPS-0027)](https://github.com/cardano-foundation/CIPs/pull/1144) surveys post-quantum signature approaches — naming **SPHINCS+**, **Dilithium**, and **Falcon** as candidates — without committing to one; it was opened 2026-01-29 and is in editor approval / fixups. [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) proposes a quantum-secure settlement layer at the architectural level; it was introduced at the 2026-04-28 CIP meeting with active follow-up on BIP32 / hash-based key upgrade paths, including discussion in early May 2026 on limitations of "pre-image reveal" approaches for non-BIP32 keys. [CIP #1167](https://github.com/cardano-foundation/CIPs/pull/1167) refines Leios with quantum considerations.
 
 ## Proposed and Implemented PQC Algorithms
 
@@ -38,7 +39,7 @@ The active proposal work sits in the [Cardano Improvement Proposals (CIPs)](http
 
 Cardano's user transaction signatures use [Ed25519](https://developers.cardano.org/docs/operate-a-stake-pool/cardano-key-pairs/) (EdDSA on Curve25519) — broken by Shor's algorithm in the same way as ECDSA. Payment keys, stake keys, governance (DRep) keys, and HD wallets all derive from Ed25519. The [Valentine hard fork (2023)](https://docs.cardano.org/about-cardano/evolution/upgrades/valentine) added SECP curve verification (ECDSA and Schnorr over secp256k1) for interoperability, and Plutus V3 (2024) added BLS primitives — both EC-based, neither quantum-resistant. No PQ replacement for Ed25519 has been merged into cardano-node.
 
-The [CIP #1144 survey](https://github.com/cardano-foundation/CIPs/pull/1144) catalogs the candidate PQ schemes (**SPHINCS+**, **Dilithium**, **Falcon**) but does not select one. CIP #1175 raises BIP32 / hash-based key derivation upgrade paths as an architectural question. Both remain in CIP discussion; neither has produced cardano-node code.
+The [CIP #1144 survey](https://github.com/cardano-foundation/CIPs/pull/1144) catalogs the candidate PQ schemes (**SPHINCS+**, **Dilithium**, **Falcon**) but does not select one. CIP #1175 raises BIP32 / hash-based key derivation upgrade paths as an architectural question, with active discussion in early May 2026 on the limitations of pre-image reveal approaches for non-BIP32 keys. Both remain in CIP discussion; neither has produced cardano-node code.
 
 **Current state.** Mainnet transactions are exclusively Ed25519. No PQ scheme is implemented or merged.
 
@@ -106,6 +107,8 @@ The constraint cited in [PlutusV3 material](https://iohk.io/en/blog/posts/2024/0
 
 Cardano has no published plan to retire elliptic-curve cryptography from any layer. Public material from IOG describes a phased, research-driven approach: long-term hardening informed by Nightstream and the IOG PQ research program, with potential near-term checkpointing of ledger history through Mithril and Midnight. Public commentary from [Charles Hoskinson](https://decrypt.co/353161/cardano-hoskinson-warns-crypto-becoming-post-quantum-require-trade-offs) cites a roughly 10× performance / size cost as a concern and references the [DARPA Quantum Benchmarking Initiative](https://finance.yahoo.com/news/cardano-founder-says-crypto-quantum-threat-200255327.html) (targeting 2033) as a calibration point.
 
+Hoskinson has also been a prominent external voice in the cross-chain quantum debate, [calling Bitcoin's BIP-361 "a hard fork in disguise"](https://decrypt.co/) and flagging that roughly 1.7M BTC in pre-BIP-39 addresses would be unrecoverable under that proposal's ZK recovery mechanism. His commentary positioned Cardano's formal on-chain governance model as a contrast to Bitcoin's off-chain rough-consensus approach to coordinating a migration of this scale.
+
 **Current state.** No EC retirement scheduled.
 
 **Planned future work.** None published. Direction described in public material is phased PQ adoption alongside EC, not EC retirement.
@@ -117,7 +120,7 @@ Cardano protocol changes flow through the [Cardano Improvement Proposals (CIPs)]
 Active PQ-relevant CIPs in the repository:
 
 - [CIP #1144 (CPS-0027)](https://github.com/cardano-foundation/CIPs/pull/1144) — "Approaches to Post-Quantum Signatures." Status: Open (filed 2026-01-29), in editor approval / fixups round 2026-04-29. Surveys candidate schemes without committing to one.
-- [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) — "Quantum secure Cardano settlement layer." Status: Open (filed 2026-04-02), introduced at the 2026-04-28 CIP meeting with active follow-up on BIP32 / hash-based key upgrade paths.
+- [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) — "Quantum secure Cardano settlement layer." Status: Open (filed 2026-04-02), introduced at the 2026-04-28 CIP meeting with active follow-up on BIP32 / hash-based key upgrade paths and discussion in early May 2026 on "pre-image reveal" limitations for non-BIP32 keys.
 - [CIP #1167](https://github.com/cardano-foundation/CIPs/pull/1167) — Leios refinement with quantum considerations. Status: Open (filed 2026-03-25).
 - [CIP-441 draft](https://github.com/cardano-foundation/CIPs/pull/441) — earlier post-quantum signatures draft. Status: Draft.
 
@@ -130,7 +133,7 @@ No fork has been scheduled or signaled for any cardano-node PQ change.
 
 ---
 
-_Generated on 5 May 2026 based on information as of 1 May 2026._
+_Generated on 06 May 2026 based on information as of 06 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

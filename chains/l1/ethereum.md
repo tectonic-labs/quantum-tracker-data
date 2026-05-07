@@ -4,8 +4,8 @@
 |---|---|
 | **Name** | Ethereum |
 | **Ticker** | ETH |
-| **Website** | <https://ethereum.org> |
-| **GitHub** | <https://github.com/ethereum> |
+| **Website** | https://ethereum.org |
+| **GitHub** | https://github.com/ethereum |
 | **On-chain environment** | EVM |
 
 ## Summary
@@ -21,7 +21,7 @@
 
 Ethereum is the most-coordinated PQC migration in the L1 space, with a published [Post-Quantum hub](https://pq.ethereum.org/), a dedicated EF Post-Quantum team formed in early 2026, and a strategic priority commitment in the [2026 Protocol Priorities](https://blog.ethereum.org/en/2026/02/18/protocol-priorities-update-2026). All three of the EF's 2026 protocol tracks (Scale, Improve UX, Harden the L1) touch PQ work. The [Strawmap](https://strawmap.org/) — authored by EF Protocol team members and published as a strawman, not an official EF roadmap — sketches a PQC adoption sequence across multiple forks with milestones I*/J*/L*/M* spanning PQ key registries, attestations, sig aggregation, and PQ blobs. The Ethereum Foundation targets L1 PQC adoption by 2029.
 
-Implementation has progressed furthest on the consensus layer. The [Lean Consensus / leanEthereum roadmap](https://leanroadmap.org/) coordinates eight client teams building a hash-based replacement stack: **leanSig** (generalized XMSS / Winternitz signatures using Poseidon1), **leanMultisig** (aggregate signatures over leanSig), and **leanVM** (a minimal zkVM for recursive aggregation). Four PQ devnets have shipped between October 2025 and February 2026, and pq-devnet-4 (recursive PQ aggregation via leanVM) is planned for March 2026. Transaction-layer migration is structured around account abstraction: [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) shipped in Pectra (May 2025), and [a series of draft EIPs](https://ethresear.ch/t/the-road-to-post-quantum-ethereum-transaction-is-paved-with-account-abstraction-aa/21783) (8141, 7701, 7932, plus precompile drafts 7619/7592/8051/8052) define the path for native protocol-level PQC support. None of these has shipped to mainnet.
+Implementation has progressed furthest on the consensus layer. The [Lean Consensus / leanEthereum roadmap](https://leanroadmap.org/) coordinates eight client teams building a hash-based replacement stack: **leanSig** (generalized XMSS / Winternitz signatures using Poseidon1), **leanMultisig** (aggregate signatures over leanSig), and **leanVM** (a minimal zkVM for recursive aggregation, cited at ~250x compression ratio in May 2026 coverage). Five PQ devnets have shipped through early 2026, with weekly interop devnets ongoing via [pq.ethereum.org](https://pq.ethereum.org/) as of May 2026. Transaction-layer migration is structured around account abstraction: [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) shipped in Pectra (May 2025), and [a series of draft EIPs](https://ethresear.ch/t/the-road-to-post-quantum-ethereum-transaction-is-paved-with-account-abstraction-aa/21783) (8141, 7701, 7932, plus precompile drafts 7619/7592/8051/8052) define the path for native protocol-level PQC support. None of these has shipped to mainnet.
 
 ## Proposed and Implemented PQC Algorithms
 
@@ -29,7 +29,7 @@ Implementation has progressed furthest on the consensus layer. The [Lean Consens
 |-----------|----------|----------|--------|
 | **leanSig** (generalized XMSS / Winternitz, Poseidon1-based) | BLS12-381 | Consensus | In Development (integrated across 5+ clients on PQ devnets) |
 | **leanMultisig** (XMSS-based aggregate signatures) | BLS12-381 aggregation | Consensus | In Development (integrated on pq-devnet-2+; perf targets in flight) |
-| **leanVM** (zkVM for recursive PQ aggregation) | BLS pairing-based aggregation | Consensus, On-Chain | In Development (planned for pq-devnet-4) |
+| **leanVM** (zkVM for recursive PQ aggregation) | BLS pairing-based aggregation | Consensus, On-Chain | In Development (shipped on pq-devnet-4; weekly interop ongoing) |
 | **Falcon / FN-DSA** | ECDSA secp256k1 | Tx Signatures, On-Chain | On Roadmap (EIP-7619, EIP-7592, EIP-8052 draft precompiles; ZKNox/ETHFALCON pure-Solidity demos) |
 | **ML-DSA** (Dilithium) | ECDSA secp256k1 | Tx Signatures, On-Chain | On Roadmap (EIP-8051 draft precompile) |
 | **STARK / hash-based commitments** | KZG on BLS12-381 | Other (DA blobs) | On Roadmap (Strawmap M* milestone, "PQ blobs") |
@@ -40,13 +40,13 @@ Implementation has progressed furthest on the consensus layer. The [Lean Consens
 
 Ethereum's protocol-level transaction signatures are still ECDSA secp256k1 only. The migration path is structured around account abstraction: existing externally-owned accounts (EOAs) delegate to contract code that can implement arbitrary verification logic, including PQC schemes. [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) (shipped in Pectra, May 2025) is the structural enabler — it allows EOAs to set delegation code, opening the door for per-tx PQC verification logic.
 
-Several draft EIPs converge on the protocol-level path. [EIP-8141](https://eips.ethereum.org/EIPS/eip-8141) ("Frame Transactions," 2026-01-29) introduces a new transaction type whose validity and fee logic are arbitrary EVM code, providing what the EIP describes as "a native off-ramp from the elliptic curve based cryptographic system used to authenticate transactions today, to post-quantum (PQ) secure systems." It received CFI status for Hegota but was [dropped from headliners](https://bitcoinethereumnews.com/ethereum/ethereum-hegota-upgrade-drops-framework-transactions-over-complexity-concerns/) over implementation complexity concerns; it remains under review for a future fork. [EIP-7932](https://eips.ethereum.org/EIPS/eip-7932) defines a registry and decoder precompile framework for adding PQ algorithms via separate companion EIPs. [EIP-7701](https://eips.ethereum.org/EIPS/eip-7701) covers protocol-level native AA.
+Several draft EIPs converge on the protocol-level path. [EIP-8141](https://eips.ethereum.org/EIPS/eip-8141) ("Frame Transactions," 2026-01-29) introduces a new transaction type whose validity and fee logic are arbitrary EVM code, providing what the EIP describes as "a native off-ramp from the elliptic curve based cryptographic system used to authenticate transactions today, to post-quantum (PQ) secure systems." It received CFI status for the Hegota upgrade but was [dropped from Hegota headliners](https://bitcoinethereumnews.com/ethereum/ethereum-hegota-upgrade-drops-framework-transactions-over-complexity-concerns/) over implementation complexity concerns raised by client teams; it remains under review for a future fork and is the most-cited Ethereum-specific PQC artifact in social media through May 2026. [EIP-7932](https://eips.ethereum.org/EIPS/eip-7932) defines a registry and decoder precompile framework for adding PQ algorithms via separate companion EIPs. [EIP-7701](https://eips.ethereum.org/EIPS/eip-7701) covers protocol-level native AA.
 
 At the smart-contract-wallet level, PQC is already feasible without a fork: pure-Solidity **Falcon-1024** verification has been [demonstrated under ~10M gas](https://ethresear.ch/t/the-road-to-post-quantum-ethereum-transaction-is-paved-with-account-abstraction-aa/21783), and ZKNox's ETHFALCON dropped the cost from ~24M to ~3.6M gas, making PQC via ERC-4337 practical today.
 
 **Current state.** Mainnet transactions are exclusively ECDSA secp256k1. EIP-7702 shipped in Pectra (May 2025) as the AA enabler.
 
-**Planned future work.** EIP-8141 (Draft, dropped from Hegota), EIP-7701 (Draft), EIP-7932 (Draft, 2025-04-12). Precompile drafts 7619, 7592, 8051, 8052 are tracked under On-Chain Logic. The Ethereum Foundation targets L1 PQC adoption by 2029.
+**Planned future work.** EIP-8141 (Draft, dropped from Hegota, under review for future forks), EIP-7701 (Draft), EIP-7932 (Draft, 2025-04-12). Precompile drafts 7619, 7592, 8051, 8052 are tracked under On-Chain Logic. The Ethereum Foundation targets L1 PQC adoption by 2029.
 
 ## 2. Consensus
 
@@ -54,7 +54,7 @@ At the smart-contract-wallet level, PQC is already feasible without a fork: pure
 
 Ethereum's consensus is Gasper (Casper FFG finality + LMD-GHOST fork choice), with block and attestation signing on BLS12-381 aggregated signatures, validator identity on BLS12-381 public keys, and RANDAO randomness. BLS12-381 is EC-pairing-based and quantum-vulnerable.
 
-The replacement is a hash-based stack designed for PQ security plus scalability via SNARK aggregation. **leanSig** is a generalized XMSS-style hash-based signature scheme (Winternitz variant) using Poseidon1 tweakable hashing; signing benchmarks at ~160μs (target ~150μs), verification at ~75μs (well under the 190μs target). **leanMultisig** is an aggregate signature scheme over leanSig, designed for compact validator-set aggregation, with [aggregate sizes currently 313–391% of target](https://github.com/leanEthereum/leanMultisig). **leanVM** is a minimal zkVM used to recursively aggregate PQ signatures into a single proof per message, replacing BLS aggregation's "free" pairing-based property.
+The replacement is a hash-based stack designed for PQ security plus scalability via SNARK aggregation. **leanSig** is a generalized XMSS-style hash-based signature scheme (Winternitz variant) using Poseidon1 tweakable hashing; signing benchmarks at ~160μs (target ~150μs), verification at ~75μs (well under the 190μs target). **leanMultisig** is an aggregate signature scheme over leanSig, designed for compact validator-set aggregation, with [aggregate sizes currently 313–391% of target](https://github.com/leanEthereum/leanMultisig). **leanVM** is a minimal zkVM used to recursively aggregate PQ signatures into a single proof per message, replacing BLS aggregation's "free" pairing-based property; it is cited at approximately 250x compression ratio in May 2026 coverage.
 
 PQ devnet progression to date ([leanroadmap.org](https://leanroadmap.org/)):
 
@@ -62,11 +62,12 @@ PQ devnet progression to date ([leanroadmap.org](https://leanroadmap.org/)):
 - pq-devnet-1 (Dec 2025) — **leanSig** signing/verification across 5 clients.
 - pq-devnet-2 (Jan 2026) — **leanMultisig** aggregation integrated.
 - pq-devnet-3 (Feb 2026) — decoupled aggregator role; aggregate propagation protocol.
-- pq-devnet-4 (Mar 2026, planned) — recursive PQ aggregation via **leanVM**.
+- pq-devnet-4 (Mar 2026) — recursive PQ aggregation via **leanVM**.
+- pq-devnet-5+ (ongoing) — weekly interop devnets under the EF four-team PQ structure.
 
 Eight client teams are building the PQ consensus layer (Ream, Zeam, Qlean-mini, Lantern, Lighthouse PQ fork, ethlambda, gean, Peam), with Grandine also running PQ devnets. The [theory paper](https://eprint.iacr.org/2025/055.pdf) (Khovratovich, Wagner et al., eprint 2025/055) and [reference implementations](https://github.com/leanEthereum/leanSig) are public.
 
-**Current state.** Mainnet consensus is BLS12-381. Four PQ devnets have shipped; the fifth (recursive aggregation) is planned for March 2026. None of the PQ stack has reached production audit.
+**Current state.** Mainnet consensus is BLS12-381. Five PQ devnets have shipped; weekly interop devnets are ongoing as of May 2026.
 
 **Planned future work.** Strawmap milestones I* (PQ key registry), L* (PQ attestations + real-time CL proofs + leanVM), and M* (PQ aggregation + PQ blobs). EF target: L1 PQC by 2029.
 
@@ -149,7 +150,9 @@ EF process and venue activity:
 - 2026-02-18: EF publishes the [Protocol Priorities Update for 2026](https://blog.ethereum.org/en/2026/02/18/protocol-priorities-update-2026); the "Harden the L1" track explicitly names PQ security; "Improve UX" ties native AA to PQ migration.
 - 2026-02-26: EF Protocol team publishes the [Strawmap](https://strawmap.org/) as a strawman, not an official EF position; [press coverage](https://www.coindesk.com/tech/2026/02/26/vitalik-buterin-unveils-ethereum-roadmap-to-counter-quantum-computing-threat) at the time attributed it to Vitalik Buterin.
 - 2026-03-25: EF launches [pq.ethereum.org](https://pq.ethereum.org/) as a public PQ hub ([CoinDesk coverage](https://www.coindesk.com/tech/2026/03/25/ethereum-foundation-prepares-for-quantum-threat-with-new-cryptography-roadmap)).
+- 2026-04-21: Coinbase publishes an advisory paper co-authored by Justin Drake characterizing Ethereum as "early but complex (BLS deeply embedded)" and highlighting a "1-of-2 signing" recipe as a near-term migration pattern.
 - 2026 (Hegota planning): EIP-8141 dropped from Hegota headliners; remains under review for future forks.
+- 2026-05 (ongoing): Weekly PQ interop devnets run under EF's four-team PQ structure; pq-devnet-5+ is active.
 
 Implementation tracking:
 
@@ -165,7 +168,7 @@ Research and supporting material:
 
 ---
 
-_Generated on 5 May 2026 based on information as of 30 Apr 2026._
+_Generated on 06 May 2026 based on information as of 06 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

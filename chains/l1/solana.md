@@ -4,8 +4,8 @@
 |---|---|
 | **Name** | Solana |
 | **Ticker** | SOL |
-| **Website** | <https://solana.com> |
-| **GitHub** | <https://github.com/solana-foundation> |
+| **Website** | https://solana.com |
+| **GitHub** | https://github.com/solana-foundation |
 | **On-chain environment** | SVM (Solana Virtual Machine) |
 
 ## Summary
@@ -21,13 +21,13 @@
 
 Solana's PQC story is most advanced at the on-chain primitive layer and least developed everywhere else. Two validator clients are actively building **Falcon** verification syscalls: [firedancer-io/firedancer#9446](https://github.com/firedancer-io/firedancer/pull/9446) (a native C implementation from Jump Trading, iterated April 22–29, 2026) and [anza-xyz/solana-sdk#537](https://github.com/anza-xyz/solana-sdk/pull/537) (a liboqs-based draft from an external contributor, stale since February 2026 with merge conflicts). The corresponding Solana Improvement Document, [SIMD-0461](https://github.com/solana-foundation/solana-improvement-documents/pull/461), is in `Idea` status — the earliest lifecycle stage — and a maintainer comment from Anza on March 18, 2026 noted that the proposal had not been raised in internal prioritization conversations.
 
-The [Solana Foundation's first PQ-named statement](https://solana.com/news/quantum-readiness), published April 27, 2026, frames migration as wallet-scoped: research, then new wallets, then migrate existing wallets. The statement names **Falcon** as a candidate scheme but does not commit to a protocol-envelope PQ transaction type. The phrase used is *"no change is required today or likely anytime soon"*. Validator consensus signing, P2P transport, and Turbine block propagation are not mentioned. The earlier [Project Eleven partnership](https://blog.projecteleven.com/posts/project-eleven-to-advance-post-quantum-security-for-the-solana-network) (December 2025) ran a research prototype testnet with **ML-DSA / Dilithium** transactions; it was a research demonstration, not a commitment.
+The [Solana Foundation's first PQ-named statement](https://solana.com/news/quantum-readiness), published April 27, 2026, frames migration as wallet-scoped: research, then new wallets, then migrate existing wallets. Notably, both core validator client teams — Anza and Firedancer/Jump — have independently converged on **Falcon** (FN-DSA, NIST FIPS 206 IPD) as the candidate scheme, a significant signal. However, the Foundation's statement uses the phrase *"no change is required today or likely anytime soon"* and the roadmap does not commit to a protocol-envelope PQ transaction type. Validator consensus signing, P2P transport, and Turbine block propagation are not mentioned.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **Falcon** | Ed25519 | On-Chain (verification syscall) | In Development (firedancer#9446 active; solana-sdk#537 stale; SIMD-0461 in `Idea` status) |
+| **Falcon / FN-DSA** | Ed25519 | On-Chain (verification syscall) | In Development (firedancer#9446 active; solana-sdk#537 stale; SIMD-0461 in `Idea` status) |
 | **ML-DSA** (Dilithium) | Ed25519 | Tx Signatures | Discussed (Project Eleven prototype testnet, December 2025) |
 
 ## 1. Transaction Signatures
@@ -36,7 +36,7 @@ The [Solana Foundation's first PQ-named statement](https://solana.com/news/quant
 
 Solana transactions are signed exclusively with **Ed25519**. Each Solana account's address is its 32-byte Ed25519 public key, so public keys are exposed at-rest in every account record — unlike Bitcoin's hashed P2PKH addresses or Ethereum's hashed account derivation. All mainnet accounts carry quantum-recoverable public keys.
 
-The [Foundation's April 27, 2026 quantum-readiness page](https://solana.com/news/quantum-readiness) names **Falcon** as a candidate signature scheme and outlines a phased plan: research, new wallets, migrate existing wallets. The plan is wallet-scoped — equivalent to the smart-contract-wallet pattern using on-chain verification — and does not commit to a protocol-envelope PQ transaction type. Userland constructions like the [Winternitz Vault](https://blog.projecteleven.com/posts/project-eleven-to-advance-post-quantum-security-for-the-solana-network) (Blueshift, January 2025) are application-layer programs, not envelope changes.
+The [Foundation's April 27, 2026 quantum-readiness page](https://solana.com/news/quantum-readiness) names **Falcon** as a candidate signature scheme and outlines a phased plan: research, new wallets, migrate existing wallets. The plan is wallet-scoped — equivalent to the smart-contract-wallet pattern using on-chain verification — and does not commit to a protocol-envelope PQ transaction type. Both Anza and Firedancer/Jump independently selected Falcon/FN-DSA (NIST FIPS 206 IPD) as their candidate algorithm, reducing algorithmic indecision as a future blocker, but the protocol-envelope commitment has not followed. The earlier [Project Eleven partnership](https://blog.projecteleven.com/posts/project-eleven-to-advance-post-quantum-security-for-the-solana-network) (December 2025) ran a research prototype testnet with **ML-DSA / Dilithium** transactions; it was a research demonstration, not a commitment. Userland constructions like the Winternitz Vault (Blueshift, January 2025) are application-layer programs, not envelope changes.
 
 **Current state.** Mainnet transactions are exclusively Ed25519 at the protocol envelope. No PQ transaction envelope has been proposed in any SIMD.
 
@@ -48,7 +48,7 @@ The [Foundation's April 27, 2026 quantum-readiness page](https://solana.com/news
 
 Solana's consensus is [Tower BFT](https://docs.anza.xyz/implemented-proposals/tower-bft), a pBFT variant tied to Proof of History. Every validator vote is signed with the validator's Ed25519 private key under stake-weighted voting and lockout-based fork commitment. The in-flight consensus rewrite, [SIMD-0326 (Alpenglow)](https://github.com/solana-foundation/solana-improvement-documents/pull/326), is non-PQC and continues to use Ed25519/BLS-style aggregate primitives.
 
-The Foundation's April 27 statement acknowledges quantum as a threat at the chain level but does not name any change to validator-vote signing; [secondary coverage](https://www.cryptbull.net/2026/04/28/solana-prepares-for-the-quantum-era-foundation-details-step-by-step-transition/) confirms the plan does not detail consensus-mechanism changes. No SIMD currently proposes PQ consensus signing.
+The Foundation's April 27 statement acknowledges quantum as a threat at the chain level but does not name any change to validator-vote signing; secondary coverage confirms the plan does not detail consensus-mechanism changes. No SIMD currently proposes PQ consensus signing.
 
 **Current state.** Validator votes use Ed25519 on mainnet. Alpenglow rewrites consensus without changing the signature scheme.
 
@@ -70,7 +70,7 @@ Solana's transport layer uses [QUIC over UDP with TLS 1.3](https://www.helius.de
 
 Solana exposes EC signature verification through native [precompiled programs](https://solana.com/docs/core/programs/precompiles): Ed25519Program, Secp256k1Program (ECDSA secp256k1 with pubkey recovery), and Secp256r1Program (NIST P-256). All three are EC-based; no PQC syscall is on mainnet, testnet, or feature-flagged.
 
-Two validator clients are implementing a **Falcon** verification syscall. [firedancer-io/firedancer#9446](https://github.com/firedancer-io/firedancer/pull/9446) is a native C implementation from a Jump Trading engineer, iterated continuously between April 22 and April 29, 2026. [anza-xyz/solana-sdk#537](https://github.com/anza-xyz/solana-sdk/pull/537) implements the same primitive through liboqs from an external contributor; it has been stale since February 1, 2026 and is in `mergeable_state: dirty`. The matching [SIMD-0461](https://github.com/solana-foundation/solana-improvement-documents/pull/461) is in `Idea` status with `simd-bot` indicating "Cannot merge yet — Missing approval from Anza." A [March 18, 2026 maintainer comment](https://github.com/solana-foundation/solana-improvement-documents/pull/461) noted the proposal had not been raised in Anza's prioritization conversations.
+Two validator clients are implementing a **Falcon** verification syscall. [firedancer-io/firedancer#9446](https://github.com/firedancer-io/firedancer/pull/9446) is a native C implementation from a Jump Trading engineer, iterated continuously between April 22 and April 29, 2026. [anza-xyz/solana-sdk#537](https://github.com/anza-xyz/solana-sdk/pull/537) implements the same primitive through liboqs from an external contributor; it has been stale since February 1, 2026 and is in `mergeable_state: dirty`. The matching [SIMD-0461](https://github.com/solana-foundation/solana-improvement-documents/pull/461) is in `Idea` status with `simd-bot` indicating "Cannot merge yet — Missing approval from Anza." A March 18, 2026 maintainer comment noted the proposal had not been raised in Anza's prioritization conversations. A Firedancer/Jump engineer commented on April 21, 2026 proposing to ship in Solana v4.1, but no Anza response was recorded.
 
 **Current state.** No PQC syscall on mainnet. Native **Falcon** implementation actively iterated in Firedancer.
 
@@ -116,14 +116,14 @@ Active PQ-relevant work:
 Foundation activity:
 
 - 2025-12 — [Project Eleven partnership](https://www.prnewswire.com/news-releases/project-eleven-to-advance-post-quantum-security-for-the-solana-network-302642847.html) announced; research prototype testnet with **ML-DSA / Dilithium**.
-- 2026-04-27 — [Solana Foundation: Solana's Quantum Readiness](https://solana.com/news/quantum-readiness) — first Foundation-level statement naming Falcon. Wallet-scoped.
-- 2026-04-27 → 2026-04-28 — [Cointelegraph](https://cointelegraph.com/news/solana-introduces-post-quantum-solution-falcon-on-two-validator-clients) and other outlets cover the Foundation post.
+- 2026-04-27 — [Solana Foundation: Solana's Quantum Readiness](https://solana.com/news/quantum-readiness) — first Foundation-level statement naming Falcon. Wallet-scoped. Both Anza and Firedancer/Jump independently named Falcon/FN-DSA as their candidate.
+- 2026-04-27 → 2026-04-28 — [Cointelegraph](https://cointelegraph.com/news/solana-introduces-post-quantum-solution-falcon-on-two-validator-clients) and other outlets cover the Foundation post and dual-client algorithm convergence.
 
 Searches across `firedancer-io`, `anza-xyz`, and `Syndica` for `post-quantum`, `pqc`, `liboqs`, `mlkem`, and similar terms found no P2P PQ work as of the source's last scan.
 
 ---
 
-_Generated on 5 May 2026 based on information as of 4 May 2026._
+_Generated on 06 May 2026 based on information as of 06 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

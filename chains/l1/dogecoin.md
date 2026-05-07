@@ -4,9 +4,10 @@
 |---|---|
 | **Name** | Dogecoin |
 | **Ticker** | DOGE |
-| **Website** | <https://dogecoin.com> |
-| **GitHub** | <https://github.com/dogecoin> |
+| **Website** | https://dogecoin.com |
+| **GitHub** | https://github.com/dogecoin |
 | **On-chain environment** | Bitcoin Script (limited) |
+| **Mainnet genesis** | 2013-12-06 |
 
 ## Summary
 
@@ -19,13 +20,15 @@
 | Other Features | ➖ | ➖ | Not Applicable |
 | EC Sunset | F | ❌ | Not Discussed |
 
-Dogecoin's PQC posture is largely inherited from Bitcoin pre-2021. The chain uses ECDSA secp256k1 for all transaction signatures with no Schnorr / Taproot upgrade adopted, and the codebase has remained on Bitcoin-derived plaintext v1 P2P transport without [BIP-324](https://bips.dev/324/) v2 encryption. The one PQC-relevant proposal in the repository, [DIP-2241 ("Update Dogecoin to be Post Quantum Resistant")](https://github.com/dogecoin/dogecoin/issues/2241), is in informal discussion with no champion or accepted timeline. The closest concrete on-chain work is the [OP_CHECKZKP proposal](https://www.coindesk.com/tech/2025/07/23/dogecoin-could-soon-verify-zk-proofs-natively-thanks-to-dogeos-push) from the DogeOS / MyDoge team to verify Groth16 zero-knowledge proofs on-chain — Groth16 is itself EC-pairing-based and not quantum-safe, so the proposal is a smart-contract enabler rather than a PQ migration step.
+Dogecoin's PQC posture is largely inherited from Bitcoin pre-2021. The chain uses ECDSA secp256k1 for all transaction signatures with no Schnorr / Taproot upgrade adopted, and the codebase has remained on Bitcoin-derived plaintext v1 P2P transport without [BIP-324](https://bips.dev/324/) v2 encryption. The one PQC-relevant proposal in the repository, [DIP-2241 ("Update Dogecoin to be Post Quantum Resistant")](https://github.com/dogecoin/dogecoin/issues/2241), is in informal discussion with no champion or accepted timeline.
+
+The closest concrete on-chain work is the [OP_CHECKZKP proposal](https://www.coindesk.com/tech/2025/07/23/dogecoin-could-soon-verify-zk-proofs-natively-thanks-to-dogeos-push) from the DogeOS / MyDoge team to verify Groth16 zero-knowledge proofs on-chain — Groth16 is itself EC-pairing-based and not quantum-safe, so the proposal is a smart-contract enabler rather than a PQ migration step. The first commit-level PQC artifact in the Dogecoin ecosystem appeared in April 2026: [dogecoinfoundation/libdogecoin#294](https://github.com/dogecoinfoundation/libdogecoin/pull/294) adds a generic PQC carrier to the Dogecoin Foundation's SDK with backends for **Falcon**, **ML-DSA-44** (Dilithium2), and Raccoon-G, along with a BIP-style specification document. This sits in the Foundation SDK, not the core node; it does not change the protocol stoplight.
 
 Consensus uses Scrypt PoW, hash-based and unaffected by Shor's algorithm. Dogecoin has been merge-mined with Litecoin via AuxPoW since August 2014; the security model is hash-based throughout the consensus layer.
 
 ## Proposed and Implemented PQC Algorithms
 
-Dogecoin does not currently propose or implement any post-quantum cryptographic algorithms. [DIP-2241](https://github.com/dogecoin/dogecoin/issues/2241) gestures at the NIST PQC family (**ML-KEM**, **ML-DSA**, **XMSS**) as candidates but the proposal is informal and no specific algorithm has been selected or implemented.
+Dogecoin does not currently propose or implement any post-quantum cryptographic algorithms at the protocol level. [DIP-2241](https://github.com/dogecoin/dogecoin/issues/2241) gestures at the NIST PQC family (**ML-KEM**, **ML-DSA**, **XMSS**) as candidates but the proposal is informal and no specific algorithm has been selected or implemented. The [libdogecoin#294](https://github.com/dogecoinfoundation/libdogecoin/pull/294) SDK PR names **Falcon**, **ML-DSA-44**, and Raccoon-G as backends, but this is SDK-layer infrastructure, not a protocol change.
 
 ## 1. Transaction Signatures
 
@@ -92,6 +95,10 @@ PQ-relevant items currently in discussion:
 - [DIP-2241](https://github.com/dogecoin/dogecoin/issues/2241) — "Update Dogecoin to be Post Quantum Resistant." Status: discussion / draft. No accepted timeline, no assigned champion, no specific algorithm selection.
 - [GitHub Discussion #3684](https://github.com/dogecoin/dogecoin/discussions/3684) — community thread on Taproot / Schnorr support, sometimes framed as a prerequisite for PQ migration. Informal discussion, no proposal advanced.
 
+PQ-adjacent SDK work:
+
+- [dogecoinfoundation/libdogecoin#294](https://github.com/dogecoinfoundation/libdogecoin/pull/294) — PQC carrier + **Falcon** + **ML-DSA-44** (Dilithium2) + Raccoon-G + BIP-style spec (open, 2026-04-10). SDK-layer only; does not change the core protocol.
+
 PQ-adjacent on-chain work:
 
 - OP_CHECKZKP (DogeOS / MyDoge) — Groth16 ZK-proof verification opcode. Under community review. Not a PQ scheme.
@@ -100,7 +107,7 @@ No hard fork has been scheduled or signaled relating to PQ migration on Dogecoin
 
 ---
 
-_Generated on 5 May 2026 based on information as of 30 Apr 2026._
+_Generated on 06 May 2026 based on information as of 06 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

@@ -4,8 +4,8 @@
 |---|---|
 | **Name** | TRON |
 | **Ticker** | TRX |
-| **Website** | <https://tron.network> |
-| **GitHub** | <https://github.com/tronprotocol> |
+| **Website** | https://tron.network |
+| **GitHub** | https://github.com/tronprotocol |
 | **On-chain environment** | TVM (TRON Virtual Machine, EVM-compatible) |
 
 ## Summary
@@ -91,7 +91,7 @@ No fork or amendment vote has been scheduled relating to PQ migration on TRON.
 
 ---
 
-_Generated on 5 May 2026 based on information as of 30 Apr 2026._
+_Generated on 06 May 2026 based on information as of 06 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
