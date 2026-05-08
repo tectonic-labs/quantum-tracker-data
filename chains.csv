@@ -24,15 +24,15 @@ Polkadot,DOT,D,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-noth
 Pi Network,PI,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-05,,
 Aster,ASTER,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 NEAR Protocol,NEAR,B,L1,b-dev.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,2026-05-07,,chains/l1/near-protocol.md
-Internet Computer,ICP,C,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,
+Internet Computer,ICP,C,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/internet-computer.md
 Ethereum Classic,ETC,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,d-discussed.svg,n-not-applicable.svg,f-nothing.svg,2026-04-30,,
 Algorand,ALGO,A,L1,b-dev.svg,f-nothing.svg,f-nothing.svg,b-dev.svg,a-done.svg,f-nothing.svg,2026-04-30,,chains/l1/algorand.md
-Cosmos Hub,ATOM,C,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,
+Cosmos Hub,ATOM,C,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/cosmos-hub.md
 Kaspa,KAS,D,L1,d-discussed.svg,a-done.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-07,,chains/l1/kaspa.md
 Aptos,APT,B,L1,b-dev.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-05-07,,chains/l1/aptos.md
 Filecoin,FIL,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,
 Stable,STABLE,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
-Flare,FLR,C,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,
+Flare,FLR,C,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/flare.md
 VeChain,VET,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-04-30,,
 Terra Luna Classic,LUNC,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 Dash,DASH,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,2026-04-30,,
@@ -46,7 +46,7 @@ Sei,SEI,D,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-appli
 Injective,INJ,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 Monad,MON,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-04-30,,
 Gnosis,GNO,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-04-30,,
-Decred,DCR,C,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,a-done.svg,f-nothing.svg,2026-04-30,,
+Decred,DCR,C,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,a-done.svg,f-nothing.svg,2026-04-30,,chains/l1/decred.md
 Conflux,CFX,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-05-05,,
 Celestia,TIA,D,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,a-done.svg,f-nothing.svg,2026-05-05,,
 Bitcoin SV,BSV,F,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-04-30,,
