@@ -6,10 +6,12 @@ CSV data files consumed by the Quantum Tracker website at runtime.
 
 CSV files are organized by segment (one CSV per segment):
 
-- `chains.csv` -- top 200 blockchains (L1 + L2) -- *populated*
+- `chains.csv` + `chains_commentary.csv` -- top 200 blockchains (L1 + L2) -- *populated*
 - `coins.csv` -- top 200 coins and tokens -- *pending*
-- `wallets.csv` -- wallets -- *populated*
+- `wallets.csv` + `wallets_commentary.csv` -- wallets -- *populated*
 - `nfts.csv` -- top 100 NFT projects -- *pending*
+
+Each segment that has commentary annotations splits status and commentary across two files. See the schema sections below for the column layouts.
 
 Each segment has a matching subdirectory carrying long-form public reports and per-segment notes:
 
@@ -31,7 +33,7 @@ Status cells (the six `*_exposure` and `ec_sunset` columns in `chains.csv`) carr
 | `f-nothing.svg` | Exposed — quantum-vulnerable, no migration shipped. For EC Sunset: no plans to remove EC. |
 | `n-not-applicable.svg` | Not Applicable — category does not apply to this entity. |
 
-Note: in `chains_commentary.csv`, the status columns are structural placeholders and remain empty; the authoritative status value lives in `chains.csv`.
+Note: in `chains_commentary.csv` and `wallets_commentary.csv`, the status columns are structural placeholders and remain empty; the authoritative status value lives in `chains.csv` and `wallets.csv` respectively.
 
 ## chains.csv schema
 
@@ -86,7 +88,9 @@ Tier assignments are sourced upstream and mirrored into this repo.
 
 ## wallets.csv schema
 
-Mirrors the chains.csv pattern but with wallet-specific columns. Each wallet (one row per vendor — multi-SKU vendors consolidated to a single row) scores two meta-columns and four detail columns plus identifying metadata.
+Mirrors the `chains.csv` + `chains_commentary.csv` split with wallet-specific columns. `wallets.csv` carries the status values; `wallets_commentary.csv` carries the commentary annotations with status cells as empty placeholders. The full schema (status + commentary) is documented below; each file populates only its half.
+
+Each wallet gets one row per vendor — multi-SKU vendors consolidated to a single row — scoring two meta-columns and four detail columns plus identifying metadata.
 
 | # | Column | Type | Notes |
 |---|--------|------|-------|
