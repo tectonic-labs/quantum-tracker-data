@@ -90,7 +90,7 @@ Tier assignments are sourced upstream and mirrored into this repo.
 
 Mirrors the `chains.csv` + `chains_commentary.csv` split with wallet-specific columns. `wallets.csv` carries the status values; `wallets_commentary.csv` carries the commentary annotations with status cells as empty placeholders. The full schema (status + commentary) is documented below; each file populates only its half.
 
-Each wallet gets one row per vendor — multi-SKU vendors consolidated to a single row — scoring two meta-columns and four detail columns plus identifying metadata.
+Each wallet gets one row per vendor — multi-SKU vendors consolidated to a single row — scoring two meta-columns and three "is it live" columns plus identifying metadata.
 
 | # | Column | Type | Notes |
 |---|--------|------|-------|
@@ -98,37 +98,43 @@ Each wallet gets one row per vendor — multi-SKU vendors consolidated to a sing
 | 2 | `vendor` | string | Parent organization or company. |
 | 3 | `category` | enum | Constrained: `Software`, `Hardware`, `MPC`, `Smart Contract`, `Identity`. |
 | 4 | `category_commentary` | string | Optional caveat about classification, SKU coverage, or product status. |
-| 5 | `pqc_stance` | status | Wallet vendor's public PQC posture (meta-column). See wallet status values below. |
+| 5 | `pqc_stance` | status (meta) | Wallet vendor's public PQC posture. Four-state. |
 | 6 | `pqc_stance_commentary` | string | |
-| 7 | `crypto_agility` | status | Whether the wallet's code accepts new sig schemes without a vendor PR (meta-column). |
+| 7 | `crypto_agility` | status (meta) | Whether the wallet's code accepts new sig schemes without a vendor PR. Four-state. |
 | 8 | `crypto_agility_commentary` | string | |
-| 9 | `protocol_pqc` | status | Does the wallet sign with the chain's protocol-level PQC scheme? |
+| 9 | `protocol_pqc` | status (live) | Does the wallet actually sign with the chain's protocol-level PQC scheme? Three-state. |
 | 10 | `protocol_pqc_commentary` | string | |
-| 11 | `contract_pqc` | status | Does the wallet engage with a deployed on-chain PQC primitive? |
-| 12 | `contract_pqc_commentary` | string | |
-| 13 | `contract_pqc_support` | status | Architectural plumbing for a Contract PQC verifier on the chains the wallet supports. |
-| 14 | `contract_pqc_support_commentary` | string | |
-| 15 | `offchain_pqc` | status | Off-chain PQC mechanisms (TLS, MPC handshake, passkey ceremony). Editorial: absence is a passing grade. |
-| 16 | `offchain_pqc_commentary` | string | |
-| 17 | `date_last_updated` | date | ISO `YYYY-MM-DD`. |
-| 18 | `audit` | string | URL or empty. |
-| 19 | `report` | string | Relative URL to long-form public report (e.g. `wallets/metamask.md`). Empty if no public report is available. |
+| 11 | `contract_pqc_support` | status (live) | Does the wallet actually generate live PQC signatures verified by smart-contract bytecode on-chain — or is committed integration work in flight? Four-state. |
+| 12 | `contract_pqc_support_commentary` | string | |
+| 13 | `offchain_pqc` | status (live) | Does the wallet ship PQC anywhere in the wallet flow that doesn't bind on-chain (TLS, MPC handshake, passkey ceremony, hybrid TLS, PQC backup)? Four-state. |
+| 14 | `offchain_pqc_commentary` | string | |
+| 15 | `date_last_updated` | date | ISO `YYYY-MM-DD`. |
+| 16 | `audit` | string | URL or empty. |
+| 17 | `report` | string | Relative URL to long-form public report (e.g. `wallets/metamask.md`). Empty if no public report is available. |
 
 ### Wallet status values
 
-Wallets use a different rating vocabulary than chains. Wallet ratings reflect *engagement breadth across applicable chains*, not migration state:
+Wallets use a different rating vocabulary than chains. All five status columns are four-state (`yes` / `yes-but` / `no` / `not-applicable`); the `yes-but` semantics differ between meta and live columns.
+
+#### Meta columns (`pqc_stance`, `crypto_agility`) — four-state
 
 | Value | Meaning |
 |-------|---------|
-| `yes.svg` | Yes — wallet engages at this tier across all applicable chains for the column. |
-| `yes-but.svg` | Yes-but — wallet engages partially; some applicable chains covered, others not. |
-| `no.svg` | No — applicable chains exist but the wallet engages with none. |
-| `not-applicable.svg` | N/A — no applicable chains for this column (and for `offchain_pqc`: also when the wallet ships no off-chain PQC, since absence is the editorial passing grade). |
+| `yes.svg` | Full credit. Stance: dated commitment / shipping PQC code. Agility: ships a pluggable-signer mechanism today, demonstrated by hosting at least one non-default classical sig scheme. |
+| `yes-but.svg` | Partial credit. Stance: publicly discussed without commitment (or marketed claims with substance gap). Agility: vendor commitment / code in-flight / architecture exists but unproven / chain-side-only mechanism. |
+| `no.svg` | Stance: explicit deprioritization statement. Agility: operates on chains that could host such mechanisms but ships plain EOA / fixed signer. |
+| `not-applicable.svg` | Stance: silent on PQC. Agility: only operates on chains where the question doesn't apply (UTXO-only Bitcoin / Lightning / Nostr wallets where the chain itself provides no mechanism). |
 
-The meta-columns have slightly different semantics:
+#### Live columns (`protocol_pqc`, `contract_pqc_support`, `offchain_pqc`) — four-state
 
-- `pqc_stance`: `yes` = public PQC roadmap, dated commitment, or shipping PQC code; `yes-but` = publicly discussed but no commitment (or marketed claims with substance gap); `no` = explicit deprioritization statement; `not-applicable` = silent.
-- `crypto_agility`: `yes` = ships a pluggable-signer / swappable-validator mechanism today; `yes-but` = vendor commitment / in-flight / partial coverage; `no` = operates on chains that could host such mechanisms but ships plain EOA / fixed signer / no plugin path; `not-applicable` = only on chains where the question doesn't apply (e.g., a UTXO-only Bitcoin wallet).
+| Value | Meaning |
+|-------|---------|
+| `yes.svg` | Wallet actually does it on at least one supported chain today, in production. |
+| `yes-but.svg` | In development but not deployed: committed integration work in flight (announced testnet, public branch, dated implementation roadmap) targeting a chain where the necessary PQC infrastructure is live or on the watch list. |
+| `no.svg` | A supported chain has the necessary PQC infrastructure live AND the wallet doesn't engage AND has no in-flight integration work. |
+| `not-applicable.svg` | No supported chain has the necessary PQC infrastructure live, and no in-flight wallet-side work targets a watch-list chain. |
+
+For live columns, `yes-but` covers integration work that is committed but pre-deployment; it does not cover vendor posture (which lives in `pqc_stance`) or architectural readiness without targeted PQC integration work (which lives in `crypto_agility`).
 
 ### Wallet row ordering
 
