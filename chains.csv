@@ -99,3 +99,14 @@ Quip Network,QUIP,,L1 (PQC-native),b-dev.svg,d-discussed.svg,d-discussed.svg,d-d
 Symbol,XYM,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-05,,
 Tempo,TEMPO,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-04,,
 XX Network,XX,,L1 (PQC-native),f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/xx-network.md
+MemeCore,M,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/memecore.md
+Stacks,STX,F,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/stacks.md
+Helium,HNT,F,L1,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/helium.md
+eCash,XEC,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/ecash.md
+Centrifuge,CFG,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/centrifuge.md
+Arweave,AR,F,L1,f-nothing.svg,a-done.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/arweave.md
+MultiversX,EGLD,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/multiversx.md
+dYdX Chain,DYDX,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/dydx-chain.md
+Horizen,ZEN,F,L1,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/horizen.md
+WEMIX3.0,WEMIX,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/wemix.md
+Beam (Merit Circle),BEAM,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/beam-merit-circle.md
