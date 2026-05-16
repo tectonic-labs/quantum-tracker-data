@@ -2,10 +2,10 @@ wallet,vendor,category,pqc_stance,crypto_agility,protocol_pqc,contract_pqc_suppo
 MetaMask,Consensys,Software,not-applicable.svg,yes.svg,no.svg,yes-but.svg,no.svg,2026-05-11,,
 Phantom,Phantom,Software,not-applicable.svg,no.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
 OKX Web3,OKX,Software,not-applicable.svg,no.svg,not-applicable.svg,yes-but.svg,no.svg,2026-05-11,,
-Trust Wallet,Binance subsidiary,Software,yes.svg,yes.svg,not-applicable.svg,yes-but.svg,no.svg,2026-05-11,,
+Trust Wallet,Binance subsidiary,Software,yes.svg,yes.svg,not-applicable.svg,yes-but.svg,no.svg,2026-05-11,,wallets/trust-wallet.md
 Keplr,Chainapsis,Software,not-applicable.svg,no.svg,not-applicable.svg,yes-but.svg,no.svg,2026-05-11,,
 Ronin Wallet,Sky Mavis,Software,not-applicable.svg,no.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
-Coinbase Wallet,Coinbase,Smart Contract,yes.svg,yes.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
+Coinbase Wallet,Coinbase,Smart Contract,yes.svg,yes.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,wallets/coinbase-wallet.md
 Rabby,DeBank,Software,not-applicable.svg,no.svg,not-applicable.svg,yes-but.svg,no.svg,2026-05-11,,
 Solflare,Solflare Labs,Software,not-applicable.svg,no.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
 UniSat,UniSat Labs,Software,not-applicable.svg,not-applicable.svg,not-applicable.svg,not-applicable.svg,no.svg,2026-05-11,,
@@ -20,7 +20,7 @@ Martian,Pontem Network,Software,not-applicable.svg,no.svg,not-applicable.svg,not
 SubWallet,Koni Studio,Software,not-applicable.svg,no.svg,not-applicable.svg,yes-but.svg,no.svg,2026-05-11,,
 Bybit Web3,Bybit,Software,not-applicable.svg,no.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
 Magic Eden Wallet,Magic Eden / Exodus Movement,Software,not-applicable.svg,no.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
-Exodus,Exodus Movement (NYSE: EXOD),Software,yes-but.svg,no.svg,no.svg,no.svg,no.svg,2026-05-11,,
+Exodus,Exodus Movement (NYSE: EXOD),Software,yes-but.svg,no.svg,no.svg,no.svg,no.svg,2026-05-11,,wallets/exodus.md
 Leo Wallet,Provable (formerly Demox Labs),Software,not-applicable.svg,no.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
 SafePal,SafePal,Hardware,not-applicable.svg,no.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
 HashPack,HashPack,Software,not-applicable.svg,no.svg,not-applicable.svg,not-applicable.svg,no.svg,2026-05-11,,
@@ -40,7 +40,7 @@ Core,Ava Labs,Software,not-applicable.svg,no.svg,not-applicable.svg,no.svg,no.sv
 Math Wallet,Math Global Foundation,Software,not-applicable.svg,no.svg,no.svg,no.svg,no.svg,2026-05-11,,
 Plug,Psychedelic,Software,not-applicable.svg,no.svg,not-applicable.svg,not-applicable.svg,no.svg,2026-05-11,,
 Alby,Alby,Software,not-applicable.svg,not-applicable.svg,not-applicable.svg,not-applicable.svg,no.svg,2026-05-11,,
-OneKey,OneKey,Hardware,yes.svg,yes-but.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
+OneKey,OneKey,Hardware,yes.svg,yes-but.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,wallets/onekey.md
 Wombat,Spielworks (Berlin),Software,not-applicable.svg,no.svg,not-applicable.svg,not-applicable.svg,no.svg,2026-05-11,,
 Meteor,Meteor Wallet,Software,not-applicable.svg,no.svg,not-applicable.svg,yes-but.svg,no.svg,2026-05-11,,
 Wizz,AstroX,Software,not-applicable.svg,not-applicable.svg,not-applicable.svg,not-applicable.svg,no.svg,2026-05-11,,
@@ -76,4 +76,4 @@ Begin,FluidTokens x IAMX,Software,not-applicable.svg,no.svg,not-applicable.svg,n
 MPCVault,MPCVault,MPC,not-applicable.svg,no.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
 Cashtab,Bitcoin ABC,Software,not-applicable.svg,not-applicable.svg,not-applicable.svg,not-applicable.svg,no.svg,2026-05-11,,
 Freewallet Web3,FRWLT LLC,Software,not-applicable.svg,no.svg,not-applicable.svg,no.svg,no.svg,2026-05-11,,
-DIDWallet,ArcBlock,Identity,yes-but.svg,no.svg,not-applicable.svg,not-applicable.svg,no.svg,2026-05-11,,
+DIDWallet,ArcBlock,Identity,yes-but.svg,no.svg,not-applicable.svg,not-applicable.svg,no.svg,2026-05-11,,wallets/didwallet.md
