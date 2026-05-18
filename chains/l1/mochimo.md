@@ -4,9 +4,10 @@
 |---|---|
 | **Name** | Mochimo |
 | **Ticker** | MCM |
-| **Website** | https://mochimo.org |
+| **Website** | https://mochimo.org/ |
 | **GitHub** | https://github.com/mochimodev/mochimo |
-| **On-chain environment** | None (pure value transfer) |
+| **Twitter / X** | https://x.com/mochimocrypto |
+| **On-chain environment** | None (no smart contracts) |
 | **Mainnet genesis** | 2018-06-25 |
 
 ## Summary
@@ -20,93 +21,95 @@
 | Other Features | A | ✅ | Shipped |
 | EC Sunset | A | ✅ | Shipped |
 
-Mochimo launched its mainnet on June 25, 2018, claiming to be the first operational post-quantum Layer 1 blockchain. The protocol uses WOTS+ (Winternitz One-Time Signature Plus), a hash-based one-time signature scheme per RFC 8391 / NIST FIPS 205, whose security rests on hash function properties rather than elliptic curve algebra vulnerable to Shor's algorithm. Mochimo has never used EC cryptography at any layer. The chain is a pure value-transfer network with no smart contract support, written entirely in C. Key technical features include Peach, a custom PoW algorithm designed to resist FPGA/ASIC centralization, and ChainCrunch, a compression system that periodically consolidates old blockchain data into space-efficient "neogenesis blocks."
+[Mochimo](https://mochimo.org/) launched its genesis block on June 25, 2018, as a post-quantum-native Layer 1 blockchain. It uses **WOTS+** (Winternitz One-Time Signature Plus), a hash-based one-time signature scheme per [IETF RFC 8391](https://mochimo.org/assets/files/mochimo_wp_EN.pdf), whose security relies on hash function properties rather than algebraic structures vulnerable to quantum attack. The entire protocol was designed without elliptic-curve cryptography — there is no EC to sunset.
+
+Mochimo's consensus uses Peach, a custom hash-based PoW algorithm, and the chain enforces one-time addresses (combined with WOTS+ one-time signatures). The community recently voted to migrate from PoW to PoS in the v4.0 upgrade, with the vote concluding at 71.5% in favor by stake weight. The validator signing scheme for the new PoS system has not yet been specified.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **WOTS+** (RFC 8391 / FIPS 205) | N/A (PQC-native from genesis) | Tx Signatures | Shipped (mainnet genesis, June 2018) |
-| **Peach PoW** (hash-based) | N/A (PQC-native from genesis) | Consensus | Shipped (mainnet genesis, June 2018) |
+| **WOTS+** (RFC 8391) | N/A (PQC from genesis) | Tx Signatures | Implemented |
 
 ## 1. Transaction Signatures
 
 **Grade: A ✅**
 
-Mochimo transactions are signed with WOTS+ (Winternitz One-Time Signature Plus), a hash-based one-time signature scheme conforming to IETF RFC 8391 and NIST FIPS 205. No elliptic curve cryptography is used. Addresses are one-time by design: each public key is used exactly once and then discarded. The UTXO model enforces mandatory change-address generation for every transaction, similar to early Bitcoin but mandatory, preventing signature reuse even in a hypothetical post-quantum scenario.
+Mochimo uses **WOTS+** (Winternitz One-Time Signature Plus) for all transaction signing, a hash-based scheme per IETF RFC 8391 and NIST FIPS 205. One-time addresses are enforced: each public key is used exactly once then discarded, eliminating signature-reuse attack vectors.
 
-**Current state.** WOTS+ has been the sole transaction signature scheme since mainnet genesis on June 25, 2018. No EC-based signatures have ever been available.
+**Current state.** **WOTS+** signatures from mainnet genesis (June 25, 2018). No ECC at any point in the chain's history.
 
-**Planned future work.** None required. WOTS+ is mature and embedded in the protocol design.
+**Planned future work.** None required; WOTS+ is mature and embedded in protocol design.
 
 ## 2. Consensus
 
 **Grade: A ✅**
 
-Mochimo uses Proof-of-Work via the Peach algorithm, a custom hash-based mining algorithm designed to be CPU/GPU-friendly while resisting FPGA/ASIC centralization. Block creation and validation are entirely hash-based with no signature verification required. There are no validators in the traditional sense; block selection follows the longest-chain rule with probabilistic finality.
+Mochimo uses [Peach](https://mochimo.org/assets/files/mochimo_wp_EN.pdf), a custom Proof-of-Work algorithm designed to resist FPGA/ASIC centralization while remaining CPU/GPU-friendly. Peach is entirely hash-based with no elliptic-curve component. No signature verification is required in block creation — the PoW race determines block selection.
 
-Grover's algorithm provides at most a quadratic speedup against hash functions, reducing effective security but not breaking it. Difficulty adjustment would absorb any marginal quantum mining advantage.
+The community recently voted to migrate consensus from PoW to PoS in the v4.0 upgrade. The final tally was 71.5% in favor of PoS migration by stake weight (8.73M MCM, 55 voters) versus 28.5% for keeping PoW (3.48M MCM, 73 voters), with 129 votes cast (128 valid). The validator identity signing scheme for the new PoS system has not yet been specified — whether it will retain **WOTS+**, adopt a stateful hash-based scheme, or move to a different PQC signature algorithm remains an open design question.
 
-A v4.0 governance vote was underway in April-May 2026 to decide whether to move from PoW to PoS. The voting deadline was extended to May 7, 2026 by the Core Contributor Team. As of May 1, 2026, the tally stood at PoW 48.9% / PoS 51.1% (97 votes cast). If PoS is adopted, the validator identity signature scheme would need evaluation regarding PQC readiness.
+**Current state.** Peach PoW from mainnet genesis. Entirely hash-based, no EC.
 
-**Current state.** Mining and block validation are entirely hash-based. No EC cryptography is involved in the consensus mechanism.
-
-**Planned future work.** Outcome of the v4.0 PoW-vs-PoS vote may require evaluation of validator identity signatures under PoS.
+**Planned future work.** v4.0 PoS migration approved by community vote. Implementation proposal pending; validator signing scheme selection will determine whether the consensus layer maintains its current PQC posture.
 
 ## 3. P2P Networking
 
 **Grade: D ⚠️**
 
-Mochimo uses a standard P2P networking layer with seed-node-based peer discovery. Node identity is hash-based rather than EC-based. However, the transport encryption specifics — whether TLS cipher suites and key exchange protocols are post-quantum — have not been confirmed in public documentation.
+Mochimo's P2P networking does not use EC-based node identity — identifiers are hash-based. However, the transport encryption layer's post-quantum specifics are unconfirmed in public documentation. TLS cipher suites and key exchange protocols used in node-to-node communication have not been publicly audited for PQC readiness.
 
-**Current state.** No EC in node identity. Transport encryption is implemented, but PQC readiness of the key exchange and cipher suites is unconfirmed.
+**Current state.** Node identity is hash-based (no EC). Transport encryption PQC status unconfirmed.
 
-**Planned future work.** Transport encryption audit and potential upgrade to post-quantum key exchange protocols are recommended.
+**Planned future work.** Transport encryption PQC audit and potential upgrade to post-quantum key exchange recommended.
 
 ## 4. On-Chain Logic
 
-Mochimo is a pure value-transfer chain with no smart contract support, no virtual machine, and no on-chain programmability. There are no EC precompiles or builtins to sunset. Signature verification occurs at the consensus layer only.
+Mochimo is a pure value-transfer chain with no smart contracts, no virtual machine, and no on-chain programmability. This category does not apply.
 
 ## 5. Other Features
 
 **Grade: A ✅**
 
-**ChainCrunch** is Mochimo's blockchain compression system that periodically consolidates the entire chain into space-efficient "neogenesis blocks." The current mainnet chain size is approximately 60 MB. Compression uses hash-based methods with no EC involvement.
+### ChainCrunch Compression
 
-**One-time address enforcement** ensures that every transaction generates a change address. Combined with WOTS+ one-time signatures, this is an inherent PQC feature that prevents signature reuse attacks.
+ChainCrunch periodically compresses the entire blockchain into space-efficient "neogenesis blocks," keeping mainnet size at approximately 60 MB. This uses hash-based compression, not ECC.
 
-The entire codebase is written in C with a small footprint suitable for embedded and edge nodes.
+**Current state.** Active from mainnet genesis. Entirely hash-based.
+
+**Planned future work.** ChainCrunch optimization and enhancement.
+
+### One-Time Address Enforcement
+
+Every transaction generates a change address. Combined with **WOTS+** one-time signatures, this prevents signature-reuse attacks even in a hypothetical post-quantum scenario.
+
+**Current state.** Enforced from genesis. Core PQC design feature.
+
+**Planned future work.** None required.
 
 ## 6. EC Sunset
 
 **Grade: A ✅**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Mochimo's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ✅, P2P ⚠️, On-Chain ➖, Other ✅.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ✅, P2P ⚠️, On-Chain ➖, Other ✅.
 
-Mochimo never used elliptic curve cryptography. The protocol was designed PQC-native from genesis on June 25, 2018, using WOTS+ for transaction signatures and Peach (hash-based PoW) for consensus. There is no EC to sunset.
+Mochimo never used elliptic-curve cryptography. The chain was designed PQC-native from genesis (June 25, 2018) with **WOTS+** hash-based signatures and Peach hash-based PoW. There is no EC to retire.
 
-**Current state.** No EC present at any layer. PQC-native from genesis.
+**Current state.** No EC anywhere in the protocol.
 
-**Planned future work.** None required.
+**Planned future work.** Not applicable.
 
 ## Governance
 
-Mochimo is governed by the Mochimo Foundation with open-source community participation. Development proposals are discussed through community channels and GitHub. Protocol stability is prioritized, with no major hard forks in the chain's history. An on-chain MCM-wallet governance vote mechanism was used for the v4.0 PoW-vs-PoS decision in 2026.
+Mochimo governance is foundation-led with open-source community participation. Protocol changes are proposed by the core development team and discussed via community channels.
 
-PQ-relevant governance activity:
+Governance activity:
 
-- **v4.0 Consensus Vote** (April-May 2026): On-chain vote to decide whether v4.0 moves from PoW to PoS. Voting deadline extended to May 7, 2026. If PoS is adopted, the PQC properties of the new validator scheme will need evaluation.
-
-Sources:
-
-- https://mochimo.org/ — Official website
-- https://mochimo.org/assets/files/mochimo_wp_EN.pdf — White paper
-- https://github.com/mochimodev/mochimo — GitHub repository
-- https://x.com/mochimocrypto — Official X/Twitter account
+- **v4.0 Consensus Vote** — On-chain MCM-wallet governance vote to decide whether v4.0 migrates from PoW (Peach) to PoS. Vote concluded: PoS approved with 71.5% by stake weight. Implementation proposal pending.
 
 ---
 
-_Generated on 07 May 2026 based on information as of 07 May 2026._
+_Generated on 11 May 2026 based on information as of 11 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

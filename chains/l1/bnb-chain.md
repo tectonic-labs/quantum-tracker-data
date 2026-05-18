@@ -4,8 +4,9 @@
 |---|---|
 | **Name** | BNB Chain |
 | **Ticker** | BNB |
-| **Website** | <https://www.bnbchain.org> |
+| **Website** | <https://www.bnbchain.org/en> |
 | **GitHub** | <https://github.com/bnb-chain> |
+| **Twitter / X** | <https://x.com/BNBCHAIN> |
 | **On-chain environment** | EVM (Geth fork) |
 
 ## Summary
@@ -19,108 +20,96 @@
 | Other Features | F | ❌ | Not Discussed |
 | EC Sunset | F | ❌ | Not Discussed |
 
-BNB Chain has a single, large draft PR pulling its PQC story together across transactions, consensus, and on-chain verification. [bnb-chain/bsc#3660](https://github.com/bnb-chain/bsc/pull/3660), opened 2026-04-28 by BSC core developer `fynnss`, is a 4,805+/50- diff across 58 files implementing **ML-DSA-44** (FIPS 204) end-to-end: a new `PQTxType=0x05` user-transaction envelope, a `PQVoteAttestation` that replaces BLS fast-finality vote aggregation with a **STARK** recursive proof, a PQ Registry precompile at address `0x70`, a `bsc4` P2P sub-protocol carrying PQ vote messages, and an opt-in operator flag for validators. The PR has not been merged and the change is not on testnet.
-
-The earlier proposal in this space, [BEP-575](https://github.com/bnb-chain/BEPs/pull/575) (Falcon precompile, May 2025), is now stale because bsc#3660 chose **ML-DSA-44** over **Falcon** on the basis of ~1,500 verifications/sec and ~35% smaller key+sig at matched ~128-bit PQ security on BSC's 450 ms slot budget. The 2026 BNB Chain technical roadmap leads with performance, dual-client strategy, and native privacy; PQ is signalled via bsc#3660 but not yet on the published roadmap.
+BNB Smart Chain (BSC) has published a formal [BSC PQC Migration Report](https://bnbchain.org/en/blog/bsc-post-quantum-cryptography-migration-report) (May 2026) and has an open proof-of-concept pull request — [bnb-chain/bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) — covering transaction signatures, consensus vote aggregation, and on-chain key registry in a single integrated PoC. The chosen algorithm is **ML-DSA-44** (FIPS 204), selected over larger ML-DSA variants for its smaller signature size and faster verification within BSC's 450 ms slot budget. The report documents measured performance impact: native-transfer TPS drops approximately 40% (from 4,973 to 2,997), transaction size grows from 110 bytes to approximately 2.5 KB, and block size grows from approximately 110 KB to approximately 2 MB. The primary bottleneck identified is block byte size and cross-region propagation overhead — not signature verification. No code has merged to mainline yet, and no testnet deployment has been announced.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **ML-DSA-44** (Dilithium / FIPS 204) | ECDSA secp256k1, BLS12-381 (fast-finality votes) | Tx Signatures, Consensus, On-Chain | In Development (bsc#3660 draft PoC; not on testnet) |
-| **STARK** recursive aggregation | BLS12-381 vote aggregation | Consensus | In Development (bsc#3660 PQVoteAttestation) |
-| **Falcon / FN-DSA** | ECDSA secp256k1 | On-Chain | Discussed (BEP-575 proposal, now stale) |
+| **ML-DSA-44** (FIPS 204) | ECDSA secp256k1 | Tx Signatures | In Development |
+| **ML-DSA-44** (FIPS 204) | BLS12-381 vote aggregation | Consensus | In Development |
+| **STARK** recursive aggregation | BLS aggregate fast-finality votes | Consensus | In Development |
+| **ML-DSA-44** (FIPS 204) | ecrecover / secp256k1 on-chain | On-Chain | In Development |
 
-## 1. Transaction Signatures
-
-**Grade: B 🔧**
-
-User transactions on BNB Chain are signed with ECDSA secp256k1, inherited from Geth/Ethereum. Address derivation, multisig via smart contracts, and ERC-4337 account abstraction all match Ethereum.
-
-[bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) introduces `PQTxType = 0x05`, an EIP-2718-style transaction envelope carrying a 1,312-byte **ML-DSA-44** public key and a 2,420-byte **ML-DSA-44** signature. Sender addresses are derived as `keccak256(pubkey)[12:]`; the explicit public key is then resolved through the new on-chain PQ Registry precompile at `0x70` (see On-Chain Logic). The PR is in draft; nothing has been merged or activated on testnet.
-
-**Current state.** Mainnet transactions are exclusively ECDSA secp256k1.
-
-**Planned future work.** bsc#3660 is the active vehicle. There is no fork-activation timeline.
-
-## 2. Consensus
+## Transaction Signatures
 
 **Grade: B 🔧**
 
-BNB Chain uses [Parlia](https://github.com/bnb-chain/bsc/blob/master/consensus/parlia/parlia.go), a hybrid Delegated Proof of Stake plus Proof of Authority engine: 45 validators are elected daily by stake, 21 are selected per epoch (18 from the top "Cabinet," 3 from the next-ranked "Candidate" set), and they take turns producing blocks at 0.45-second slot times. Block signing uses ECDSA consensus keys; the fast-finality path aggregates votes with BLS.
+User transactions on BNB Chain are currently signed with ECDSA secp256k1, inherited from Geth/Ethereum. Address derivation follows the standard EVM pattern (Keccak-256 of the public key, last 20 bytes).
 
-bsc#3660 introduces `PQVoteAttestation`, a fast-finality construction that replaces the BLS aggregate signature with a **STARK** recursive proof attesting to a committee of **ML-DSA-44** individual votes. The change is gated behind an `IsPQFork` switch and exposed over a new `bsc4` P2P sub-protocol carrying `PQVotesMsg`, alongside the existing classical `bsc3` stream. Validators opt in by passing `--pqvotekey <path>`; the `PQVotePool` is always-on so peers store other validators' PQ votes even when a node has no local PQ key. The PR also covers snapshot back-fill / cache-warmup logic for restart correctness and dedicated `pq_*_test.go` end-to-end tests.
+**Current state.** All mainnet transactions require ECDSA secp256k1 signatures. Multi-signature is handled via smart contracts rather than at the protocol level.
 
-**Current state.** Mainnet consensus uses ECDSA block signing and BLS vote aggregation.
+**Planned future work.** [bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) (draft, opened 2026-04-28) introduces a new transaction type `PQTxType = 0x05` — an EIP-2718-style envelope carrying a 1,312-byte **ML-DSA-44** public key and a 2,420-byte **ML-DSA-44** signature. The sender address is derived as `keccak256(pubkey)[12:]`, mirroring EVM address derivation, and the full public key is registered via a new on-chain PQ Registry precompile. The [BSC PQC Migration Report](https://bnbchain.org/en/blog/bsc-post-quantum-cryptography-migration-report) explains the algorithm selection: **ML-DSA-44** was chosen over the larger ML-DSA-65 and ML-DSA-87 variants for lower network overhead, citing approximately 1,500 verifications per second and 35% smaller key-plus-signature size compared to BLS-12-381 at equivalent post-quantum security.
 
-**Planned future work.** bsc#3660 fast-finality migration. Not on testnet.
+## Consensus
 
-## 3. P2P Networking
+**Grade: B 🔧**
+
+BSC uses [Parlia](https://github.com/bnb-chain/bsc/blob/master/consensus/parlia/parlia.go), a hybrid Delegated Proof of Stake plus Proof of Authority engine. Forty-five validators are elected daily by staking rank; 21 are selected per epoch (18 from the top-ranked "Cabinet" plus 3 rotating "Candidates"), and they take turns producing blocks at 0.45-second slot times. Block signing uses ECDSA consensus keys; fast-finality vote aggregation uses BLS.
+
+**Current state.** Mainnet consensus uses ECDSA block signing and BLS vote aggregation. Block time is 0.45 seconds with approximately 1.125-second practical finality.
+
+**Planned future work.** [bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) introduces `PQVoteAttestation`, which replaces the BLS aggregate fast-finality signature with a **STARK** recursive proof attesting to a committee of **ML-DSA-44** individual votes. The feature is gated on an `IsPQFork` flag and exposed via a new `bsc4` P2P sub-protocol carrying `PQVotesMsg`. Validators opt in by supplying a `--pqvotekey` flag; the `PQVotePool` runs on all nodes regardless, so peers accumulate and propagate PQ votes even without a local PQ key. The PR includes snapshot back-fill and cache-warmup logic for restart correctness and dedicated end-to-end tests. Not yet on testnet.
+
+## P2P Networking
 
 **Grade: D ⚠️**
 
-BNB Chain inherits Ethereum's devp2p stack — RLPx with ECIES key exchange and secp256k1 node identity. Peer discovery uses Kademlia DHT (discv4 / discv5). The bsc#3660 PoC adds a `bsc4` sub-protocol that carries PQ vote messages alongside the classical `bsc3` stream — chain-attributable in-repo work that touches the P2P layer in service of a PQC migration — but it does not change devp2p key exchange or node identity, and the underlying transport crypto remains EC-based.
+BNB Chain inherits Ethereum's devp2p stack — RLPx with ECIES key exchange and secp256k1 node identity. Peer discovery uses Kademlia DHT (discv4 / discv5).
 
-**Current state.** secp256k1 node identity, ECIES handshakes; the new `bsc4` sub-protocol is the only PQ-related P2P artifact and only carries PQ payloads.
+**Current state.** All node identity and key exchange is elliptic-curve-based. The bsc#3660 PoC adds a `bsc4` sub-protocol that carries PQ vote messages alongside the existing classical `bsc3` stream — in-repo work attributable to the PQC migration effort — but it does not replace devp2p key exchange, secp256k1 node identity, or transport encryption.
 
-**Planned future work.** No proposal for PQ transport encryption or PQ node identity is currently published.
+**Planned future work.** No proposal for quantum-resistant transport encryption or node identity has been published.
 
-## 4. On-Chain Logic
+## On-Chain Logic
 
 **Grade: B 🔧**
 
-The BSC EVM exposes the standard Ethereum precompile set: ecrecover (secp256k1), ecAdd / ecMul / ecPairing (BN254), and BLS12-381 ops where inherited from upstream. Hash precompiles cover SHA-256, RIPEMD-160, Keccak-256, and Blake2f. There is no PQC verification precompile on mainnet.
+The BSC EVM exposes the standard Ethereum precompile set: `ecrecover` (secp256k1), ecAdd/ecMul/ecPairing (BN254), and BLS12-381 operations. No PQC signature verification is available on mainnet today.
 
-bsc#3660 adds a **PQ Registry precompile at `0x70`** that stores **ML-DSA-44** public keys for `PQTxType` accounts and serves them to consensus and sender-recovery code paths. Genesis seeds the registry with a non-zero nonce so the contract is protected from EIP-158 storage wipe. The earlier [BEP-575](https://github.com/bnb-chain/BEPs/pull/575) draft proposed a **Falcon** precompile; bsc#3660's choice of **ML-DSA-44** supersedes that direction, and a successor BEP describing the ML-DSA + STARK approach is expected.
+**Current state.** Smart contracts can verify ECDSA secp256k1, BN254 pairings, and BLS12-381 signatures via precompiles. No post-quantum verification primitive is accessible on-chain.
 
-**Current state.** No PQC precompile shipped.
+**Planned future work.** [bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) adds a PQ Registry precompile at address `0x70` that stores **ML-DSA-44** public keys for accounts that have submitted a `PQTxType` transaction, serving key lookups to consensus and sender-recovery code. Genesis seeds the registry with a non-zero nonce to prevent EIP-158 storage deletion. This supersedes the earlier [BEP-575](https://github.com/bnb-chain/BEPs/pull/575) Falcon precompile proposal, which is now stale.
 
-**Planned future work.** bsc#3660 PQ Registry precompile at `0x70` plus ML-DSA-44 verification logic in the EVM call path. Not on testnet.
-
-## 5. Other Features
+## Other Features
 
 ### BNB Greenfield Bridge
 
-**Current state.** The Greenfield cross-chain bridge uses an [ECDSA-based multisig scheme](https://docs.bnbchain.org/bnb-greenfield/core-concept/programmability/) among Greenfield validators, with the cross-chain relay drawing its validator set from Parlia consensus. A quantum break of the validator-signature scheme would let an attacker forge cross-chain messages.
+**Current state.** The BNB Greenfield bridge — a bidirectional asset bridge between BSC and BNB Greenfield (a decentralized storage chain) — uses ECDSA-based multisig among Greenfield validators for cross-chain message authorization, drawing its validator set from Parlia consensus. Details are documented in the [BNB Greenfield programmability docs](https://docs.bnbchain.org/bnb-greenfield/core-concept/programmability/).
 
-**Planned future work.** No bridge-specific PQ proposal. Bridge security tracks consensus-layer migration; bsc#3660 does not modify Greenfield contracts.
+**Planned future work.** We have found no public information indicating migration activity for the Greenfield bridge or opBNB in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 
 ### opBNB (OP Stack L2)
 
-**Current state.** opBNB is an OP Stack optimistic rollup with BNB as the settlement asset. Settlement signatures inherit OP Stack's ECDSA secp256k1 path on the L1.
+**Current state.** opBNB is an OP Stack optimistic rollup with BNB as the settlement asset. It inherits OP Stack's transaction signature requirements (ECDSA secp256k1 on the L1 settlement layer).
 
-**Planned future work.** No opBNB-specific PQ proposal; PQ posture follows from Ethereum's roadmap.
+**Planned future work.** No opBNB-specific PQC migration plan has been published. Progress here follows the BSC and OP Stack migration tracks.
 
-## 6. EC Sunset
+## EC Sunset
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, BNB Chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus 🔧, P2P ⚠️, On-Chain 🔧, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, BNB Chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus 🔧, P2P ⚠️, On-Chain 🔧, Other ❌.
 
-bsc#3660 is structured as additive PQC rather than EC retirement. The classical ECDSA transaction path remains accepted, the BLS fast-finality path remains alongside `PQVoteAttestation`, all pre-existing precompiles (ecrecover, BN254, BLS12-381) are untouched, and the new `bsc4` sub-protocol runs in parallel with `bsc3`. The PR establishes a `IsPQFork` gate that allows incremental PQC adoption per fork; no fork-specific commitment to retire EC has been published.
+[bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) is structured as additive PQC rather than EC retirement. The classical ECDSA transaction path remains accepted alongside `PQTxType`, the BLS fast-finality path remains alongside `PQVoteAttestation`, all pre-existing precompiles (ecrecover, BN254, BLS12-381) are untouched, and the new `bsc4` sub-protocol runs in parallel with `bsc3`. The [2026 BNB Chain Tech Roadmap](https://www.bnbchain.org/en/blog/tech-roadmap-2026) does not commit to any EC-deprecation milestone.
 
-**Current state.** No EC retirement scheduled. The 2026 tech roadmap does not commit to any EC-deprecation milestone.
+**Current state.** No EC retirement scheduled or announced.
 
 **Planned future work.** None published.
 
 ## Governance
 
-BNB Chain's protocol changes are coordinated by the BNB Chain core development team (Binance-aligned) through hard forks; validator coordination is required for activation but the validator set is largely Binance-selected. Proposal discussion happens through [BEPs](https://github.com/bnb-chain/BEPs) and on the chain-development repo.
+BNB Chain protocol changes are coordinated through the core development team (Binance-aligned) via the BNB Enhancement Proposal (BEP) process and through hard forks requiring validator coordination. PQC-relevant proposals:
 
-Active PQ-relevant work:
+- **[bnb-chain/bsc#3660](https://github.com/bnb-chain/bsc/pull/3660)** — "all: post quantum migration poc." Status: Draft (opened 2026-04-28). 14 commits, 4,805+/50- across 58 files. Covers `PQTxType=0x05`, `PQVoteAttestation` (ML-DSA-44 + STARK aggregation), PQ Registry precompile at `0x70`, `bsc4` P2P sub-protocol, `--pqvotekey` operator flag, and `PQ_PLAN.md` design document. No BEP identifier assigned yet.
 
-- [bnb-chain/bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) — "all: post quantum migration poc." Status: Draft (opened 2026-04-28). 14 commits, 4,805+/50- across 58 files. Authored by `fynnss` (Fynn Zhang). Adds `PQTxType=0x05`, `PQVoteAttestation` (ML-DSA-44 + STARK aggregation), PQ Registry precompile at `0x70`, `bsc4` P2P sub-protocol, `--pqvotekey` operator flag, `PQ_PLAN.md` document, and dedicated end-to-end tests.
-- [BEP-575](https://github.com/bnb-chain/BEPs/pull/575) — Falcon Post-Quantum Signatures. Status: Draft (filed 2025-05-19). Stale: bsc#3660 selected ML-DSA-44 over Falcon. Likely needs revision or replacement.
+- **[BEP-575](https://github.com/bnb-chain/BEPs/pull/575)** — Falcon Post-Quantum Signatures. Status: Draft (filed 2025-05-19). This proposal is now stale; bsc#3660 selected ML-DSA-44 instead. A successor BEP formalizing the ML-DSA + STARK approach is expected.
 
-Roadmap context:
-
-- [2026 BNB Chain Tech Roadmap](https://www.bnbchain.org/en/blog/tech-roadmap-2026) emphasizes performance (20,000 TPS target), dual-client strategy (Geth + Reth), and native privacy. PQ is signalled via the bsc#3660 PoC but is not on the public 2026 roadmap.
-
-No fork has been scheduled or signaled for any of the above.
+The [BSC PQC Migration Report](https://bnbchain.org/en/blog/bsc-post-quantum-cryptography-migration-report) (published 2026-05-14, covered in the [press release](https://www.benzinga.com/pressreleases/26/05/52557707/bnb-chain-publishes-research-report-exploring-post-quantum-cryptography-migration-path-for-bsc)) is the first formal technical publication from the BNB Chain team on the migration path. No fork activation has been scheduled.
 
 ---
 
-_Generated on 5 May 2026 based on information as of 1 May 2026._
+_Generated on 18 May 2026 based on information as of 18 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

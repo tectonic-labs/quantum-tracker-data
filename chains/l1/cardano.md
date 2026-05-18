@@ -4,8 +4,9 @@
 |---|---|
 | **Name** | Cardano |
 | **Ticker** | ADA |
-| **Website** | https://cardano.org |
-| **GitHub** | https://github.com/cardano-foundation |
+| **Website** | <https://cardano.org> |
+| **GitHub** | <https://github.com/cardano-foundation> |
+| **Twitter / X** | <https://x.com/Cardano> |
 | **On-chain environment** | Plutus (Haskell-based) |
 | **Mainnet genesis** | 2017-09-29 |
 
@@ -13,16 +14,16 @@
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Transaction Signatures | D | ⚠️ | Discussed |
+| Transaction Signatures | C | 🗺️ | Roadmapped |
 | Consensus | D | ⚠️ | Discussed |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | D | ⚠️ | Discussed |
 | Other Features | D | ⚠️ | Discussed |
-| EC Sunset | F | ❌ | Not Discussed |
+| EC Sunset | D | ⚠️ | Discussed |
 
-Cardano's PQC posture is research-led without code-level integration. [IOG (Input Output Global)](https://iohk.io/en/blog/posts/2018/02/01/research-program-to-work-on-hardening-cardano-against-quantum-computers/) has run a PQ research program since February 2018 and announced the [Nightstream initiative](https://www.coinreporter.io/2026/02/ada-price-in-focus-as-cardano-expands-interoperability-and-post-quantum-push/) in February 2026, a lattice-based cryptography collaboration with Google and Microsoft Research. As of the most recent recon scan, no PQC algorithm libraries have landed in the cardano-node source code.
+Cardano's PQC posture is research-led, with a meaningful upgrade in May 2026. [IOG (Input Output Global)](https://iohk.io/en/blog/posts/2018/02/01/research-program-to-work-on-hardening-cardano-against-quantum-computers/) has maintained a PQ research program since February 2018 and in February 2026 announced the [Nightstream initiative](https://www.coinreporter.io/2026/02/ada-price-in-focus-as-cardano-expands-interoperability-and-post-quantum-push/) — a lattice-based cryptography collaboration with Google and Microsoft Research. At the Consensus Miami keynote on May 16, 2026, post-quantum security was named one of three Cardano strategic pillars for 2026, with five CIPs advancing toward implementation readiness and an alignment with FIPS 203-206 (ML-KEM, ML-DSA, SLH-DSA). No PQC algorithm libraries have yet landed in the cardano-node source code, but the project has moved from passive research to an active roadmap commitment.
 
-The active proposal work sits in the [Cardano Improvement Proposals (CIPs)](https://github.com/cardano-foundation/CIPs) repository. [CIP #1144 (CPS-0027)](https://github.com/cardano-foundation/CIPs/pull/1144) surveys post-quantum signature approaches — naming **SPHINCS+**, **Dilithium**, and **Falcon** as candidates — without committing to one; it was opened 2026-01-29 and is in editor approval / fixups. [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) proposes a quantum-secure settlement layer at the architectural level; it was introduced at the 2026-04-28 CIP meeting with active follow-up on BIP32 / hash-based key upgrade paths, including discussion in early May 2026 on limitations of "pre-image reveal" approaches for non-BIP32 keys. [CIP #1167](https://github.com/cardano-foundation/CIPs/pull/1167) refines Leios with quantum considerations.
+Active proposal work sits in the [Cardano Improvement Proposals (CIPs)](https://github.com/cardano-foundation/CIPs) repository. [CIP #1144 (CPS-0027)](https://github.com/cardano-foundation/CIPs/pull/1144) surveys post-quantum signature approaches — naming **SPHINCS+**, **Dilithium**, and **Falcon** as candidates — without committing to one; it was opened 2026-01-29 and is in editor approval as of late April 2026. [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) proposes a quantum-secure settlement layer and was introduced at the 2026-04-28 CIP meeting, with active follow-up discussion on BIP32 / hash-based key upgrade paths into May 2026. [CIP #1167](https://github.com/cardano-foundation/CIPs/pull/1167) refines Leios with quantum considerations.
 
 ## Proposed and Implemented PQC Algorithms
 
@@ -31,109 +32,99 @@ The active proposal work sits in the [Cardano Improvement Proposals (CIPs)](http
 | **SLH-DSA** (SPHINCS+) | Ed25519 | Tx Signatures, On-Chain | Discussed (CIP #1144 survey) |
 | **ML-DSA** (Dilithium) | Ed25519 | Tx Signatures, On-Chain | Discussed (CIP #1144 survey) |
 | **Falcon / FN-DSA** | Ed25519 | Tx Signatures, On-Chain | Discussed (CIP #1144 survey) |
-| Lattice-based scheme (Nightstream, unspecified) | Ed25519 / VRF / KES | Tx Signatures, Consensus | Discussed (IOG / Google / Microsoft research collaboration) |
+| Lattice-based scheme (Nightstream, unspecified) | Ed25519 / VRF / KES | Tx Signatures, Consensus | Discussed (IOG / Google / Microsoft Research collaboration) |
 
-## 1. Transaction Signatures
+## Transaction Signatures
+
+**Grade: C 🗺️**
+
+Cardano's user transaction signatures use [Ed25519](https://developers.cardano.org/docs/operate-a-stake-pool/cardano-key-pairs/) (EdDSA on Curve25519) — vulnerable to Shor's algorithm in the same way as ECDSA. Payment keys, stake keys, governance (DRep) keys, and HD wallets all derive from Ed25519. The [Valentine hard fork (2023)](https://docs.cardano.org/about-cardano/evolution/upgrades/valentine) added SECP curve verification for cross-chain interoperability, and [Plutus V3 (2024)](https://iohk.io/en/blog/posts/2024/02/12/unlocking-more-opportunities-with-plutusv3/) added BLS primitives for zero-knowledge rollups — neither change introduces quantum resistance to transaction signatures.
+
+At the Consensus Miami keynote on May 16, 2026, post-quantum security was announced as one of three Cardano strategic pillars, with CIPs advancing to implementation readiness and an alignment with FIPS 203-206 (ML-KEM, ML-DSA, SLH-DSA standards). The [Nightstream initiative](https://www.coinreporter.io/2026/02/ada-price-in-focus-as-cardano-expands-interoperability-and-post-quantum-push/) — an IOG collaboration with Google and Microsoft Research on lattice-based cryptography — is named as the primary research effort underpinning this roadmap. [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) proposes architectural changes for a quantum-secure settlement layer, with active discussion on BIP32 / hash-based key derivation paths and the limitations of pre-image reveal approaches for non-BIP32 keys.
+
+**Current state.** Mainnet transactions are exclusively Ed25519. No post-quantum scheme has been merged into cardano-node.
+
+**Planned future work.** [CIP #1144](https://github.com/cardano-foundation/CIPs/pull/1144) and [CIP #1175](https://github.com/cardano-foundation/CIPs/pull/1175) are advancing through the CIP process. The Vision 2026 commitment names lattice-based (LWE) approaches aligned with FIPS 203-206 as the direction, with implementation-stage CIPs in progress. No hard fork date has been announced. Sources: [Cryptonews](https://cryptonews.net/news/altcoins/32874262/), [Crowdfund Insider](https://www.crowdfundinsider.com/2026/05/278955-cardano-founder-charles-hoskinson-highlights-quantum-computing-risks-and-potential-blockchain-network-defenses/).
+
+## Consensus
 
 **Grade: D ⚠️**
 
-Cardano's user transaction signatures use [Ed25519](https://developers.cardano.org/docs/operate-a-stake-pool/cardano-key-pairs/) (EdDSA on Curve25519) — broken by Shor's algorithm in the same way as ECDSA. Payment keys, stake keys, governance (DRep) keys, and HD wallets all derive from Ed25519. The [Valentine hard fork (2023)](https://docs.cardano.org/about-cardano/evolution/upgrades/valentine) added SECP curve verification (ECDSA and Schnorr over secp256k1) for interoperability, and Plutus V3 (2024) added BLS primitives — both EC-based, neither quantum-resistant. No PQ replacement for Ed25519 has been merged into cardano-node.
+Cardano runs [Ouroboros Praos](https://docs.cardano.org/about-cardano/learn/ouroboros-overview), a peer-reviewed proof-of-stake protocol with two cryptographic components of interest. The **Verifiable Random Function** (VRF) elects slot leaders privately; Cardano's implementation is elliptic-curve-based. **Key Evolving Signatures** (KES, specifically Sum6KES at depth 6) provide forward-secure validator signing — a compromise of a hot key at period T cannot forge blocks from earlier periods. KES's underlying Merkle-signature construction is hash-based and theoretically compatible with a quantum-resistant variant, but Cardano's current KES-Sum6 uses an EC-based foundation rather than a pure hash-based scheme.
 
-The [CIP #1144 survey (CPS-0027)](https://github.com/cardano-foundation/CIPs/pull/1144) catalogs the candidate PQ schemes (**SPHINCS+**, **Dilithium**, **Falcon**) but does not select one; it was opened 2026-01-29 and is in editor approval / fixups as of late April 2026. [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) proposes a quantum-secure settlement layer and raises BIP32 / hash-based key derivation upgrade paths as an architectural question, with active discussion in early May 2026 on the limitations of "pre-image reveal" approaches for non-BIP32 keys. Both remain in CIP discussion; neither has produced cardano-node code.
+**Current state.** Mainnet consensus uses an EC-based VRF and Sum6KES. The KES architecture offers a migration pathway to a hash-based primitive, but that replacement has not been implemented.
 
-**Current state.** Mainnet transactions are exclusively Ed25519. No PQ scheme is implemented or merged.
+**Planned future work.** The [CIP #1167](https://github.com/cardano-foundation/CIPs/pull/1167) discussion refines Leios with quantum considerations, and IOG's Nightstream research umbrella covers consensus primitives. No cardano-node consensus PR has been opened for a post-quantum upgrade.
 
-**Planned future work.** [CIP #1144](https://github.com/cardano-foundation/CIPs/pull/1144) and [CIP #1175](https://github.com/cardano-foundation/CIPs/pull/1175) are in CIP-process discussion. IOG's Nightstream lattice-cryptography research is at the research-collaboration stage, not yet a deployment plan.
-
-## 2. Consensus
-
-**Grade: D ⚠️**
-
-Cardano runs [Ouroboros Praos](https://docs.cardano.org/about-cardano/learn/ouroboros-overview), a peer-reviewed proof-of-stake protocol with two cryptographic components of interest. The **Verifiable Random Function** (VRF) elects slot leaders privately so attackers cannot DDoS predictable proposers; the implementation (PraosVRF) is EC-based. **Key Evolving Signatures** (KES, specifically Sum6KES at depth 6) provide forward-secure validator signing — a compromise of a hot key at period T cannot forge blocks from earlier periods. KES is theoretically interesting because the underlying Merkle-signature construction is hash-based and quantum-resistant, but Cardano's current KES-Sum6 implementation derives keys over an EC foundation rather than from a pure hash-based scheme.
-
-A PQ-native KES (e.g., Sum6KES over a hash-based primitive like SPHINCS+ or XMSS) would preserve forward security while removing the EC dependency. The [CIP #1167](https://github.com/cardano-foundation/CIPs/pull/1167) thread refines [Leios](https://updates.cardano.intersectmbo.org/) with quantum considerations, and IOG's Nightstream lattice work is the broader research umbrella, but no cardano-node consensus PR has been opened.
-
-**Current state.** Mainnet consensus uses EC-based VRF and Sum6KES. KES provides forward-security mitigation but not PQ resistance.
-
-**Planned future work.** Architectural CIP discussion (#1167, #1175) and IOG / Nightstream research. No code-level consensus PR opened.
-
-## 3. P2P Networking
+## P2P Networking
 
 **Grade: F ❌**
 
-Cardano uses a [custom P2P stack](https://docs.cardano.org/about-cardano/explore-more/cardano-network/p2p-networking) (not libp2p) with TCP-based multiplexing, an Outbound Governor for peer connection initiation, and an Inbound Protocol Governor for inbound mini-protocols. Peers progress through Cold / Warm / Hot states. Transport is standard TCP/IP with no PQC-specific encryption documented; node-identity and peer-authentication mechanisms are not detailed in publicly available material. The 2024 transition from fixed-topology relays to dynamic P2P (SanchoNet era) improved decentralization but did not change cryptographic primitives.
+We have found no public information indicating migration activity for Cardano in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 
-**Current state.** Standard TCP transport; no documented PQ alternative.
-
-**Planned future work.** No specification, working-group thread, or release describes a PQ transport plan for Cardano's P2P layer.
-
-## 4. On-Chain Logic
+## On-Chain Logic
 
 **Grade: D ⚠️**
 
-[Plutus](https://docs.cardano.org/developer-resources/smart-contracts/plutus) (V3, 2024) exposes Ed25519 verification, SHA-256 / SHA3 / BLAKE2b / Keccak-256 hashing, and — through the Valentine and PlutusV3 upgrades — ECDSA / Schnorr over secp256k1 and BLS (Boneh-Lynn-Shacham) signatures for ZK rollups. None are quantum-resistant. There is no native verification primitive for **SPHINCS+**, **Dilithium**, or **Falcon** in Plutus.
+[Plutus V3 (2024)](https://iohk.io/en/blog/posts/2024/02/12/unlocking-more-opportunities-with-plutusv3/) exposes Ed25519 verification, SHA-256 / SHA3 / BLAKE2b / Keccak-256 hashing, and — through the Valentine and Plutus V3 upgrades — ECDSA / Schnorr over secp256k1 and BLS signatures for ZK rollups. None are quantum-resistant, and there is no native verification primitive for post-quantum signature schemes in [Plutus](https://docs.cardano.org/developer-resources/smart-contracts/plutus) today.
 
-The constraint cited in [PlutusV3 material](https://iohk.io/en/blog/posts/2024/02/12/unlocking-more-opportunities-with-plutusv3/) is cost: hash-based signatures (SPHINCS+) and lattice signatures (Dilithium) carry larger proof sizes and verification cost than EC signatures, making them expensive for general on-chain verification. The CIP #1144 survey is the active venue where algorithm selection is being discussed.
+**Current state.** No post-quantum verification primitive is available in Plutus. Cost is the primary constraint cited in [Plutus V3 material](https://iohk.io/en/blog/posts/2024/02/12/unlocking-more-opportunities-with-plutusv3/): hash-based and lattice-based signatures carry larger proof sizes and higher verification cost than EC signatures.
 
-**Current state.** No PQ verification primitive in Plutus.
+**Planned future work.** [CIP #1144](https://github.com/cardano-foundation/CIPs/pull/1144) is the active venue for algorithm selection. No Plutus precompile PR has been opened. As CIP-level algorithm choices are made, Plutus builtins would follow.
 
-**Planned future work.** [CIP #1144](https://github.com/cardano-foundation/CIPs/pull/1144) (algorithm survey) is the active venue. No Plutus precompile PR has been opened.
+## Other Features
 
-## 5. Other Features
+### Mithril (Light-client protocol)
 
-### Mithril (light-client protocol)
+**Current state.** [Mithril](https://docs.cardano.org/developer-resources/scalability-solutions/mithril) is a stake-based threshold multi-signature scheme that compresses many validator signatures into a single compact proof, enabling mobile wallets, light clients, and Layer 2 components to verify Cardano state without full-node sync. The [2025–2026 evolution](https://updates.cardano.intersectmbo.org/2026-03-25-mithril/) is integrating SNARK proofs (Halo2 circuit implementation, ALBA proof system under investigation) for further compression. Both the current multi-sig scheme and the pairing-based SNARK aggregation in development are elliptic-curve-based.
 
-**Current state.** [Mithril](https://docs.cardano.org/developer-resources/scalability-solutions/mithril) is a stake-based threshold multi-signature scheme that aggregates many validator signatures into a single compact proof, used by mobile wallets, light clients, and Layer 2 components to verify Cardano state without full-node sync. The [2025–2026 evolution](https://updates.cardano.intersectmbo.org/2026-03-25-mithril/) is integrating SNARK proofs (Halo2 circuit implementation, ALBA proof system under investigation) for further compression. Both the current multi-sig scheme and pairing-based SNARK aggregation are EC-based.
+**Planned future work.** SNARK aggregation work continues; no post-quantum aggregation alternative (hash-based accumulators or lattice-based schemes) is on the published roadmap.
 
-**Planned future work.** SNARK aggregation work continues; PQ-friendly aggregation (hash-based accumulators or lattice-based schemes) is not yet on the published roadmap.
+### Midnight (Privacy sidechain)
 
-### Midnight (privacy sidechain)
+**Current state.** [Midnight](https://midnight.network/) launched mainnet in March 2026 as a sidechain providing confidential smart contracts via ZK-SNARKs over EC pairings. A quantum break of the underlying SNARK system would retroactively deanonymize the historical shielded ledger.
 
-**Current state.** [Midnight](https://midnight.network/) launched mainnet in March 2026 as a sidechain providing confidential smart contracts via ZK-SNARKs over EC pairings. A quantum break of the underlying SNARK system would retroactively deanonymize the historical shielded ledger. The architectural alternative — STARK-based (hash-based) privacy — has not been adopted.
-
-**Planned future work.** No published migration path from SNARK-based privacy to a PQ alternative.
+**Planned future work.** No published migration path from SNARK-based privacy to a post-quantum alternative.
 
 ### Hydra (Layer 2 state channels)
 
-**Current state.** [Hydra](https://docs.cardano.org/developer-resources/scalability-solutions/hydra) provides isomorphic state channels with cryptographic proofs of correct state evolution, formally verified in the Universal Composability framework. It supports Plutus contracts and native assets in off-chain heads. Its cryptographic primitives match the on-chain Plutus stack — Ed25519, SECP, BLS — and inherit those quantum exposures.
+**Current state.** [Hydra](https://docs.cardano.org/developer-resources/scalability-solutions/hydra) provides isomorphic state channels with cryptographic proofs of correct state evolution, formally verified in the Universal Composability framework. Its cryptographic primitives match the on-chain Plutus stack — Ed25519, SECP, BLS — and inherit those quantum exposures.
 
-**Planned future work.** Hydra's PQ posture tracks Plutus and the consensus layer; no Hydra-specific PQ proposal is published.
+**Planned future work.** Hydra's post-quantum posture tracks Plutus and the consensus layer. No Hydra-specific post-quantum proposal has been published.
 
-## 6. EC Sunset
+## EC Sunset
 
-**Grade: F ❌**
+**Grade: D ⚠️**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Cardano's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ⚠️, P2P ❌, On-Chain ⚠️, Other ⚠️.
+Adding PQC alongside EC is not the same as retiring EC. For reference, Cardano's PQC-adoption ratings per category are: Tx Signatures 🗺️, Consensus ⚠️, P2P ❌, On-Chain ⚠️, Other ⚠️.
 
-Cardano has no published plan to retire elliptic-curve cryptography from any layer. Public material from IOG describes a phased, research-driven approach: long-term hardening informed by Nightstream and the IOG PQ research program, with potential near-term checkpointing of ledger history through Mithril and Midnight. Public commentary from [Charles Hoskinson](https://decrypt.co/353161/cardano-hoskinson-warns-crypto-becoming-post-quantum-require-trade-offs) cites a roughly 10× performance / size cost as a concern and references the [DARPA Quantum Benchmarking Initiative](https://finance.yahoo.com/news/cardano-founder-says-crypto-quantum-threat-200255327.html) (targeting 2033) as a calibration point.
+Cardano has no published plan to retire elliptic-curve cryptography from any layer. Public material from IOG describes a phased, research-driven approach: long-term hardening informed by the [Nightstream initiative](https://www.coinreporter.io/2026/02/ada-price-in-focus-as-cardano-expands-interoperability-and-post-quantum-push/) and the [IOG PQ research program](https://iohk.io/en/blog/posts/2018/02/01/research-program-to-work-on-hardening-cardano-against-quantum-computers/), with potential near-term ledger checkpointing via Mithril and Midnight. The Vision 2026 announcement (May 16, 2026) elevates PQ security to a formal strategic pillar with CIPs advancing toward implementation, which moves the discussion from passive research toward an active roadmap — but no EC retirement commitment or timeline has been stated.
 
-Hoskinson has also been a prominent external voice in the cross-chain quantum debate, [calling Bitcoin's BIP-361 "a hard fork in disguise"](https://decrypt.co/) and flagging that roughly 1.7M BTC in pre-BIP-39 addresses would be unrecoverable under that proposal's ZK recovery mechanism. His commentary positioned Cardano's formal on-chain governance model as a contrast to Bitcoin's off-chain rough-consensus approach to coordinating a migration of this scale.
+**Current state.** No EC retirement scheduled or announced.
 
-**Current state.** No EC retirement scheduled.
-
-**Planned future work.** None published. Direction described in public material is phased PQ adoption alongside EC, not EC retirement.
+**Planned future work.** Direction described in public material is phased PQ adoption alongside EC. The Vision 2026 commitment covers adoption of new PQC primitives; no retirement schedule for Ed25519, SECP, or BLS has been published.
 
 ## Governance
 
-Cardano protocol changes flow through the [Cardano Improvement Proposals (CIPs)](https://github.com/cardano-foundation/CIPs) process administered by the Cardano Foundation, with implementation work led by IOG and Intersect. CIPs progress through editor review and CIP meetings before being merged; protocol-affecting changes also require coordination through Intersect-led upgrade processes.
+Cardano protocol changes flow through the [Cardano Improvement Proposals (CIPs)](https://github.com/cardano-foundation/CIPs) process, administered by the Cardano Foundation with implementation work led by IOG and Intersect. CIPs progress through editor review and CIP meetings before being merged; protocol-affecting changes also require coordination through Intersect-led upgrade processes.
 
-Active PQ-relevant CIPs in the repository:
+Active PQ-relevant CIPs:
 
-- [CIP #1144 (CPS-0027)](https://github.com/cardano-foundation/CIPs/pull/1144) — "Approaches to Post-Quantum Signatures." Status: Open (filed 2026-01-29), in editor approval / fixups round 2026-04-29. Surveys candidate schemes without committing to one.
-- [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) — "Quantum secure Cardano settlement layer." Status: Open (filed 2026-04-02), introduced at the 2026-04-28 CIP meeting with active follow-up on BIP32 / hash-based key upgrade paths and discussion in early May 2026 on "pre-image reveal" limitations for non-BIP32 keys.
+- [CIP #1144 (CPS-0027)](https://github.com/cardano-foundation/CIPs/pull/1144) — "Approaches to Post-Quantum Signatures." Status: Open (filed 2026-01-29), in editor approval / fixups as of 2026-04-29. Surveys candidate schemes without committing to one.
+- [CIP #1175 (CPS-0030)](https://github.com/cardano-foundation/CIPs/pull/1175) — "Quantum secure Cardano settlement layer." Status: Open (filed 2026-04-02), introduced at the 2026-04-28 CIP meeting with active follow-up on BIP32 / hash-based key upgrade paths into May 2026.
 - [CIP #1167](https://github.com/cardano-foundation/CIPs/pull/1167) — Leios refinement with quantum considerations. Status: Open (filed 2026-03-25).
 - [CIP-441 draft](https://github.com/cardano-foundation/CIPs/pull/441) — earlier post-quantum signatures draft. Status: Draft.
 
 Research collaborations:
 
 - [IOG PQ research program](https://iohk.io/en/blog/posts/2018/02/01/research-program-to-work-on-hardening-cardano-against-quantum-computers/) — ongoing since February 2018.
-- [Nightstream initiative](https://www.coinreporter.io/2026/02/ada-price-in-focus-as-cardano-expands-interoperability-and-post-quantum-push/) — IOG / Google / Microsoft Research / Linux Foundation lattice-cryptography collaboration announced February 2026.
+- [Nightstream initiative](https://www.coinreporter.io/2026/02/ada-price-in-focus-as-cardano-expands-interoperability-and-post-quantum-push/) — IOG / Google / Microsoft Research / Linux Foundation lattice-cryptography collaboration, announced February 2026.
 
-No fork has been scheduled or signaled for any cardano-node PQ change.
+No fork has been scheduled or signaled for any cardano-node post-quantum change.
 
 ---
 
-_Generated on 07 May 2026 based on information as of 07 May 2026._
+_Generated on 18 May 2026 based on information as of 18 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

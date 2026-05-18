@@ -4,10 +4,10 @@
 |---|---|
 | **Name** | Aptos |
 | **Ticker** | APT |
-| **Website** | https://aptoslabs.com |
+| **Website** | https://aptoslabs.com/ |
 | **GitHub** | https://github.com/aptos-labs |
+| **Twitter / X** | https://x.com/aptoslabs |
 | **On-chain environment** | Move VM |
-| **Mainnet genesis** | 2022-10-17 |
 
 ## Summary
 
@@ -20,93 +20,79 @@
 | Other Features | ➖ | ➖ | Not Applicable |
 | EC Sunset | F | ❌ | Not Discussed |
 
-Aptos is among the most active L1s in PQC transaction-signature work. SLH-DSA-SHA2-128s (FIPS 205 / SPHINCS+) is deeply integrated in [aptos-core](https://github.com/aptos-labs/aptos-core) mainline across 43+ files, covering key generation, signing, verification, serialization, gas accounting, API tests, and benchmarks. A companion [TypeScript SDK pull request](https://github.com/aptos-labs/aptos-ts-sdk/pull/802) extends PQC to client-side tooling. However, consensus (BLS12-381), P2P networking (secp256k1), and on-chain verification remain entirely EC-based with no disclosed PQC plans, and no public roadmap addresses EC retirement. A Coinbase Advisory Board paper (April 2026) named Aptos and Algorand the "most quantum-ready" major L1s.
+Aptos is a Move-based L1 using [AptosBFT consensus](https://aptos.dev/protocol/blockchain/consensus) (HotStuff-derived) with Ed25519 as the primary [transaction signature scheme](https://aptos.dev/guides/transactions/signatures) and BLS12-381 for aggregated validator signatures. The most significant PQC work is **SLH-DSA-SHA2-128s** (FIPS 205 / SPHINCS+), which is [deeply integrated into aptos-core mainline](https://github.com/aptos-labs/aptos-core) across 43+ files — covering key generation, signing, verification, serialization, smoke tests, API tests, and benchmarks. A [TypeScript SDK PR](https://github.com/aptos-labs/aptos-ts-sdk/pull/802) extends SLH-DSA support to client-side tooling.
+
+Aptos's native key rotation and extensible signature verification architecture provide a structural migration path: users can rotate to SLH-DSA keys without changing their account address. The official Aptos Stack diagram (May 2026) lists "post-quantum signatures" as an L1 Infrastructure feature. SLH-DSA-SHA2-128s is stateless and purely hash-based (no lattice assumptions) — the most conservative PQC signature choice, though it carries larger signatures (~7,856 bytes) and slower signing compared to lattice alternatives. Recent mainline work includes ongoing maintenance of the `SLH_DSA_SHA2_128S_SIGNATURE` feature-flag gating in the aptos-vm error-handling path (commit 2026-05-12), confirming active upkeep of the SLH-DSA integration.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **SLH-DSA-SHA2-128s** (SPHINCS+ / FIPS 205) | Ed25519 | Tx Signatures | In Development (mainline integration, 43+ files) |
+| **SLH-DSA-SHA2-128s** (FIPS 205) | Ed25519 | Tx Signatures | In Development |
 
 ## 1. Transaction Signatures
 
 **Grade: B 🔧**
 
-Aptos transactions are currently signed with Ed25519 (primary), secp256k1 (secondary), or MultiEd25519 (threshold multi-sig). All three are broken by Shor's algorithm. Aptos has a structural advantage over many chains: native key rotation allows users to change their signing keys without changing their account address, and an extensible signature-verification module architecture supports adding new schemes without address migration.
+Aptos currently supports [Ed25519 (primary), secp256k1 (secondary), and MultiEd25519](https://aptos.dev/guides/transactions/signatures) for transaction signing. The AuthenticationKey derivation includes a signature scheme identifier, enabling multi-scheme addresses. Native key rotation allows users to change keys without changing their account address.
 
-SLH-DSA-SHA2-128s (FIPS 205 / SPHINCS+) is integrated into the [aptos-core](https://github.com/aptos-labs/aptos-core) mainline codebase. The implementation spans 43+ files across the core crypto library, API layer, SDK, and test suite, including key generation, signing, verification, serialization, smoke tests, API tests, and benchmarks. Gas accounting for SLH-DSA is already plumbed in (`SLH_DSA_SHA2_128S_BASE_COST` and related constants), with a recent commit (April 2026) confirming ongoing maintenance of the gas infrastructure. A [TypeScript SDK pull request](https://github.com/aptos-labs/aptos-ts-sdk/pull/802) (draft, opened December 2025) extends SLH-DSA support to client-side tooling.
+**SLH-DSA-SHA2-128s** (FIPS 205 / SPHINCS+) is [integrated into aptos-core mainline](https://github.com/aptos-labs/aptos-core) across 43+ files with full signing key, verifying key, and signature implementation, plus gas accounting (`SLH_DSA_SHA2_128S_BASE_COST`). A [TypeScript SDK PR](https://github.com/aptos-labs/aptos-ts-sdk/pull/802) (draft, 19 comments) extends PQC support to client-side tooling. This is not experimental — it is integrated into the mainline codebase with benchmarks and API tests.
 
-SLH-DSA-SHA2-128s is stateless and purely hash-based (no lattice assumptions), making it the most conservative PQC signature choice. The trade-off is performance: signatures are approximately 7,856 bytes and signing is slower than lattice-based alternatives like ML-DSA.
+**Current state.** Ed25519 is the primary transaction signature scheme. SLH-DSA-SHA2-128s is integrated in mainline code but not yet the default or widely adopted by wallets.
 
-**Current state.** Ed25519/secp256k1 on mainnet. SLH-DSA-SHA2-128s is integrated in the core codebase but not yet activated on mainnet or a public testnet.
-
-**Planned future work.** No Aptos Improvement Proposal (AIP) has been published for PQC transaction signatures. The key rotation mechanism and modular signature architecture are structurally ready to support new schemes, contingent on community consensus and an AIP.
+**Planned future work.** The key rotation mechanism is structurally ready to support migration to SLH-DSA. The TS SDK PR is in progress. No formal AIP (Aptos Improvement Proposal) for PQC has been published.
 
 ## 2. Consensus
 
 **Grade: F ❌**
 
-Aptos uses AptosBFT, a HotStuff-derived BFT consensus protocol (DiemBFT v4 variant). Validators sign block proposals using BLS12-381 aggregated signatures, and validator identity is based on BLS12-381 public keys. Finality is instant after 2/3+ validator signature aggregation.
+Aptos uses [AptosBFT](https://aptos.dev/protocol/blockchain/consensus), a HotStuff-derived BFT consensus where validators sign commits with BLS12-381 aggregated signatures. BLS12-381 is EC-pairing-based and quantum-vulnerable. Blocks reach instant finality after two-thirds of validators sign.
 
-BLS12-381 relies on EC pairings and is broken by Shor's algorithm. No PQC alternative or migration plan for consensus has been disclosed.
+**Current state.** All validator signing uses BLS12-381. No post-quantum alternative has been disclosed.
 
-**Current state.** BLS12-381 aggregated signatures for all validator operations. No PQC alternatives in development.
-
-**Planned future work.** None disclosed.
+**Planned future work.** None documented for consensus-layer PQC.
 
 ## 3. P2P Networking
 
 **Grade: F ❌**
 
-Aptos uses a custom P2P networking protocol with secp256k1-based node identity for validator authentication. Peer discovery uses gossip-based propagation for transactions, with validator membership derived from consensus.
-
-The secp256k1 node identity keys are broken by Shor's algorithm. No PQC transport or identity proposals have been published.
-
-**Current state.** secp256k1-based node identity. No PQC alternatives drafted.
-
-**Planned future work.** None disclosed.
+We have found no public information indicating migration activity for Aptos in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 
 ## 4. On-Chain Logic
 
 **Grade: F ❌**
 
-Move VM provides built-in signature verification modules for Ed25519, secp256k1, and MultiEd25519, along with hash modules (SHA3-256, SHA3-512, BLAKE2b-256). No built-in or precompiled module supports PQC signature verification.
+Aptos runs the [Move VM](https://aptos.dev/move/book/overview) with built-in signature verification modules for Ed25519, secp256k1, and MultiEd25519, plus hash modules (SHA3-256, SHA3-512, BLAKE2b-256). No PQC signature verification precompile or module exists in the Move standard library.
 
-Theoretically, a PQC verification function could be implemented as a Move module, but without native support the gas cost for verifying large PQC signatures (e.g., 7,856-byte SLH-DSA signatures) would be prohibitive. No AIP proposes PQC signature precompiles for the Move VM.
+**Current state.** On-chain signature verification is EC-only. Move modules could implement custom PQC verification logic, but no precompiled modules exist.
 
-**Current state.** No PQC verification capability on-chain. EC-only signature modules.
-
-**Planned future work.** None disclosed.
+**Planned future work.** No public proposals for PQC signature precompiles in Move.
 
 ## 5. Other Features
 
-Aptos does not have special features with EC or RSA dependencies (no privacy technology, KZG commitments, or advanced cryptographic proofs).
+Aptos does not support any special features with EC dependencies (no privacy tech, no KZG blobs, no pairing-based proofs).
 
 ## 6. EC Sunset
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Aptos's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ❌, P2P ❌, On-Chain ❌, Other ➖.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ❌, P2P ❌, On-Chain ❌, Other ➖.
 
-No public roadmap addresses EC retirement on Aptos. The SLH-DSA integration in the core codebase demonstrates active PQC development for transaction signatures, but it is positioned as an additional signature scheme alongside Ed25519 and secp256k1, not a replacement. No AIP or governance discussion proposes deprecating or removing EC-based signature schemes.
+No public PQC roadmap has been formally announced, but the [codebase](https://github.com/aptos-labs/aptos-core) tells a different story: **SLH-DSA-SHA2-128s** is deeply integrated across 43+ files with gas accounting, benchmarks, and API tests. The account-metadata public key design (addresses are not derived from ECDSA keys) combined with native key rotation provides a migration-friendly architecture that does not require users to change addresses when rotating to PQC keys.
 
-The account-metadata public key design (addresses are derived from authentication keys, not directly from EC public keys) and native key rotation provide a structurally favorable migration path should EC retirement be pursued. Users could rotate to PQC keys without changing their account addresses -- a significant advantage over chains with EC-derived addresses.
+**Current state.** SLH-DSA is integrated in code but no formal EC deprecation schedule exists. Ed25519 and BLS12-381 remain the active schemes.
 
-BLS12-381 in consensus, secp256k1 in P2P, and EC-based on-chain modules have no disclosed retirement plans.
-
-**Current state.** No EC removal plans. PQC work is additive only.
-
-**Planned future work.** None disclosed.
+**Planned future work.** Active code development evidenced by mainline integration and SDK PR. No formal timeline disclosed.
 
 ## Governance
 
-Aptos protocol changes follow the [AIP (Aptos Improvement Proposal) process](https://github.com/aptos-labs/AIPs) on GitHub. The Aptos Foundation core team and maintainers hold merge authority. The chain follows a managed upgrade model with regular releases.
+Aptos governance operates through [AIPs (Aptos Improvement Proposals)](https://github.com/aptos-labs/AIPs) on GitHub, with the Aptos Foundation core team as maintainers.
 
-No PQC-relevant AIPs have been filed. The closest governance-relevant event is the April 2026 Coinbase Advisory Board paper (authors include Aaronson, Boneh, Drake, Kannan, Lindell, and Malkhi) that named Aptos and Algorand the "most quantum-ready" among major L1s, highlighting Aptos's account-metadata public key design and PACTs (user-opt-in migration model alongside AIP-137 SLH-DSA) as migration-friendly architecture.
+No PQC-specific AIPs have been filed. SLH-DSA integration has proceeded through direct code contributions to [aptos-core](https://github.com/aptos-labs/aptos-core) rather than the formal AIP process.
 
 ---
 
-_Generated on 07 May 2026 based on information as of 07 May 2026._
+_Generated on 18 May 2026 based on information as of 18 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
