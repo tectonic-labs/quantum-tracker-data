@@ -1,0 +1,20 @@
+algorithm,type,family,nist_standardization,replaces,implemented,in_development,roadmapped,discussed,total_l1s,report
+ML-DSA (Dilithium),Signature,Lattice (module-LWE),FIPS 204,ECDSA / EdDSA,3,6,1,8,18,algorithms/ml-dsa.md
+Falcon (FN-DSA),Signature,Lattice (NTRU),FN-DSA / FIPS 206 (draft),ECDSA / EdDSA,2,1,1,7,11,algorithms/falcon.md
+SLH-DSA (SPHINCS+),Signature,Hash-based (stateless),FIPS 205,ECDSA / EdDSA,3,2,1,4,10,algorithms/slh-dsa.md
+WOTS+,Signature,Hash-based (one-time),RFC 8391 component,ECDSA / EdDSA / Schnorr,1,1,0,1,3,algorithms/wots.md
+LMS / LM-OTS,Signature,Hash-based (stateful),NIST SP 800-208,ECDSA / EdDSA / Schnorr,0,0,1,1,2,algorithms/lms.md
+Dynamic key fragmentation (QuStream),Signature,Proprietary,Non-standardized (patent-pending),EC transaction / block signing,0,0,0,1,1,algorithms/dynamic-key-fragmentation.md
+IronCAP,Signature,Code-based (vendor),Vendor-claimed NIST-aligned,ECDSA / EdDSA,0,0,0,1,1,algorithms/ironcap.md
+Lattice ring signatures (Abelian),Signature,Lattice,Non-standardized,EC ring-signature schemes,1,0,0,0,1,algorithms/lattice-ring-signatures.md
+leanMultisig,Signature,Hash-based (aggregate),Research (no NIST track),BLS12-381 aggregation,0,1,0,0,1,algorithms/leanmultisig.md
+leanSig,Signature,Hash-based,Research (no NIST track),BLS12-381,0,1,0,0,1,algorithms/leansig.md
+Raccoon,Signature,Lattice (masked),Submitted to NIST additional-signatures call,ECDSA / EdDSA,0,0,0,1,1,algorithms/raccoon.md
+Unspecified lattice scheme (Cardano),Signature,Lattice,Undetermined (research),EdDSA / VRF / KES,0,0,0,1,1,algorithms/unspecified-lattice-scheme.md
+XMSS,Signature,Hash-based (stateful),NIST SP 800-208,ECDSA / EdDSA,1,0,0,0,1,algorithms/xmss.md
+ML-KEM (Kyber),KEM,Lattice (module-LWE),FIPS 203,ECDH,2,1,0,0,3,algorithms/ml-kem.md
+Streamlined NTRU Prime,KEM,Lattice (NTRU),Not NIST-standardized,ECDH,1,0,0,0,1,algorithms/ntru-prime.md
+STARK / hash-based proofs,Proof system,Hash-based,No NIST track,KZG / BLS12-381 pairings,0,1,1,0,2,algorithms/stark.md
+Lattice ZK commitments (Abelian),Proof system,Lattice,Non-standardized,EC-pairing privacy primitives,1,0,0,0,1,algorithms/lattice-zk-commitments.md
+leanVM,Proof system,Hash-based zkVM,Research (no NIST track),BLS pairing-based aggregation,0,1,0,0,1,algorithms/leanvm.md
+Algorithm not yet selected (Zcash),Undetermined,--,Undetermined,ECDSA / EdDSA / Groth16-Halo2 commitments,0,1,0,0,1,algorithms/algorithm-not-yet-selected.md

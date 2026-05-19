@@ -13,12 +13,19 @@ CSV files are organized by segment (one CSV per segment):
 
 Each segment that has commentary annotations splits status and commentary across two files. See the schema sections below for the column layouts.
 
+In addition to the per-segment files, one **aggregate view** is published:
+
+- `algorithms.csv` -- PQC algorithm adoption pivoted across L1 blockchains -- *populated*
+
+`algorithms.csv` is not a segment: it has one row per PQC algorithm rather than per entity, its cells are counts, and it has no commentary pair. See its schema section below.
+
 Each segment has a matching subdirectory carrying long-form public reports and per-segment notes:
 
 - `chains/l1/` -- L1 chain PQC readiness reports (populated; see [`chains/l1/README.md`](chains/l1/README.md))
 - `coins/` -- *pending* (see [`coins/README.md`](coins/README.md))
 - `wallets/` -- *pending* (see [`wallets/README.md`](wallets/README.md))
 - `nfts/` -- *pending* (see [`nfts/README.md`](nfts/README.md))
+- `algorithms/` -- per-algorithm PQC adoption summaries for `algorithms.csv` (populated; see [`algorithms/README.md`](algorithms/README.md))
 
 ## Status Indicator Values
 
@@ -150,6 +157,26 @@ The wallets table tracks **products actively migrating toward PQC or holding arc
 - **Pre-mainnet / research-only artifacts** — products that have not shipped against a mainnet a wallet can sign for.
 
 A wallet that stops shipping releases is removed from the table on its next refresh. If a previously-tracked wallet resumes development with a PQC commitment, it can be re-added.
+
+## algorithms.csv schema
+
+`algorithms.csv` is an **aggregate view**, not an entity segment: it pivots the per-chain "Proposed and Implemented PQC Algorithms" tables in the L1 chain reports into one row per PQC algorithm. It has no commentary pair — the cells are integer counts, not stoplight statuses.
+
+| # | Column | Type | Notes |
+|---|--------|------|-------|
+| 1 | `algorithm` | string | Canonical algorithm name (variants such as Dilithium/ML-DSA, Falcon/FN-DSA, SPHINCS+/SLH-DSA are merged). |
+| 2 | `type` | enum | `Signature`, `KEM`, `Proof system`, `Undetermined`, or `Other`. |
+| 3 | `family` | string | Cryptographic family (e.g. lattice, hash-based). |
+| 4 | `nist_standardization` | string | NIST standard / draft / submission status, or a research note. |
+| 5 | `replaces` | string | Classical primitive the algorithm typically replaces. |
+| 6 | `implemented` | int | L1s with the algorithm live in production / shipped to mainnet. |
+| 7 | `in_development` | int | L1s with code in flight (testnet, devnet, open implementation PR). |
+| 8 | `roadmapped` | int | L1s with a published plan but implementation not yet started. |
+| 9 | `discussed` | int | L1s where it is raised in governance / proposals without commitment. |
+| 10 | `total_l1s` | int | Distinct L1s using the algorithm at any status. |
+| 11 | `report` | string | Relative path to the per-algorithm summary (`algorithms/<slug>.md`). |
+
+Each L1 is counted once per algorithm, in its furthest-along status across all the categories that chain applies it to. The file is regenerated from the L1 chain reports; it is not hand-edited.
 
 ## Update flow
 
