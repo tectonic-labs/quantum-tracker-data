@@ -4,9 +4,9 @@
 |---|---|
 | **Name** | Cosmos Hub |
 | **Ticker** | ATOM |
-| **Website** | https://cosmos.network |
-| **GitHub** | https://github.com/cosmos |
-| **Twitter / X** | https://x.com/cosmoshub |
+| **Website** | [cosmos.network](https://cosmos.network) |
+| **GitHub** | [cosmos](https://github.com/cosmos) |
+| **Twitter / X** | [@cosmoshub](https://x.com/cosmoshub) |
 | **On-chain environment** | CosmWasm (WASM) |
 | **Mainnet genesis** | 2019-03-14 |
 
@@ -15,35 +15,42 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | F | ❌ | Not Discussed |
+| Consensus | D | ⚠️ | Discussed |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | D | ⚠️ | Discussed |
 | EC Sunset | F | ❌ | Not Discussed |
 
-Cosmos Hub runs on CometBFT (formerly Tendermint) with a validator set that signs blocks using Ed25519, while user transactions rely primarily on ECDSA secp256k1. No post-quantum cryptographic primitives are deployed anywhere in the protocol today. The Interchain Foundation (ICF) has [allocated funding in 2024](https://medium.com/the-interchain-foundation/icf-funding-program-2024-3928d3b59e2f) for a Cosmos SDK cryptography module redesign that would enable modular, future-proof signature schemes including PQC support. Additionally, DoraFactory has published an [experimental Cosmos SDK chain with PQC signatures](https://github.com/DoraFactory/cosmos-pqc) as a research proof-of-concept. Neither effort has produced deployed protocol changes on Cosmos Hub.
+Cosmos Hub runs on CometBFT (formerly Tendermint) with a validator set that signs blocks using Ed25519, while user transactions rely primarily on ECDSA secp256k1. No post-quantum cryptographic primitives are deployed anywhere in the protocol today. However, upstream development has accelerated: in May 2026, open pull requests in both [CometBFT](https://github.com/cometbft/cometbft/pull/5875) and the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk/pull/26436) introduce **ML-DSA-65** as a validator key type, using Cloudflare's CIRCL library. When merged, every Cosmos SDK chain — including Cosmos Hub — would inherit ML-DSA-65 validator-key capability. The Interchain Foundation (ICF) has also [allocated funding in 2024](https://medium.com/the-interchain-foundation/icf-funding-program-2024-3928d3b59e2f) for a broader Cosmos SDK cryptography module redesign, and DoraFactory has published an [experimental Cosmos SDK chain with PQC signatures](https://github.com/DoraFactory/cosmos-pqc) as a research proof-of-concept.
 
-Cosmos Hub does not currently propose or implement any post-quantum cryptographic algorithms.
+## Proposed and Implemented PQC Algorithms
 
-## 1. Transaction Signatures
+| Algorithm | Replaces | Category | Status |
+|-----------|----------|----------|--------|
+| **ML-DSA-65** | Ed25519 | Consensus | Discussed |
+
+## Transaction Signatures
 
 **Grade: F ❌**
 
 We have found no public information indicating migration activity for Cosmos Hub in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 
-## 2. Consensus
+## Consensus
 
-**Grade: F ❌**
+**Grade: D ⚠️**
 
 Cosmos Hub uses CometBFT, a BFT consensus protocol where all [validator signing](https://docs.cometbft.com/v0.37/spec/consensus/signing) — prevotes, precommits, and proposals — relies on Ed25519. Validator identity is an Ed25519 public key, with the [validator address](https://tutorials.cosmos.network/tutorials/9-path-to-prod/3-keys.html) derived as SHA-256(pubkey)[0:20]. Blocks reach instant finality when more than two-thirds of validators sign precommits using Ed25519.
 
-Ed25519 is an elliptic-curve scheme on Twisted Edwards Curve25519, vulnerable to Shor's algorithm. A quantum adversary capable of breaking Ed25519 could forge validator signatures, producing invalid blocks or censoring transactions. Migration would require a hard fork plus coordinated validator key rotation across the entire validator set.
+**Current state.** All consensus signing is Ed25519. Two upstream pull requests opened in May 2026 introduce **ML-DSA-65** as a validator key option:
 
-**Current state.** All consensus signing is Ed25519. No post-quantum alternative has been proposed for CometBFT's consensus signatures.
+- [cometbft/cometbft#5875](https://github.com/cometbft/cometbft/pull/5875) — "feat: Add ml-dsa 65 key type" (opened 2026-05-19, +822/-60 across 27 files). Uses Cloudflare's [CIRCL](https://github.com/cloudflare/circl) library. Minimally integrates ML-DSA-65 into CometBFT as a validator key option, with end-to-end test fixtures for networks using ML-DSA-65 throughout.
+- [cosmos/cosmos-sdk#26436](https://github.com/cosmos/cosmos-sdk/pull/26436) — "feat: Update for ml-dsa-65 validator keys" (opened 2026-05-19, +1417/-238 across 52 files). Depends on cometbft#5875.
 
-**Planned future work.** The [CometBFT documentation](https://docs.cometbft.com/v0.37/spec/consensus/signing) makes no mention of post-quantum consensus signatures. The ICF-funded cryptography module redesign may eventually enable algorithm substitution, but no consensus-specific timeline has been published.
+These PRs are open and not yet merged. When merged, every cosmos-sdk + cometbft chain inherits ML-DSA-65 validator-key capability.
 
-## 3. P2P Networking
+**Planned future work.** The upstream PRs are in active development. The [ICF-funded cryptography module redesign](https://medium.com/the-interchain-foundation/icf-funding-program-2024-3928d3b59e2f) continues in parallel and may provide additional PQC infrastructure.
+
+## P2P Networking
 
 **Grade: F ❌**
 
@@ -53,11 +60,11 @@ Cosmos Hub's [P2P networking layer](https://docs.cometbft.com/v0.37/spec/p2p/pee
 
 **Planned future work.** No published roadmap addresses PQC transport for the Cosmos P2P layer.
 
-## 4. On-Chain Logic
+## On-Chain Logic
 
 **Grade: F ❌**
 
-Cosmos Hub supports smart contracts through [CosmWasm](https://cosmwasm.cosmos.network/core/standard-library/cryptography), a WebAssembly runtime. The available cryptographic host functions include secp256k1_verify, secp256k1_recover_pubkey, secp256r1_verify, and ed25519_verify — all EC or EdDSA based. Hash functions (SHA-256, Keccak256, Blake2b) are also available. No lattice-based or hash-based post-quantum signature verification primitives exist in the CosmWasm environment.
+Cosmos Hub supports smart contracts through [CosmWasm](https://cosmwasm.cosmos.network/core/standard-library/cryptography), a WebAssembly runtime. The available cryptographic host functions include secp256k1_verify, secp256k1_recover_pubkey, secp256r1_verify, and ed25519_verify — all EC or EdDSA based. Hash functions (SHA-256, Keccak256, Blake2b) are also available. No post-quantum signature verification primitives exist in the CosmWasm environment.
 
 The [Cosmos SDK crypto module](https://pkg.go.dev/github.com/cosmos/cosmos-sdk/crypto/keys) supports secp256k1, Ed25519, and secp256r1, with [community discussions](https://github.com/cosmos/cosmos-sdk/discussions/8543) exploring future signature scheme support. Adding PQC precompiles would require VM and host function changes.
 
@@ -65,7 +72,7 @@ The [Cosmos SDK crypto module](https://pkg.go.dev/github.com/cosmos/cosmos-sdk/c
 
 **Planned future work.** The [ICF 2024 funding program](https://medium.com/the-interchain-foundation/icf-funding-program-2024-3928d3b59e2f) targets a cryptography module redesign that may eventually expose PQC-safe primitives to contracts, but no timeline has been published.
 
-## 5. Other Features
+## Other Features
 
 **Grade: D ⚠️**
 
@@ -75,17 +82,15 @@ The [Cosmos SDK crypto module](https://pkg.go.dev/github.com/cosmos/cosmos-sdk/c
 
 If a counterparty chain's validators' Ed25519 keys are compromised by a quantum computer, IBC light clients on Cosmos Hub cannot verify counterparty state. Bridged tokens and cross-chain state become untrustable retroactively. The IBC protocol is built around signature verification; migrating to an alternative verification method would require a protocol-level redesign.
 
-The [ICF 2024 funding program](https://medium.com/the-interchain-foundation/icf-funding-program-2024-3928d3b59e2f) includes a cryptography module redesign for the Cosmos SDK that could eventually enable modular signature schemes including PQC. DoraFactory has published an [experimental Cosmos SDK chain with PQC signatures](https://github.com/DoraFactory/cosmos-pqc) as a research proof-of-concept, though it has not been integrated into Cosmos Hub or IBC production code.
-
-**Current state.** IBC security is entirely dependent on Ed25519 validator signatures from counterparty chains. No PQC-safe light client verification exists.
+**Current state.** IBC security is entirely dependent on Ed25519 validator signatures from counterparty chains. No PQC-safe light client verification exists. The upstream **ML-DSA-65** validator key PRs (cometbft#5875, cosmos-sdk#26436) would enable PQC-signed blocks, which IBC light clients could eventually verify — but no IBC-specific integration work has been published.
 
 **Planned future work.** The ICF-funded cryptography module redesign may eventually enable modular signature schemes that could be adopted by IBC, but no IBC-specific PQC migration plan has been published.
 
-## 6. EC Sunset
+## EC Sunset
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ❌, P2P ❌, On-Chain ❌, Other ⚠️.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ⚠️, P2P ❌, On-Chain ❌, Other ⚠️.
 
 The Interchain Foundation has [allocated funding](https://medium.com/the-interchain-foundation/icf-funding-program-2024-3928d3b59e2f) for a Cosmos SDK cryptography module redesign that would support modular, future-proof cryptography including PQC. This is enabling infrastructure — it makes algorithm substitution possible — but it is not an EC deprecation plan. No category of Cosmos Hub's cryptography has a published sunset schedule for EC removal.
 
@@ -102,6 +107,8 @@ Cosmos Hub governance operates through the [x/governance module](https://hub.cos
 No formal PQC proposals have been filed through Cosmos Hub's on-chain governance process. PQC-related activity is limited to:
 
 - **ICF Funding Program 2024** — The Interchain Foundation [announced funding](https://medium.com/the-interchain-foundation/icf-funding-program-2024-3928d3b59e2f) for Cosmos SDK cryptography module redesign including post-quantum support. This is a Foundation-level funding decision, not an on-chain governance action. Target completion is unknown.
+- **cometbft/cometbft#5875** — [ML-DSA-65 key type PR](https://github.com/cometbft/cometbft/pull/5875) (opened 2026-05-19). Adds ML-DSA-65 as a validator key option via CIRCL.
+- **cosmos/cosmos-sdk#26436** — [ML-DSA-65 validator keys PR](https://github.com/cosmos/cosmos-sdk/pull/26436) (opened 2026-05-19). Depends on cometbft#5875.
 - **DoraFactory cosmos-pqc** — An [experimental Cosmos SDK chain](https://github.com/DoraFactory/cosmos-pqc) with PQC signatures, published as a research proof-of-concept. Not integrated into Cosmos Hub.
 - **SDK Discussion #8543** — A [community discussion](https://github.com/cosmos/cosmos-sdk/discussions/8543) on Ed25519 support and future signature schemes in the Cosmos SDK.
 
@@ -109,7 +116,7 @@ No formal community discourse on PQC migration timeline has occurred on the Cosm
 
 ---
 
-_Generated on 07 May 2026 based on information as of 30 Apr 2026._
+_Generated on 25 May 2026 based on information as of 25 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
