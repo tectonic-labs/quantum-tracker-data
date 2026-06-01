@@ -1,0 +1,74 @@
+# .github/workflows/deploy-reports.yml
+#
+# Triggers on:
+#   1. Push to the data repo (if this workflow lives in quantum-tracker-data)
+#   2. Manual dispatch (for testing)
+#   3. Daily schedule at 2:00 AM UTC as a safety net
+#
+# Required repository secrets:
+#   FTP_HOST     — your GoDaddy FTP hostname (e.g., ftp.quantumtracker.org or an IP)
+#   FTP_USER     — FTP username from cPanel
+#   FTP_PASSWORD  — FTP password
+#   FTP_PATH     — remote directory (e.g., /public_html or /home/username/public_html)
+
+name: Generate & Deploy Reports
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.csv'
+      - '**.md'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'   # Daily at 2 AM UTC
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout data repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Download generator script
+        run: |
+          # If generate-reports.js is in this repo, it's already here.
+          # Otherwise, fetch it from wherever you store it:
+          # curl -sL https://raw.githubusercontent.com/YOUR_ORG/YOUR_SITE_REPO/main/generate-reports.js -o generate-reports.js
+          echo "Generator script ready"
+
+      - name: Generate static report pages
+        run: node generate-reports.js
+        env:
+          SITE_URL: https://quantumtracker.org
+
+      - name: List generated files
+        run: |
+          echo "=== Reports ==="
+          find reports/ -name "*.html" | sort
+          echo ""
+          echo "=== Sitemap ==="
+          head -20 sitemap.xml
+
+      - name: Deploy to GoDaddy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_PATH }}/
+          local-dir: ./
+          # Only upload the reports folder and sitemap — don't touch the rest of the site
+          include: |
+            reports/**
+            sitemap.xml
+          # Dangerous-clean deletes remote files not in the local dir.
+          # Set to false so we don't wipe your main site files.
+          dangerous-clean-slate: false
+          log-level: minimal
