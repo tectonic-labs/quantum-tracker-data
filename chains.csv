@@ -87,7 +87,7 @@ Kadena,KDA,F,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.s
 QuStream,QST,,L1 (PQC-native),d-discussed.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/qustream.md
 Agoric,BLD,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 Cellframe,CELL,,L1 (PQC-native),a-done.svg,a-done.svg,a-done.svg,a-done.svg,a-done.svg,a-done.svg,2026-04-30,,chains/l1/cellframe.md
-Arc,ARC,B,L1,b-dev.svg,d-discussed.svg,f-nothing.svg,a-done.svg,n-not-applicable.svg,c-planned.svg,2026-05-25,,chains/l1/arc.md
+Arc,ARC,B,L1,b-dev.svg,c-planned.svg,c-planned.svg,b-dev.svg,n-not-applicable.svg,b-dev.svg,2026-06-01,,chains/l1/arc.md
 Midnight,NIGHT,D,L1 (Privacy),f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/midnight.md
 0G,0G,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 Beam,BEAMX,F,L1 (Privacy),f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/beam.md
