@@ -20,6 +20,8 @@
 
 Asentum is a from-scratch Layer-1 blockchain designed with post-quantum cryptography at every layer from genesis. Transaction signing and validator consensus use **ML-DSA-65** (Dilithium3, FIPS 204 Level 3), confirmed in the validator onboarding application with the message "Your Dilithium3 keypair is encrypted locally and never leaves this machine." A public testnet launched April 30, 2026 with five validators across three continents and more than 20,000 blocks finalized; mainnet launched May 13, 2026. The execution model uses JavaScript via Hardened JavaScript / SES (the same isolation primitive used by the Agoric project), with on-chain scheduling and cron functionality rolled out in a May 18 testnet update. No independent third-party cryptographic audit of the ML-DSA-65 implementation has been published.
 
+The team has publicly described their algorithm selection rationale: all three ML-DSA security levels were evaluated before settling on Level 3 (ML-DSA-65). ML-DSA-44 (~2.4 KB signatures, ~1.3 KB public keys) was rejected as having an insufficient security margin; ML-DSA-87 (~4.6 KB signatures, ~2.6 KB public keys) was rejected as too large to fit the chain's bandwidth and block-sync budget. ML-DSA-65 (~3.3 KB signatures, ~1.9 KB public keys) was selected as the balance point. The team noted that these signatures are approximately 52× larger than Ed25519, a constraint that shaped committee size, bandwidth budget, and block synchronisation design.
+
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
@@ -97,7 +99,7 @@ Reference sources:
 
 ---
 
-_Generated on 18 May 2026 based on information as of 18 May 2026._
+_Generated on 01 Jun 2026 based on information as of 01 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
