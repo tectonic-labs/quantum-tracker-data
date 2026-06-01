@@ -1,15 +1,10 @@
 # .github/workflows/deploy-reports.yml
 #
-# Triggers on:
-#   1. Push to the data repo (if this workflow lives in quantum-tracker-data)
-#   2. Manual dispatch (for testing)
-#   3. Daily schedule at 2:00 AM UTC as a safety net
-#
 # Required repository secrets:
-#   FTP_HOST     — your GoDaddy FTP hostname (e.g., ftp.quantumtracker.org or an IP)
-#   FTP_USER     — FTP username from cPanel
+#   FTP_HOST      — GoDaddy FTP hostname (find in cPanel → FTP Accounts, e.g. 198.71.xxx.xxx or ftp.yourdomain.com)
+#   FTP_USER      — FTP username (from cPanel → FTP Accounts)
 #   FTP_PASSWORD  — FTP password
-#   FTP_PATH     — remote directory (e.g., /public_html or /home/username/public_html)
+#   FTP_PATH      — remote directory WITH trailing slash (e.g. /public_html/)
 
 name: Generate & Deploy Reports
 
@@ -21,7 +16,10 @@ on:
       - '**.md'
   workflow_dispatch:
   schedule:
-    - cron: '0 2 * * *'   # Daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build-and-deploy:
@@ -34,27 +32,20 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-
-      - name: Download generator script
-        run: |
-          # If generate-reports.js is in this repo, it's already here.
-          # Otherwise, fetch it from wherever you store it:
-          # curl -sL https://raw.githubusercontent.com/YOUR_ORG/YOUR_SITE_REPO/main/generate-reports.js -o generate-reports.js
-          echo "Generator script ready"
+          node-version: '22'
 
       - name: Generate static report pages
         run: node generate-reports.js
         env:
           SITE_URL: https://quantumtracker.org
 
-      - name: List generated files
+      - name: Prepare deploy folder
         run: |
-          echo "=== Reports ==="
-          find reports/ -name "*.html" | sort
-          echo ""
-          echo "=== Sitemap ==="
-          head -20 sitemap.xml
+          mkdir -p deploy
+          cp -r reports/ deploy/reports/
+          cp sitemap.xml deploy/sitemap.xml
+          echo "=== Files to deploy ==="
+          find deploy/ -type f | sort
 
       - name: Deploy to GoDaddy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -62,13 +53,7 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_PATH }}/
-          local-dir: ./
-          # Only upload the reports folder and sitemap — don't touch the rest of the site
-          include: |
-            reports/**
-            sitemap.xml
-          # Dangerous-clean deletes remote files not in the local dir.
-          # Set to false so we don't wipe your main site files.
+          server-dir: ${{ secrets.FTP_PATH }}
+          local-dir: ./deploy/
           dangerous-clean-slate: false
           log-level: minimal
