@@ -74,7 +74,7 @@ Monero is not a smart contract platform. There are no precompiles, no on-chain V
 
 [CLSAG ring signatures](https://www.moneroinflation.com/ring_signatures_clsag) hide the sender by including decoys; they prove one of N keys signed the transaction without revealing which. Built on Ed25519, a quantum attacker could identify the real signer among ring members by solving discrete-log.
 
-**Current state.** CLSAG is EC-based. [FCMP++](https://www.getmonero.org/2024/04/27/fcmps.html) (activated Q1 2026) replaces ring signatures with zero-knowledge membership proofs but [still uses elliptic-curve point commitments](https://ccs.getmonero.org/proposals/fcmp++-development.html).
+**Current state.** CLSAG is EC-based. [FCMP++](https://www.getmonero.org/2024/04/27/fcmps.html) (activated Q1 2026) replaces ring signatures with zero-knowledge membership proofs but [still uses elliptic-curve point commitments](https://ccs.getmonero.org/proposals/fcmp++-development.html). The [FCMP++ + CARROT stressnet v2.0](https://github.com/seraphis-migration/monero) was released by the Monero Research Lab in May 2026; CARROT is a new addressing protocol but remains EC-based.
 
 **Planned future work.** Research-phase alternatives include GLYPH (hash-based ring signatures) and MatRiCT (alternative confidential transaction protocol). Neither has an implementation timeline. Open discussion continues at [MRL GitHub issues #151](https://github.com/monero-project/research-lab/issues/151) and [#131](https://github.com/monero-project/research-lab/issues/131).
 
@@ -106,7 +106,7 @@ Adding PQC alongside EC is not the same as retiring EC. For reference, this chai
 
 No production EC retirement plan exists. [FCMP++](https://xgram.io/blog/monero-fcmp) (Q1 2026) improves privacy but maintains EC dependencies. The Jamtis/CSIDH-1024 research targets one specific primitive (stealth-address key exchange) but does not address ring signatures, Pedersen commitments, Bulletproofs+, or node identity. [Community-funded post-quantum research](https://ccs.getmonero.org/proposals/research-post-quantum-monero.html) continues but acknowledges there is no complete, production-ready plan to make every component PQC-safe.
 
-**Current state.** EC cryptography underpins every privacy primitive. No category has a published EC retirement timeline.
+**Current state.** EC cryptography underpins every privacy primitive. No category has a published EC retirement timeline. The [FCMP++ + CARROT stressnet v2.0](https://github.com/seraphis-migration/monero), released by the Monero Research Lab in May 2026, continues this pattern: CARROT is a new addressing protocol, and the v2.0 stressnet is still discrete-log based. It is a meaningful privacy-primitive improvement but not a PQC migration.
 
 **Planned future work.** Jamtis/CSIDH-1024 for stealth addresses; GLYPH and MatRiCT remain in research phase for other primitives.
 
@@ -123,7 +123,7 @@ PQC-related governance activity:
 
 ---
 
-_Generated on 11 May 2026 based on information as of 11 May 2026._
+_Generated on 01 Jun 2026 based on information as of 01 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

@@ -1,5 +1,5 @@
 project,ticker,tier,category,tx_signature_exposure,consensus_exposure,p2p_exposure,onchain_exposure,other_exposure,ec_sunset,date_last_updated,audit,report
-Bitcoin,BTC,C,L1,c-planned.svg,a-done.svg,f-nothing.svg,d-discussed.svg,n-not-applicable.svg,d-discussed.svg,2026-05-06,,chains/l1/bitcoin.md
+Bitcoin,BTC,C,L1,c-planned.svg,a-done.svg,f-nothing.svg,d-discussed.svg,n-not-applicable.svg,d-discussed.svg,2026-06-01,,chains/l1/bitcoin.md
 Ethereum,ETH,B,L1,c-planned.svg,b-dev.svg,f-nothing.svg,c-planned.svg,c-planned.svg,f-nothing.svg,2026-04-30,,chains/l1/ethereum.md
 Ripple,XRP,B,L1,b-dev.svg,b-dev.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-07,,chains/l1/ripple.md
 BNB Chain,BNB,C,L1,b-dev.svg,b-dev.svg,d-discussed.svg,b-dev.svg,f-nothing.svg,f-nothing.svg,2026-05-18,,chains/l1/bnb-chain.md
@@ -10,7 +10,7 @@ Hyperliquid,HYPE,D,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,d-discussed.sv
 Cardano,ADA,C,L1,c-planned.svg,d-discussed.svg,f-nothing.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,2026-05-18,,chains/l1/cardano.md
 Bitcoin Cash,BCH,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/bitcoin-cash.md
 Zcash,ZEC,C,L1 (Privacy),f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,b-dev.svg,c-planned.svg,2026-04-30,,chains/l1/zcash.md
-Monero,XMR,D,L1 (Privacy),d-discussed.svg,a-done.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-11,,chains/l1/monero.md
+Monero,XMR,D,L1 (Privacy),d-discussed.svg,a-done.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-06-01,,chains/l1/monero.md
 Canton,CC,C,L1 (Enterprise),b-dev.svg,d-discussed.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-25,,chains/l1/canton.md
 Toncoin,TON,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,
 Stellar,XLM,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,
@@ -98,7 +98,7 @@ Polygon,POL,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothi
 Quip Network,QUIP,,L1 (PQC-native),b-dev.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,b-dev.svg,f-nothing.svg,2026-04-30,,chains/l1/quip-network.md
 Symbol,XYM,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-05,,
 Tempo,TEMPO,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-04,,
-Asentum,ASE,,L1 (PQC-native),b-dev.svg,b-dev.svg,d-discussed.svg,d-discussed.svg,n-not-applicable.svg,a-done.svg,2026-05-18,,chains/l1/asentum.md
+Asentum,ASE,,L1 (PQC-native),b-dev.svg,b-dev.svg,d-discussed.svg,d-discussed.svg,n-not-applicable.svg,a-done.svg,2026-06-01,,chains/l1/asentum.md
 XX Network,XX,,L1 (PQC-native),f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/xx-network.md
 MemeCore,M,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/memecore.md
 Stacks,STX,F,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/stacks.md
