@@ -2,6 +2,7 @@ name: Data correction
 description: Report inaccurate or outdated data in this dataset.
 title: "[Correction] <project> — <what is wrong>"
 labels: ["data-correction"]
+assignees: ["shemnon"]
 body:
   - type: markdown
     attributes:
