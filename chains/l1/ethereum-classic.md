@@ -10,6 +10,7 @@
 | **Derived from** | Ethereum |
 | **On-chain environment** | EVM |
 | **Mainnet genesis** | 2015-07-30 |
+| **Current mainnet version** | Core-Geth v1.12.22 "Hermes" |
 
 ## Summary
 

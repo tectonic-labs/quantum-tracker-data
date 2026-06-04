@@ -8,6 +8,7 @@
 | **GitHub** | https://github.com/ethereum |
 | **On-chain environment** | EVM |
 | **Mainnet genesis** | 2015-07-30 |
+| **Current mainnet version** | Fusaka (activated 2025-12-03) |
 
 ## Summary
 

@@ -7,6 +7,7 @@
 | **Website** | [flow.com](https://flow.com/) |
 | **GitHub** | [onflow](https://github.com/onflow/flow-go) |
 | **On-chain environment** | Cadence (resource-oriented, capability-based VM) plus Flow EVM (Ethereum-compatible execution via Cadence-Owned Accounts) |
+| **Current mainnet version** | flow-go v8.x (Q1 2026 HCUs; Forte upgrade Oct 2025) |
 
 ## Summary
 

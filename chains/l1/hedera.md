@@ -8,6 +8,7 @@
 | **GitHub** | https://github.com/hashgraph |
 | **On-chain environment** | EVM (via Hyperledger Besu Smart Contract Service) |
 | **Mainnet genesis** | 2019-09-16 |
+| **Current mainnet version** | hiero-consensus-node ~v0.72.x (v0.74.0 targeting June 2026) |
 
 ## Summary
 

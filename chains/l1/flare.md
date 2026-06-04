@@ -8,6 +8,7 @@
 | **GitHub** | https://github.com/flare-foundation |
 | **Twitter / X** | https://x.com/FlareNetworks |
 | **On-chain environment** | EVM |
+| **Current mainnet version** | go-flare v1.13.x (activated 2026-04-14) |
 
 ## Summary
 
