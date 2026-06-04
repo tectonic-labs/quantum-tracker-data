@@ -56,7 +56,7 @@ Plasma,XPL,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothin
 Theta Network,THETA,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/theta-network.md
 NEO,NEO,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/neo.md
 THORChain,RUNE,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/thorchain.md
-Akash Network,AKT,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
+Akash Network,AKT,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/akash-network.md
 Story,IP,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/story.md
 Sonic,S,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/sonic.md
 MegaETH,MEGA,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/megaeth.md
@@ -82,14 +82,14 @@ WAX,WAXP,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.
 Osmosis,OSMO,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 QANplatform,QANX,,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,a-done.svg,n-not-applicable.svg,f-nothing.svg,2026-04-30,,chains/l1/qanplatform.md
 Initia,INIT,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/initia.md
-Abelian,ABEL,,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,d-discussed.svg,a-done.svg,a-done.svg,2026-04-30,,
+Abelian,ABEL,,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,d-discussed.svg,a-done.svg,a-done.svg,2026-04-30,,chains/l1/abelian.md
 Kadena,KDA,F,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/kadena.md
 QuStream,QST,,L1 (PQC-native),d-discussed.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/qustream.md
-Agoric,BLD,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
+Agoric,BLD,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/agoric.md
 Cellframe,CELL,,L1 (PQC-native),a-done.svg,a-done.svg,a-done.svg,a-done.svg,a-done.svg,a-done.svg,2026-04-30,,chains/l1/cellframe.md
 Arc,ARC,B,L1,b-dev.svg,c-planned.svg,c-planned.svg,b-dev.svg,n-not-applicable.svg,b-dev.svg,2026-06-01,,chains/l1/arc.md
 Midnight,NIGHT,D,L1 (Privacy),f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/midnight.md
-0G,0G,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
+0G,0G,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/0g.md
 Beam,BEAMX,F,L1 (Privacy),f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/beam.md
 Vaulta,A,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-14,,chains/l1/vaulta.md
 Mochimo,MCM,,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,n-not-applicable.svg,a-done.svg,a-done.svg,2026-05-07,,chains/l1/mochimo.md
