@@ -63,7 +63,7 @@ Transport protocol, node identity, handshake construction, and peer-discovery de
 
 **Grade: D ⚠️**
 
-The Asset Layer is described as supporting wrapped-asset contracts, and the Compute Layer is described as handling the submission and verification of quantum and classical optimization problems. The VM type, supported precompiles or builtins, and signature-verification primitives available to on-chain programs are not described in depth in the public materials. EC precompiles are implied by the EVM cross-chain interop story but their inventory is not enumerated; this concerns the EC Sunset section rather than this column. **WOTS+** verification is implied by Asset Layer transaction processing, but the on-chain verification interface is not documented.
+The Asset Layer is described as supporting wrapped-asset contracts, and the Compute Layer is described as handling the submission and verification of quantum and classical optimization problems. The VM type, supported precompiles or builtins, and signature-verification primitives available to on-chain programs are not described in depth in the public materials. **WOTS+** verification is implied by Asset Layer transaction processing, but the on-chain verification interface is not documented.
 
 **Current state.** Testnet Asset Layer is operational; smart-contract capabilities on testnet are described as limited.
 
@@ -101,7 +101,7 @@ Governance is currently company-led by PostQuant Labs. The project is in its tes
 
 ---
 
-_Generated on 08 May 2026 based on information as of 30 Apr 2026._
+_Generated on 03 Jun 2026 based on information as of 30 Apr 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

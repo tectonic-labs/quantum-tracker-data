@@ -78,7 +78,7 @@ QANplatform does not support any special features.
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ✅, P2P ⚠️, On-Chain ✅, Other ➖.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ✅, P2P ⚠️, On-Chain ✅, Other ➖.
 
 **Current state.** QANplatform retains ECDSA secp256k1 acceptance for transactions and keeps the standard EVM elliptic-curve precompiles (ecrecover and friends) inside the QVM to preserve EVM tooling and wallet compatibility. The consensus and validator-identity layer is PQC-only with no EC code paths. There is no announced deprecation or removal timeline for the EC surface area; the public posture is that EC is expected to remain indefinitely as a compatibility layer.
 
@@ -96,7 +96,7 @@ Dated milestones on the public record:
 
 ---
 
-_Generated on 08 May 2026 based on information as of 30 Apr 2026._
+_Generated on 03 Jun 2026 based on information as of 30 Apr 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
