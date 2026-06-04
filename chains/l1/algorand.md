@@ -17,7 +17,7 @@
 | Transaction Signatures | B | 🔧 | In Development |
 | Consensus | F | ❌ | Not Discussed |
 | P2P Networking | F | ❌ | Not Discussed |
-| On-Chain Logic | B | 🔧 | In Development |
+| On-Chain Logic | A | ✅ | Shipped |
 | Other Features | A | ✅ | Shipped |
 | EC Sunset | F | ❌ | Not Discussed |
 
@@ -31,7 +31,7 @@ The principal remaining exposure is the consensus layer. Algorand's [Pure Proof-
 |-----------|----------|----------|--------|
 | **Falcon-1024 / FN-DSA** | Ed25519 (Curve25519) | Tx Signatures | In Development (opt-in live on mainnet since Nov 2025) |
 | **Falcon-1024 / FN-DSA** | Ed25519 (Curve25519) | Other (State Proofs) | Implemented (live since 2022) |
-| **Falcon-1024 / FN-DSA** | Ed25519 (Curve25519) | On-Chain | In Development (experimental AVM opcode) |
+| **Falcon-1024 / FN-DSA** | Ed25519 (Curve25519) | On-Chain | Implemented (`falcon_verify` opcode live on mainnet since AVM v12 / consensus v41, Sept 2024) |
 
 ## 1. Transaction Signatures
 
@@ -65,15 +65,15 @@ We have found no public information indicating migration activity for Algorand i
 
 ## 4. On-Chain Logic
 
-**Grade: B 🔧**
+**Grade: A ✅**
 
 Algorand's [AVM](https://developer.algorand.org/docs/get-details/dapps/avm/) is a stack-based bytecode interpreter running on every node, with smart contracts written in [TEAL](https://developer.algorand.org/docs/get-details/dapps/avm/teal/) (Transaction Execution Approval Language) or higher-level languages that compile to TEAL. The existing `ed25519verify` opcode (cost 1900) enables on-chain Ed25519 signature verification.
 
-An experimental **Falcon-1024** verification opcode (`falcon_verify`) is under development. When it ships, smart contracts will be able to verify Falcon signatures natively, enabling post-quantum-aware dApp logic such as PQC multi-sig schemes and on-chain attestation verification.
+The `falcon_verify` opcode (cost 1700) for **Falcon-1024** signature verification has been [live on mainnet since AVM v12 / consensus v41](https://dev.algorand.co/reference/algorand-teal/opcodes/) (go-algorand 4.3.0, activated September 2024). Smart contracts can verify Falcon-1024 signatures natively via this opcode, enabling post-quantum-aware dApp logic such as PQC multi-sig schemes and on-chain attestation verification.
 
-**Current state.** On-chain signature verification is limited to Ed25519. The Falcon opcode is experimental and not yet available on mainnet.
+**Current state.** On-chain signature verification supports both Ed25519 (`ed25519verify`) and Falcon-1024 (`falcon_verify`). The `falcon_verify` opcode is live on mainnet. The November 2025 first post-quantum transaction on a public mainnet used Falcon-signed Logic Signatures with this opcode.
 
-**Planned future work.** The Falcon verification opcode is listed in the phased rollout after user-account Falcon keys. No mainnet activation date has been published.
+**Planned future work.** No further work needed for on-chain PQC verification; this capability is shipped.
 
 ## 5. Other Features
 
@@ -93,7 +93,7 @@ State Proofs are compact certificates of [Algorand ledger state](https://algoran
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ❌, P2P ❌, On-Chain 🔧, Other ✅.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ❌, P2P ❌, On-Chain ✅, Other ✅.
 
 Algorand's approach is additive: **Falcon-1024** has been added as an alternative to Ed25519, but Ed25519 is not being removed. The protocol guarantees indefinite backward compatibility with Ed25519 accounts. The phased rollout prioritizes adding PQC support — accounts first, then consensus — rather than deprecating EC.
 
@@ -117,7 +117,7 @@ PQC-relevant governance activity:
 
 ---
 
-_Generated on 07 May 2026 based on information as of 06 May 2026._
+_Generated on 03 Jun 2026 based on information as of 03 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

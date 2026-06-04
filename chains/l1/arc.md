@@ -14,11 +14,11 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | B | 🔧 | In Development |
-| Consensus | C | 🗺️ | Roadmapped |
-| P2P Networking | C | 🗺️ | Roadmapped |
-| On-Chain Logic | B | 🔧 | In Development |
+| Consensus | D | ⚠️ | Discussed |
+| P2P Networking | F | ❌ | Not Discussed |
+| On-Chain Logic | A | ✅ | Shipped |
 | Other Features | ➖ | ➖ | Not Applicable |
-| EC Sunset | B | 🔧 | In Development |
+| EC Sunset | C | 🗺️ | Roadmapped |
 
 Arc is a [Circle-developed stablecoin-native L1](https://www.circle.com/blog/introducing-arc-an-open-layer-1-blockchain-purpose-built-for-stablecoin-finance) built with USDC as its native gas token. Circle has published a comprehensive [post-quantum security roadmap](https://www.arc.network/blog/arcs-quantum-resistant-design-and-roadmap-why-it-matters) for Arc, and has since released a [detailed technical paper](https://6778953.fs1.hubspotusercontent-na1.net/hubfs/6778953/PDFs/quantum_paper.pdf) describing the cryptographic strategy in depth. The paper covers a three-phase migration model — Readiness (current), Transition (hybrid PQ+classical mode), and Switch (full PQ) — and names specific algorithms and mechanisms for each surface. Phase 1 is live on testnet with opt-in quantum-resistant wallets and an **SLH-DSA-SHA2-128s** EVM precompile; Arc mainnet is forthcoming.
 
@@ -48,7 +48,7 @@ The Switch phase of Circle's roadmap includes an explicit protocol-level commitm
 
 ## 2. Consensus
 
-**Grade: C 🗺️**
+**Grade: D ⚠️**
 
 Arc uses Malachite BFT consensus (Tendermint-style). Validator signing is currently ECDSA-based. Circle's [technical paper](https://6778953.fs1.hubspotusercontent-na1.net/hubfs/6778953/PDFs/quantum_paper.pdf) explicitly commits to upgrading validator signatures: "We are working toward upgrading Arc's validator signatures to a post-quantum scheme." The same paper identifies the key blocking dependency — no drop-in post-quantum replacement for BLS aggregate signatures currently exists. BLS aggregate signatures are the scheme used in Ethereum-style consensus; their absence from the post-quantum standardized family is a known open problem across the broader PoS ecosystem, not specific to Arc.
 
@@ -58,7 +58,7 @@ Arc uses Malachite BFT consensus (Tendermint-style). Validator signing is curren
 
 ## 3. P2P Networking
 
-**Grade: C 🗺️**
+**Grade: F ❌**
 
 Arc uses libp2p with the Noise Protocol for peer-to-peer communication. Noise uses X25519 ECDH for the key exchange and Ed25519 for node identity — both EC-based schemes. Circle's [technical paper](https://6778953.fs1.hubspotusercontent-na1.net/hubfs/6778953/PDFs/quantum_paper.pdf) explicitly identifies this surface as a quantum risk and states that the libp2p project has PQ networking "under active exploration" as of its 2025 annual report. The Transition phase of Circle's roadmap lists a "libp2p/Noise Protocol PQ upgrade" as a named work item.
 
@@ -68,7 +68,7 @@ Arc uses libp2p with the Noise Protocol for peer-to-peer communication. Noise us
 
 ## 4. On-Chain Logic
 
-**Grade: B 🔧**
+**Grade: A ✅**
 
 The [Arc node source](https://github.com/circlefin/arc-node) contains an EVM precompile for **SLH-DSA-SHA2-128s** signature verification at `crates/precompiles/src/pq.rs`. Any smart contract on Arc can call this precompile to verify post-quantum signatures on-chain without custom cryptographic code. The interface is described in the source as the "Experimental post-quantum cryptography precompile interface" as of a May 2026 update. Test vector generation and test vectors are also present in the codebase.
 
@@ -84,9 +84,9 @@ Arc does not support any special features.
 
 ## 6. EC Sunset
 
-**Grade: B 🔧**
+**Grade: C 🗺️**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Arc's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus 🗺️, P2P 🗺️, On-Chain 🔧, Other ➖.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Arc's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ⚠️, P2P ❌, On-Chain ✅, Other ➖.
 
 Circle's [technical paper](https://6778953.fs1.hubspotusercontent-na1.net/hubfs/6778953/PDFs/quantum_paper.pdf) contains the most concrete EC retirement commitment available in Arc's public record. The Switch phase includes: "Arc and USDC smart contracts will reject transactions signed with ECDSA" and "ecrecover transitions to post-quantum-only mode." The Transition phase names a specific engineering mechanism — an ECRecoverOverride contract deployed via hard fork at the `ecrecover` precompile address — that would support both ECDSA and PQ schemes simultaneously before the full switch. Validator signing is also scheduled for a PQ upgrade during the Transition phase.
 
@@ -108,7 +108,7 @@ Arc has no on-chain governance at launch; protocol decisions are made by Circle 
 
 ---
 
-_Generated on 01 Jun 2026 based on information as of 01 Jun 2026._
+_Generated on 03 Jun 2026 based on information as of 25 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
