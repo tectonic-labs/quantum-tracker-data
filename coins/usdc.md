@@ -96,7 +96,7 @@ Because governance is off-chain and corporate, any post-quantum migration of the
 
 ---
 
-_Generated on 01 Jun 2026 based on information as of 01 Jun 2026._
+_Generated on 04 Jun 2026 based on information as of 01 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
