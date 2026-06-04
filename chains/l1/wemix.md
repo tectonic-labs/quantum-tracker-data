@@ -109,8 +109,8 @@ No fork has been scheduled or signalled for post-quantum work on WEMIX3.0.
 
 ---
 
-_Generated on 14 May 2026 based on information as of 14 May 2026._
+_Generated on 03 Jun 2026 based on information as of 14 May 2026._
 
-_[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml) — contact channel pending launch._
+_[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
 _Editorial policy: none currently published._
