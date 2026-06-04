@@ -1,6 +1,6 @@
 project,ticker,tier,category,host_chain_aggregate,admin_exposure,cross_chain_exposure,reserve_custody_exposure,other_exposure,ec_sunset,date_last_updated,audit,report
 Tether USDt,USDT,F,Stablecoin,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-15,,coins/usdt.md
-USDC,USDC,F,Stablecoin,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-15,,coins/usdc.md
+USDC,USDC,F,Stablecoin,f-nothing.svg,f-nothing.svg,d-discussed.svg,n-not-applicable.svg,n-not-applicable.svg,c-planned.svg,2026-06-01,,coins/usdc.md
 Figure Heloc,FIGR_HELOC,F,RWA,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-13,,coins/figr-heloc.md
 USDS,USDS,F,Stablecoin,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,coins/usds.md
 LEO Token,LEO,F,Exchange Token,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,coins/leo.md
