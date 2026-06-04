@@ -118,7 +118,7 @@ No post-quantum-relevant proposals, working-group documents, or scheduled discus
 
 ---
 
-_Generated on 14 May 2026 based on information as of 14 May 2026._
+_Generated on 03 Jun 2026 based on information as of 14 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

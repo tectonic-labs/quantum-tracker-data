@@ -89,7 +89,7 @@ Celestia governance operates through Cosmos SDK on-chain voting via the [celesti
 
 ---
 
-_Generated on 07 May 2026 based on information as of 05 May 2026._
+_Generated on 03 Jun 2026 based on information as of 05 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
