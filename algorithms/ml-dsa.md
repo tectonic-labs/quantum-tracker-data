@@ -43,7 +43,7 @@ Each L1 is counted once, in its furthest-along adoption status. A chain listed u
 - 🔧 **[NEAR Protocol](../chains/l1/near-protocol.md)** — Tx Signatures — In Development (testnet Q2 2026; [nearcore#15731](https://github.com/near/nearcore/pull/15731))
 - 🔧 **[Quantum Resistant Ledger](../chains/l1/qrl.md)** — On-Chain Logic — In Development (Zond Testnet V2, March 2026)
 - 🔧 **[Ravencoin](../chains/l1/ravencoin.md)** — Tx Signatures — In Development (open PR, not merged)
-- 🔧 **[Ripple](../chains/l1/ripple.md)** — Tx Signatures, Consensus — In Development (live on AlphaNet testnet; mainnet integration PR stalled)
+- 🔧 **[XRP Ledger](../chains/l1/xrp-ledger.md)** — Tx Signatures, Consensus — In Development (live on AlphaNet testnet; mainnet integration PR stalled)
 - 🗺️ **[Arc](../chains/l1/arc.md)** — Tx Signatures — On Roadmap (candidate, not yet selected)
 - 🗺️ **[Ethereum](../chains/l1/ethereum.md)** — Tx Signatures, On-Chain — On Roadmap (EIP-8051 draft precompile)
 - ⚠️ **[Cardano](../chains/l1/cardano.md)** — Tx Signatures, On-Chain — Discussed (CIP #1144 survey)

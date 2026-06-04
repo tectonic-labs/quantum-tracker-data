@@ -35,7 +35,7 @@ Each L1 is counted once, in its furthest-along adoption status. A chain listed u
 - ⚠️ **[Bitcoin](../chains/l1/bitcoin.md)** — Tx Signatures, On-Chain — Discussed (named in earlier BIP-360 drafts; Project Eleven's "Quantum-Safe Taproot" SLH-DSA fallback)
 - ⚠️ **[Cardano](../chains/l1/cardano.md)** — Tx Signatures, On-Chain — Discussed (CIP #1144 survey)
 - ⚠️ **[IOTA](../chains/l1/iota.md)** — Other (IOTA Identity) — Discussed
-- ⚠️ **[Ripple](../chains/l1/ripple.md)** — Tx Signatures (test-suite scope) — Discussed (rippled#6971 PQC readiness tests)
+- ⚠️ **[XRP Ledger](../chains/l1/xrp-ledger.md)** — Tx Signatures (test-suite scope) — Discussed (rippled#6971 PQC readiness tests)
 
 ---
 

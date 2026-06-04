@@ -34,7 +34,7 @@ RLUSD does not currently propose or implement any post-quantum cryptographic alg
 
 **Grade: F ❌**
 
-RLUSD is natively issued on two chains: [Ethereum](../chains/l1/ethereum.md) and the [XRP Ledger](../chains/l1/ripple.md). This rating is inherited — RLUSD's transaction-signing, consensus, and networking exposure are properties of those host chains, not of the token issuer. The token cannot be more quantum-safe than the chains it executes on; host-chain inheritance is the ceiling for everything else in this report.
+RLUSD is natively issued on two chains: [Ethereum](../chains/l1/ethereum.md) and the [XRP Ledger](../chains/l1/xrp-ledger.md). This rating is inherited — RLUSD's transaction-signing, consensus, and networking exposure are properties of those host chains, not of the token issuer. The token cannot be more quantum-safe than the chains it executes on; host-chain inheritance is the ceiling for everything else in this report.
 
 **Current state.** Both evaluated host chains carry at least one quantum-exposed category, so the aggregate sits at the worst level across all of them — ❌ across both of the two evaluated hosts. Ethereum's most exposed surface is its peer-to-peer networking layer. XRPL's exposure spans its peer-to-peer layer and chain-specific cryptography, and its mainnet today remains entirely dependent on elliptic-curve signatures.
 
@@ -122,7 +122,7 @@ Sources:
 
 RLUSD is not governed by a DAO. The issuer of record is Standard Custody & Trust Company, LLC, a wholly-owned Ripple subsidiary chartered under a New York Department of Financial Services Limited Purpose Trust Company Charter; the token is also approved by the Dubai Financial Services Authority. Changes to the RLUSD contracts — upgrades on Ethereum and issuer-flag changes on XRPL — are executed by Standard Custody's multi-sign signers under Ripple's internal governance, with no on-chain voting or public proposal process. Monthly third-party attestations of reserve assets are published; the attestation signatures do not gate on-chain behavior.
 
-Because there is no public proposal process for RLUSD itself, any RLUSD-specific post-quantum commitment would surface through Ripple's own product channels — its insights blog and press releases — or through the [RLUSD-Implementation repository](https://github.com/ripple/RLUSD-Implementation), which currently records no post-quantum commits or issues for the RLUSD admin surfaces. The XRP Ledger's post-quantum posture is a separate governance track, handled through XRPL Foundation amendment voting and Ripple's published 4-phase roadmap; that track is captured on the [XRP Ledger evaluation](../chains/l1/ripple.md), not here.
+Because there is no public proposal process for RLUSD itself, any RLUSD-specific post-quantum commitment would surface through Ripple's own product channels — its insights blog and press releases — or through the [RLUSD-Implementation repository](https://github.com/ripple/RLUSD-Implementation), which currently records no post-quantum commits or issues for the RLUSD admin surfaces. The XRP Ledger's post-quantum posture is a separate governance track, handled through XRPL Foundation amendment voting and Ripple's published 4-phase roadmap; that track is captured on the [XRP Ledger evaluation](../chains/l1/xrp-ledger.md), not here.
 
 Sources:
 - https://ripple.com/solutions/stablecoin/ — RLUSD official overview

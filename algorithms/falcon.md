@@ -37,7 +37,7 @@ Each L1 is counted once, in its furthest-along adoption status. A chain listed u
 - ⚠️ **[Dogecoin](../chains/l1/dogecoin.md)** — Tx Signatures — SDK-layer only ([libdogecoin#294](https://github.com/dogecoinfoundation/libdogecoin/pull/294), open)
 - ⚠️ **[IOTA](../chains/l1/iota.md)** — Other (IOTA Identity) — Discussed
 - ⚠️ **[Kaspa](../chains/l1/kaspa.md)** — Tx Signatures — Discussed (open draft PR [rusty-kaspa#761](https://github.com/kaspanet/rusty-kaspa/pull/761), stale since Dec 2025)
-- ⚠️ **[Ripple](../chains/l1/ripple.md)** — Tx Signatures (test-suite scope) — Discussed (rippled#6971 PQC readiness tests)
+- ⚠️ **[XRP Ledger](../chains/l1/xrp-ledger.md)** — Tx Signatures (test-suite scope) — Discussed (rippled#6971 PQC readiness tests)
 
 ---
 
