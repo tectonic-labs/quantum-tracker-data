@@ -21,7 +21,7 @@
 | Other Features | A | ✅ | Shipped |
 | EC Sunset | F | ❌ | Not Discussed |
 
-Algorand is one of the most PQC-advanced major blockchains. [State Proofs](https://algorand.co/technology/post-quantum) — compact attestations of ledger state generated every 256 blocks — have been signed with **Falcon-1024** since 2022, making them post-quantum secure in production. On November 3, 2025, Algorand executed the [first post-quantum transaction on a public blockchain mainnet](https://algorand.co/blog/technical-brief-quantum-resistant-transactions-on-algorand-with-falcon-signatures) using opt-in **Falcon-1024** account keys. An experimental AVM opcode for Falcon signature verification is under development, which would bring PQC verification to smart contracts.
+Algorand is one of the most PQC-advanced major blockchains. [State Proofs](https://algorand.co/technology/post-quantum) — compact attestations of ledger state generated every 256 blocks — have been signed with **Falcon-1024** since 2022, making them post-quantum secure in production. On November 3, 2025, Algorand executed the [first post-quantum transaction on a public blockchain mainnet](https://algorand.co/blog/technical-brief-quantum-resistant-transactions-on-algorand-with-falcon-signatures) using opt-in **Falcon-1024** account keys. The `falcon_verify` AVM opcode for Falcon signature verification is [live on mainnet](https://dev.algorand.co/reference/algorand-teal/opcodes/) since AVM v12 (September 2024), enabling PQC verification in smart contracts. A [native PQ account type](https://github.com/algorand/go-algorand/pull/6639) using Falcon-1024 is in active development.
 
 The principal remaining exposure is the consensus layer. Algorand's [Pure Proof-of-Stake](https://algorand.co/technology/pure-proof-of-stake) uses a Verifiable Random Function (VRF) based on Curve25519 for cryptographic sortition — the process by which validators are randomly selected. That VRF is elliptic-curve-based and quantum-vulnerable. Replacing it requires a lattice-based or hash-based alternative with equivalent security guarantees, and no specification or testnet activity has been announced.
 
@@ -43,7 +43,7 @@ The [technical brief](https://algorand.co/blog/technical-brief-quantum-resistant
 
 **Current state.** Ed25519 is the default signing scheme. Falcon-1024 is available as an opt-in alternative. Accounts that have rotated to Falcon keys are post-quantum secure for transaction signing; accounts on Ed25519 remain exposed.
 
-**Planned future work.** The [2025+ roadmap](https://algorand.co/blog/algorands-2025-roadmap-building-for-real-world-use) positions the phased rollout as: State Proofs (complete), user account Falcon keys (live), AVM Falcon opcode (in progress), and consensus upgrade (planned, dependent on post-quantum VRF). Open pull requests include [go-algorand#6573](https://github.com/algorand/go-algorand/pull/6573) (quantum-hardened LogicSig address derivation) and [algorand/falcon#15](https://github.com/algorand/falcon/pull/15) (vectorized Falcon verification speedup).
+**Planned future work.** The [2025+ roadmap](https://algorand.co/blog/algorands-2025-roadmap-building-for-real-world-use) positions the phased rollout as: State Proofs (complete), user account Falcon keys (live), AVM `falcon_verify` opcode (complete, live since Sept 2024), native PQ account type (in progress), and consensus upgrade (planned, dependent on post-quantum VRF). Open pull requests include [go-algorand#6639](https://github.com/algorand/go-algorand/pull/6639) (native PQ account type with Falcon-1024), [go-algorand#6573](https://github.com/algorand/go-algorand/pull/6573) (quantum-hardened LogicSig address derivation), and [algorand/falcon#15](https://github.com/algorand/falcon/pull/15) (vectorized Falcon verification speedup).
 
 ## 2. Consensus
 
@@ -113,11 +113,12 @@ PQC-relevant governance activity:
 - **Falcon-1024 for user accounts**: [Launched November 2025](https://algorand.co/blog/technical-brief-quantum-resistant-transactions-on-algorand-with-falcon-signatures); opt-in via CLI.
 - **[go-algorand#6573](https://github.com/algorand/go-algorand/pull/6573)**: Open PR (2026-03-05) for quantum-hardened LogicSig address derivation via iterative hashing.
 - **[algorand/falcon#15](https://github.com/algorand/falcon/pull/15)**: Open PR (2026-02-17) for vectorized Falcon verification speedup.
+- **[go-algorand#6639](https://github.com/algorand/go-algorand/pull/6639)**: Open PR (2026-06-04) for native PQ account type with deterministic Falcon-1024 signatures.
 - **Post-quantum VRF**: Research stage; no ARC or specification published.
 
 ---
 
-_Generated on 03 Jun 2026 based on information as of 03 Jun 2026._
+_Generated on 04 Jun 2026 based on information as of 04 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
