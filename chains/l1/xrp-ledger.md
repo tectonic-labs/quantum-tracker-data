@@ -6,7 +6,7 @@
 | **Ticker** | XRP |
 | **Website** | https://xrpl.org |
 | **GitHub** | https://github.com/XRPLF |
-| **Twitter / X** | https://x.com/ripplexdev |
+| **Twitter / X** | https://x.com/RippleXDev |
 | **On-chain environment** | XRPL native transactions; Hooks (WebAssembly) under development |
 | **Mainnet genesis** | 2012-01-01 |
 | **Current mainnet version** | rippled v3.1.3 (released 2026-05-08) |
@@ -17,7 +17,7 @@
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Transaction Signatures | B | 🔧 | In Development |
+| Transaction Signatures | C | 🗺️ | Roadmapped |
 | Consensus | B | 🔧 | In Development |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | ➖ | ➖ | Not Applicable |
@@ -28,24 +28,24 @@
 
 The XRP Ledger has one of the more visible post-quantum research efforts among major blockchains. Ripple published a [4-phase PQC migration roadmap](https://ripple.com/insights/post-quantum-readiness-on-the-xrp-ledger/) in April 2026, targeting full transition by 2028, and has partnered with Project Eleven for validator testing. The AlphaNet testnet demonstrated end-to-end quantum-resistant operations as early as December 2025, covering transaction signatures, account keys, and consensus voting using **ML-DSA**.
 
-However, none of this work has reached mainnet yet. The mainnet codebase has not merged any PQC libraries — the primary integration PR ([rippled#5131](https://github.com/XRPLF/rippled/pull/5131)) has been stalled with merge conflicts since September 2024. A separate [PQC readiness test suite](https://github.com/XRPLF/rippled/pull/6971) (April 2026) verifies that rippled correctly handles oversized PQC key and signature inputs, which is groundwork for eventual integration. Mainnet protocol changes require amendment voting, where 80% of default UNL validators must signal support for two consecutive weeks before activation.
+However, none of this work has reached mainnet yet. The mainnet codebase has not merged any PQC libraries — the primary integration PR ([rippled#5131](https://github.com/XRPLF/rippled/pull/5131)) has been stalled with merge conflicts since September 2024. A separate [PQC readiness test suite](https://github.com/XRPLF/rippled/pull/6971) (April 2026) verifies that rippled correctly handles oversized PQC key and signature inputs, which is groundwork for eventual integration but not integration itself. No wallet or CLI tooling ships PQC signing support for typical users. Mainnet protocol changes require amendment voting, where 80% of default UNL validators must signal support for two consecutive weeks before activation.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **ML-DSA** (Dilithium) | ECDSA secp256k1, Ed25519 | Tx Signatures | In Development |
-| **ML-DSA** (Dilithium) | ECDSA secp256k1, Ed25519 | Consensus | In Development |
+| **ML-DSA** (Dilithium) | ECDSA secp256k1, Ed25519 | Tx Signatures | Roadmapped (AlphaNet prototype; mainnet PR stalled) |
+| **ML-DSA** (Dilithium) | ECDSA secp256k1, Ed25519 | Consensus | In Development (AlphaNet prototype) |
 
 ## Transaction Signatures
 
-**Grade: B 🔧**
+**Grade: C 🗺️**
 
 The XRP Ledger currently supports two elliptic-curve signature schemes for transaction signing: ECDSA with secp256k1 (the default) and Ed25519. Both are used for master account keys, regular (delegated) keys, payment channel claims, and signer list entries. Both are vulnerable to quantum computers via Shor's algorithm.
 
-**Current state.** Mainnet transactions are signed exclusively with [ECDSA or Ed25519](https://xrpl.org/docs/concepts/accounts/cryptographic-keys). No post-quantum signature scheme is available on mainnet today. The primary mainnet integration PR ([rippled#5131](https://github.com/XRPLF/rippled/pull/5131)) has been stalled with merge conflicts since September 2024.
+**Current state.** Mainnet transactions are signed exclusively with [ECDSA or Ed25519](https://xrpl.org/docs/concepts/accounts/cryptographic-keys). No post-quantum signature scheme is available on mainnet today. The primary mainnet integration PR ([rippled#5131](https://github.com/XRPLF/rippled/pull/5131)) has been stalled with merge conflicts since September 2024. No wallet, CLI, or SDK ships PQC signing support for typical users.
 
-**Planned future work.** On AlphaNet (December 2025), accounts can use **ML-DSA** (Dilithium) signatures — carrying approximately 2,420-byte signatures compared to 64 bytes for ECDSA. Ripple's [4-phase PQC roadmap](https://ripple.com/insights/post-quantum-readiness-on-the-xrp-ledger/) (April 2026) targets Phase 2 (assessment and testing under real XRPL workloads) in 1H 2026, Phase 3 (controlled integration with dual-scheme support) in 2H 2026, and Phase 4 (full transition) by 2028. The [quantum-resistant signatures discussion](https://github.com/XRPLF/XRPL-Standards/discussions/295) on the XRPL Standards repository tracks community input on algorithm selection and deployment strategy.
+**Planned future work.** On AlphaNet (December 2025), a separate hard fork of rippled, accounts can use **ML-DSA** (Dilithium) signatures — carrying approximately 2,420-byte signatures compared to 64 bytes for ECDSA. AlphaNet is a research prototype, not a staging environment for mainnet. Ripple's [4-phase PQC roadmap](https://ripple.com/insights/post-quantum-readiness-on-the-xrp-ledger/) (April 2026) targets Phase 2 (assessment and testing under real XRPL workloads) in 1H 2026, Phase 3 (controlled integration with dual-scheme support) in 2H 2026, and Phase 4 (full transition) by 2028. The [quantum-resistant signatures discussion](https://github.com/XRPLF/XRPL-Standards/discussions/295) on the XRPL Standards repository tracks community input on algorithm selection and deployment strategy.
 
 ## Consensus
 
@@ -99,7 +99,7 @@ No mainnet EC retirement date has been announced. Ripple has committed to mainta
 
 The proposed mainnet migration path envisions parallel operation (new accounts created with quantum key types while existing EC accounts continue to work), followed by a migration window with possible incentives, and eventual full transition dependent on amendment governance and ecosystem readiness. The 38x signature size increase (2,420 bytes vs. 64 bytes) creates practical pressure to retain EC signatures for lightweight clients and high-throughput use cases.
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus 🔧, P2P ❌, On-Chain ➖, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures 🗺️, Consensus 🔧, P2P ❌, On-Chain ➖, Other ❌.
 
 A [quantum exposure analysis](https://www.coindesk.com/tech/2026/04/10/xrp-may-be-less-exposed-to-quantum-threats-than-bitcoin-experts-say) published in April 2026 by an XRPL validator found that approximately 300,000 accounts holding 2.4 billion XRP have never exposed their public keys via outgoing transactions, making them structurally quantum-safe. Only about 0.03% of total XRP supply was identified as meaningfully at risk from public-key exposure. The XRP Ledger's account model — which allows key rotation without changing the account address — provides structural mitigation compared to chains where the account address directly encodes the public key.
 
@@ -119,7 +119,7 @@ The amendment dashboard at [xrpscan.com/amendments](https://xrpscan.com/amendmen
 
 ---
 
-_Generated on 04 Jun 2026 based on information as of 04 Jun 2026._
+_Generated on 08 Jun 2026 based on information as of 04 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

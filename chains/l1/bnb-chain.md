@@ -13,33 +13,33 @@
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Transaction Signatures | B | 🔧 | In Development |
+| Transaction Signatures | C | 🗺️ | Roadmapped |
 | Consensus | B | 🔧 | In Development |
 | P2P Networking | D | ⚠️ | Discussed |
 | On-Chain Logic | B | 🔧 | In Development |
 | Other Features | F | ❌ | Not Discussed |
 | EC Sunset | F | ❌ | Not Discussed |
 
-BNB Smart Chain (BSC) has published a formal [BSC PQC Migration Report](https://bnbchain.org/en/blog/bsc-post-quantum-cryptography-migration-report) (May 2026) and has an open proof-of-concept pull request — [bnb-chain/bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) — covering transaction signatures, consensus vote aggregation, and on-chain key registry in a single integrated PoC. The chosen algorithm is **ML-DSA-44** (FIPS 204), selected over larger ML-DSA variants for its smaller signature size and faster verification within BSC's 450 ms slot budget. The report documents measured performance impact: native-transfer TPS drops approximately 40% (from 4,973 to 2,997), transaction size grows from 110 bytes to approximately 2.5 KB, and block size grows from approximately 110 KB to approximately 2 MB. The primary bottleneck identified is block byte size and cross-region propagation overhead — not signature verification. No code has merged to mainline yet, and no testnet deployment has been announced.
+BNB Smart Chain (BSC) has published a formal [BSC PQC Migration Report](https://bnbchain.org/en/blog/bsc-post-quantum-cryptography-migration-report) (May 2026) and has an open proof-of-concept pull request — [bnb-chain/bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) — covering transaction signatures, consensus vote aggregation, and on-chain key registry in a single integrated PoC. The chosen algorithm is **ML-DSA-44** (FIPS 204), selected over larger ML-DSA variants for its smaller signature size and faster verification within BSC's 450 ms slot budget. The report documents measured performance impact: native-transfer TPS drops approximately 40% (from 4,973 to 2,997), transaction size grows from 110 bytes to approximately 2.5 KB, and block size grows from approximately 110 KB to approximately 2 MB. The primary bottleneck identified is block byte size and cross-region propagation overhead — not signature verification. No code has merged to mainline yet, no testnet deployment has been announced, and no typical-user tooling (wallets, SDKs) supports PQC signing.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **ML-DSA-44** (FIPS 204) | ECDSA secp256k1 | Tx Signatures | In Development |
+| **ML-DSA-44** (FIPS 204) | ECDSA secp256k1 | Tx Signatures | Roadmapped |
 | **ML-DSA-44** (FIPS 204) | BLS12-381 vote aggregation | Consensus | In Development |
 | **STARK** recursive aggregation | BLS aggregate fast-finality votes | Consensus | In Development |
 | **ML-DSA-44** (FIPS 204) | ecrecover / secp256k1 on-chain | On-Chain | In Development |
 
 ## Transaction Signatures
 
-**Grade: B 🔧**
+**Grade: C 🗺️**
 
 User transactions on BNB Chain are currently signed with ECDSA secp256k1, inherited from Geth/Ethereum. Address derivation follows the standard EVM pattern (Keccak-256 of the public key, last 20 bytes).
 
 **Current state.** All mainnet transactions require ECDSA secp256k1 signatures. Multi-signature is handled via smart contracts rather than at the protocol level.
 
-**Planned future work.** [bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) (draft, opened 2026-04-28) introduces a new transaction type `PQTxType = 0x05` — an EIP-2718-style envelope carrying a 1,312-byte **ML-DSA-44** public key and a 2,420-byte **ML-DSA-44** signature. The sender address is derived as `keccak256(pubkey)[12:]`, mirroring EVM address derivation, and the full public key is registered via a new on-chain PQ Registry precompile. The [BSC PQC Migration Report](https://bnbchain.org/en/blog/bsc-post-quantum-cryptography-migration-report) explains the algorithm selection: **ML-DSA-44** was chosen over the larger ML-DSA-65 and ML-DSA-87 variants for lower network overhead, citing approximately 1,500 verifications per second and 35% smaller key-plus-signature size compared to BLS-12-381 at equivalent post-quantum security.
+**Planned future work.** [bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) (draft, opened 2026-04-28) introduces a new transaction type `PQTxType = 0x05` — an EIP-2718-style envelope carrying a 1,312-byte **ML-DSA-44** public key and a 2,420-byte **ML-DSA-44** signature. The sender address is derived as `keccak256(pubkey)[12:]`, mirroring EVM address derivation, and the full public key is registered via a new on-chain PQ Registry precompile. The [BSC PQC Migration Report](https://bnbchain.org/en/blog/bsc-post-quantum-cryptography-migration-report) explains the algorithm selection: **ML-DSA-44** was chosen over the larger ML-DSA-65 and ML-DSA-87 variants for lower network overhead, citing approximately 1,500 verifications per second and 35% smaller key-plus-signature size compared to BLS-12-381 at equivalent post-quantum security. No typical-user tooling (wallets, SDKs) currently supports PQC transaction signing; the work remains at the protocol level.
 
 ## Consensus
 
@@ -89,7 +89,7 @@ The BSC EVM exposes the standard Ethereum precompile set: `ecrecover` (secp256k1
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, BNB Chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus 🔧, P2P ⚠️, On-Chain 🔧, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, BNB Chain's PQC-adoption ratings per category are: Tx Signatures 🗺️, Consensus 🔧, P2P ⚠️, On-Chain 🔧, Other ❌.
 
 [bsc#3660](https://github.com/bnb-chain/bsc/pull/3660) is structured as additive PQC rather than EC retirement. The classical ECDSA transaction path remains accepted alongside `PQTxType`, the BLS fast-finality path remains alongside `PQVoteAttestation`, all pre-existing precompiles (ecrecover, BN254, BLS12-381) are untouched, and the new `bsc4` sub-protocol runs in parallel with `bsc3`. The [2026 BNB Chain Tech Roadmap](https://www.bnbchain.org/en/blog/tech-roadmap-2026) does not commit to any EC-deprecation milestone.
 
@@ -109,7 +109,7 @@ The [BSC PQC Migration Report](https://bnbchain.org/en/blog/bsc-post-quantum-cry
 
 ---
 
-_Generated on 03 Jun 2026 based on information as of 18 May 2026._
+_Generated on 08 Jun 2026 based on information as of 18 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
