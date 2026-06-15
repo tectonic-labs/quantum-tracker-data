@@ -14,7 +14,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | D | ⚠️ | Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | ➖ | ➖ | Not Applicable |
 | Other Features | F | ❌ | Not Discussed |
@@ -44,13 +44,7 @@ The [Jamtis addressing scheme](https://gist.github.com/tevador/50160d160d24cfc6c
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Monero uses [RandomX](https://www.getmonero.org/resources/moneropedia/randomx.html), a CPU-optimized proof-of-work algorithm based on random code execution and memory-hard operations. RandomX is hash-based (SHA-3, BLAKE2) with no elliptic-curve component. Quantum computers cannot efficiently attack memory-hard PoW, and Grover's algorithm provides at most a quadratic speedup against hash functions — leaving security well within safe bounds.
-
-**Current state.** Mining and block validation are entirely hash-based. Validator identity does not depend on EC.
-
-**Planned future work.** None needed for the consensus layer specifically.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -102,7 +96,7 @@ Because all privacy primitives are EC-based, a [quantum break would retroactivel
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ✅, P2P ❌, On-Chain ➖, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ➖, P2P ❌, On-Chain ➖, Other ❌.
 
 No production EC retirement plan exists. [FCMP++](https://xgram.io/blog/monero-fcmp) (Q1 2026) improves privacy but maintains EC dependencies. The Jamtis/CSIDH-1024 research targets one specific primitive (stealth-address key exchange) but does not address ring signatures, Pedersen commitments, Bulletproofs+, or node identity. [Community-funded post-quantum research](https://ccs.getmonero.org/proposals/research-post-quantum-monero.html) continues but acknowledges there is no complete, production-ready plan to make every component PQC-safe.
 

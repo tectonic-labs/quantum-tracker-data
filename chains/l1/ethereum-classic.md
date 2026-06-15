@@ -17,7 +17,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | D | ⚠️ | Discussed |
 | Other Features | ➖ | ➖ | Not Applicable |
@@ -41,15 +41,7 @@ We have found no public information indicating migration activity for Ethereum C
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Ethereum Classic uses Etchash, a modified version of Ethereum's original Ethash Proof-of-Work algorithm. Hash-based mining is intrinsically quantum-safe — quantum computers cannot meaningfully speed up proof-of-work hashing. Grover's algorithm provides at most a quadratic speedup, reducing 256-bit security to roughly 128-bit, which remains secure. Difficulty adjustment would absorb any marginal quantum mining advantage.
-
-ETC remains committed to PoW indefinitely, having not followed Ethereum's Proof-of-Stake merge. This eliminates BLS12-381 validator signature exposure but retains ECDSA secp256k1 for block identity signing (an EC Sunset concern, not a consensus mechanism concern).
-
-**Current state.** Mining and block validation are entirely hash-based. No EC cryptography is involved in the consensus mechanism itself.
-
-**Planned future work.** None needed for the consensus layer specifically.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -75,7 +67,7 @@ Ethereum Classic does not support any special features. ETC diverged from Ethere
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ⚠️, Other ➖.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain ⚠️, Other ➖.
 
 No roadmap or community momentum exists toward EC retirement on Ethereum Classic. ECIP-1122 would add PQC verification capability alongside existing EC precompiles but does not propose deprecating ECDSA.
 

@@ -16,7 +16,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | C | 🗺️ | Roadmapped |
 | Other Features | F | ❌ | Not Discussed |
@@ -49,13 +49,7 @@ Quantumroot (see On-Chain Logic) is an opt-in vault primitive, not a chain-wide 
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Bitcoin Cash inherits Bitcoin's [SHA-256d Proof-of-Work](https://minisatoshi.cash/upgrade-history) consensus and ASIC mining hardware. The difficulty adjustment uses the Adaptive Moving Average Scheme (AMAS), retargeting roughly every 600 seconds. PoW is hash-based; mining is unaffected by Shor's algorithm and Grover's algorithm at most halves SHA-256 preimage strength. There is no validator key material in the consensus layer.
-
-**Current state.** SHA-256d PoW with AMAS difficulty. Hash-based.
-
-**Planned future work.** None needed for the consensus layer.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -101,7 +95,7 @@ BCH's recent VM extensions — [BigInt arithmetic (May 2025)](https://upgradespe
 
 **Grade: D ⚠️**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Bitcoin Cash's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain 🗺️, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Bitcoin Cash's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain 🗺️, Other ❌.
 
 Bitcoin Cash has no formal plan to retire elliptic-curve cryptography. The chain adopted Schnorr alongside ECDSA in 2019, both on secp256k1 — additive rather than substitutive — and the Quantumroot path is structured as opt-in vaults, again additive.
 

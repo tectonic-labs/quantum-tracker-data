@@ -13,7 +13,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | F | ❌ | Not Discussed |
@@ -35,15 +35,7 @@ We have found no public information indicating migration activity for Kadena in 
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Kadena's [Chainweb](https://docs.kadena.io/) consensus is Proof-of-Work across 20 parallel chains, each producing blocks via a Blake2s-derived mining hash. Each block confirms three peer chains' blocks, forming the "braid" that gives the protocol a single global ordering while distributing mining work in parallel. Block validity is determined by solving the PoW puzzle; miners do not sign blocks with elliptic-curve keys and the protocol does not rely on validator signatures.
-
-Hash functions are not broken by Shor's algorithm. Grover's algorithm provides at most a quadratic speedup against hash preimage search, which leaves a 256-bit-class hash with classical-equivalent security in the ~128-bit range — still secure, with difficulty adjustment absorbing any marginal quantum mining advantage.
-
-**Current state.** Mining and block validation across all 20 Chainweb chains are entirely hash-based. No EC cryptography is involved in block production.
-
-**Planned future work.** None needed for the consensus layer.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -93,7 +85,7 @@ Pact gas stations let third parties pay user gas on behalf of senders. Cryptogra
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Kadena's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ❌, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Kadena's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain ❌, Other ❌.
 
 We have found no public information indicating migration activity for Kadena in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 

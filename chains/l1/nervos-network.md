@@ -12,7 +12,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | A | ✅ | Shipped |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | A | ✅ | Shipped |
 | Other Features | ➖ | ➖ | Not Applicable |
@@ -45,13 +45,7 @@ The standard ["Quantum Purse" wallet](https://talk.nervos.org/t/quantum-purse-a-
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-CKB uses [NC-Max consensus](https://github.com/nervosnetwork/ckb), a Nakamoto Consensus variant that adds a two-step confirmation process for selfish-mining resistance. Mining uses **Eaglesong**, a sponge-construction hash. Because consensus is hash-based PoW and there are no validator signatures to forge, the consensus layer is already quantum-resistant; Grover's algorithm provides only quadratic speedup against hash functions, which difficulty adjustment absorbs.
-
-**Current state.** Hash-based PoW with the Eaglesong mining hash. No EC cryptography in the consensus mechanism.
-
-**Planned future work.** None needed for the consensus layer specifically.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -77,7 +71,7 @@ Nervos Network does not support any special features.
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Nervos Network's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ✅, P2P ❌, On-Chain ✅, Other ➖.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Nervos Network's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ➖, P2P ❌, On-Chain ✅, Other ➖.
 
 The secp256k1 lock script remains available for new accounts and has no announced retirement schedule. The migration model is user-driven and requires no hard fork — a strength of the bytecode-script design — but it means EC will continue to be accepted indefinitely until users individually migrate. To schedule EC retirement, CKB would need a governance proposal or planned fork to retire the secp256k1 system script.
 

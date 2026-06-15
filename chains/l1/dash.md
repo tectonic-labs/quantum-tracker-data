@@ -15,7 +15,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | B | 🔧 | In Development |
@@ -39,13 +39,7 @@ We have found no public information indicating migration activity for Dash in th
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Dash uses X11 Proof-of-Work, which chains 11 cryptographic hash functions (BLAKE, BMW, GROESTL, SKEIN, JH, KECCAK, LUFFA, CUBEHASH, SHAVITE, SIMD, ECHO) in sequence. Hash-based mining is quantum-safe — quantum computers cannot meaningfully speed up proof-of-work hashing. Grover's algorithm provides at most a quadratic speedup, which is absorbed by difficulty adjustment.
-
-**Current state.** Mining and block validation are entirely hash-based. No EC cryptography is involved in the consensus mechanism itself.
-
-**Planned future work.** None needed for the consensus layer specifically.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -95,7 +89,7 @@ Dash is adopting Zcash's Orchard protocol for shielded transactions. An [open pu
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ❌, Other 🔧.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain ❌, Other 🔧.
 
 No published DIP addresses broad post-quantum migration. The Orchard hybrid KEM work shows PQC awareness at the implementation level, but it is a targeted defense for shielded note encryption rather than a comprehensive EC retirement plan.
 

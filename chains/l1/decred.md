@@ -15,7 +15,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | F | ❌ | Exposed |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | A | ✅ | Shipped |
@@ -37,13 +37,11 @@ We have found no public information indicating migration activity for Decred in 
 
 ## 2. Consensus
 
-**Grade: A ✅**
+**Grade: F ❌**
 
-Decred's [hybrid consensus](https://docs.decred.org/advanced/consensus/) combines Proof-of-Work mining with Proof-of-Stake ticket voting. The PoW component uses Blake2b hashing, which is entirely hash-based and not vulnerable to Shor's algorithm. Grover's algorithm provides at most a quadratic speedup against hash functions, reducing effective security but leaving it well within safe bounds.
+Decred's [hybrid consensus](https://docs.decred.org/advanced/consensus/) combines Proof-of-Work mining with Proof-of-Stake ticket voting. PoW (Blake-256) is hash-based and not rated (quantum-resistant since genesis). PoS ticket voting uses Ed25519 — quantum-vulnerable with no PQC migration.
 
-The PoS component uses Ed25519 for ticket voting signatures, which is an elliptic-curve scheme vulnerable to Shor's algorithm. Stakeholders lock DCR to buy tickets and vote on block validity and governance proposals using Ed25519 signatures. A quantum adversary capable of breaking Ed25519 could forge validator votes.
-
-The blended grade reflects the PoW component: miners select blocks via a hash-based PoW race that is quantum-resistant. While the PoS voting layer is EC-dependent, the PoW foundation provides a quantum-safe anchor for block production.
+Stakeholders lock DCR to buy tickets and vote on block validity and governance proposals using Ed25519 signatures. A quantum adversary capable of breaking Ed25519 could forge validator votes.
 
 **Current state.** PoW mining is hash-based (Blake2b) and quantum-resistant. PoS ticket signing uses Ed25519.
 
@@ -89,7 +87,7 @@ Politeia, Decred's on-chain governance system, records votes using Ed25519 signa
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ❌, Other ✅.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ❌, P2P ❌, On-Chain ❌, Other ✅.
 
 No published roadmap or formal proposal exists for migrating Decred away from EC-based cryptography. While the CSPP mixing protocol already uses PQC for key exchange and PoW consensus is hash-based, all other cryptographic components — transaction signatures (secp256k1, Ed25519), PoS ticket voting (Ed25519), P2P identity (secp256k1), on-chain script verification, and Politeia governance (Ed25519) — remain EC-dependent with no deprecation plan.
 

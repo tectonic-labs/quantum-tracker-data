@@ -15,7 +15,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | ➖ | ➖ | Not Applicable |
@@ -37,13 +37,7 @@ We have found no public information indicating migration activity for Bitcoin SV
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Bitcoin SV inherits Bitcoin's [SHA-256d Proof-of-Work](https://bitcoinsv.io/) consensus and ASIC mining hardware unchanged. PoW is hash-based; mining is unaffected by Shor's algorithm and Grover's algorithm at most halves SHA-256 preimage strength. There is no validator key material in the consensus layer.
-
-**Current state.** SHA-256d PoW. Hash-based.
-
-**Planned future work.** None needed for the consensus layer.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -65,7 +59,7 @@ Bitcoin SV does not support any special features.
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Bitcoin SV's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ❌, Other ➖.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Bitcoin SV's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain ❌, Other ➖.
 
 We have found no public information indicating migration activity for Bitcoin SV in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 

@@ -15,7 +15,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | B | 🔧 | In Development |
@@ -39,13 +39,7 @@ Zcash supports two transaction types. Transparent addresses (t-addr) use secp256
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Zcash uses Equihash, a memory-hard proof-of-work algorithm. Equihash is hash-based with no EC component. Quantum computers cannot meaningfully speed up proof-of-work hashing; Grover's algorithm provides at most a quadratic speedup, which is absorbed by difficulty adjustment.
-
-**Current state.** Mining and block validation are entirely hash-based. No EC cryptography is involved in the consensus mechanism.
-
-**Planned future work.** None needed for the consensus layer specifically.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -81,7 +75,7 @@ A quantum adversary could retroactively recover private input values from histor
 
 **Grade: C 🗺️**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ❌, Other 🔧.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain ❌, Other 🔧.
 
 Zcash's NU7 network upgrade is the most explicitly quantum-focused specification effort of any chain in this survey. ZIP 248 introduces a forward-compatible transaction format designed to accommodate future post-quantum signature schemes. ZIP 2005 defines the quantum recoverability deployment plan. The [announced commitment to full post-quantum status within 12 to 18 months](https://decrypt.co/367250/zcash-targeting-post-quantum-crypto-milestone-by-2027) represents a concrete timeline — the second-fastest among non-PQ-native chains.
 

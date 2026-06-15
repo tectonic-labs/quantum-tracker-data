@@ -14,7 +14,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | D | ⚠️ | Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | ➖ | ➖ | Not Applicable |
@@ -54,13 +54,7 @@ The Dogecoin Foundation's [libdogecoin#294](https://github.com/dogecoinfoundatio
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Dogecoin uses Nakamoto Proof-of-Work with the Scrypt hashing algorithm — the same algorithm Litecoin uses. Since [August 2014 (block #317,337)](https://litecoin.com/news/how-litecoin-and-dogecoin-created-one-of-the-most-robust-pow-networks), Dogecoin has been merge-mined with Litecoin via AuxPoW: a Litecoin mining hash that also meets Dogecoin difficulty produces a Dogecoin block. There is no validator signing, no randomness beacon, and no EC cryptography in the consensus mechanism. Hashing is unaffected by Shor's algorithm; Grover's algorithm at most halves SHA-256 / Scrypt preimage strength, leaving classical security intact.
-
-**Current state.** Scrypt PoW with merge-mining via AuxPoW. Hash-based throughout.
-
-**Planned future work.** None needed for the consensus layer.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -92,7 +86,7 @@ Dogecoin does not support any special features.
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Dogecoin's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ✅, P2P ❌, On-Chain ❌, Other ➖.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Dogecoin's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ➖, P2P ❌, On-Chain ❌, Other ➖.
 
 We have found no public information indicating migration activity for Dogecoin in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 

@@ -14,7 +14,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | F | ❌ | Not Discussed |
@@ -36,13 +36,7 @@ We have found no public information indicating migration activity for Beam in th
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Beam uses [BeamHash III](https://www.beam.mw/), an Equihash-derived GPU-friendly proof-of-work algorithm. Hash-based mining is quantum-resistant — quantum computers do not meaningfully accelerate proof-of-work, since Grover's algorithm provides at most a quadratic speedup that is absorbed by difficulty adjustment. There are no validator signatures in the consensus path that a quantum adversary could forge.
-
-**Current state.** Block production and validation rely entirely on the BeamHash III hash function. No EC cryptography participates in the consensus mechanism itself.
-
-**Planned future work.** None needed at the consensus layer.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -92,7 +86,7 @@ Beam supports atomic swaps with Bitcoin and Litecoin counterparties using Schnor
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ❌, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain ❌, Other ❌.
 
 The privacy properties of Beam are *defined* in terms of EC discrete-log assumptions — Pedersen commitments, Schnorr excess signatures, and Lelantus-MW shielded operations all rely on secp256k1. A migration here is not a drop-in replacement but a redesign of the cryptographic core. No retirement schedule for EC primitives has been published by the Beam Foundation or BeamX DAO as of the information cutoff.
 

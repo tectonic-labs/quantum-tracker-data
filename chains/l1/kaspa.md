@@ -14,7 +14,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | D | ⚠️ | Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | ➖ | ➖ | Not Applicable |
 | Other Features | ➖ | ➖ | Not Applicable |
@@ -48,15 +48,7 @@ Separately, the [P2PKH-Blake2b-256-via-P2SH community proposal](https://github.c
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Kaspa's consensus is Proof-of-Work using the kHeavyHash algorithm (SHA-3/Keccak combined with matrix multiplication) within the GHOSTDAG blockDAG protocol. Miners do not sign blocks with EC keys; block validity is determined by solving the PoW puzzle. The GHOSTDAG protocol orders parallel blocks via a greedy algorithm rather than orphaning them, forming a directed acyclic graph. None of these mechanisms rely on elliptic curve cryptography.
-
-Hash functions are not broken by Shor's algorithm. Grover's algorithm provides at most a quadratic speedup against hash functions, reducing 256-bit security to roughly 128-bit equivalent, which remains secure. Difficulty adjustment would absorb any marginal quantum mining advantage.
-
-**Current state.** Mining and block validation are entirely hash-based. No EC cryptography is involved in the consensus mechanism.
-
-**Planned future work.** None needed for the consensus layer.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -88,7 +80,7 @@ Kaspa does not have special features with additional quantum exposure beyond wha
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Kaspa's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ✅, P2P ❌, On-Chain ➖, Other ➖.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Kaspa's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ➖, P2P ❌, On-Chain ➖, Other ➖.
 
 No published proposal addresses the retirement of EC-based cryptography from Kaspa. The P2PKH-Blake2b community proposal hides public keys behind hash commitments but does not replace Schnorr/secp256k1 signatures. KIP-22 and the Falcon-512 draft would add a PQC signature path alongside EC but do not schedule EC removal. There is no timeline or roadmap for disabling legacy Schnorr/secp256k1 transaction signing.
 

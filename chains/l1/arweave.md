@@ -13,7 +13,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | A | ✅ | Shipped |
+| Consensus | ➖ | ➖ | Not Applicable |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | ➖ | ➖ | Not Applicable |
 | Other Features | F | ❌ | Not Discussed |
@@ -41,13 +41,7 @@ There is no native protocol-level multisig; threshold approaches such as [Safehe
 
 ## 2. Consensus
 
-**Grade: A ✅**
-
-Arweave's consensus is [SPoRA (Succinct Proofs of Random Access)](https://github.com/ArweaveTeam/arweave-standards/blob/master/ans/ANS-103.md), a Nakamoto-style PoW variant that [replaced the earlier Proof-of-Access design on 24 Feb 2021](https://arweave.medium.com/the-arweave-network-is-now-running-succinct-random-proofs-of-access-spora-e2732cbcbb46). To produce a block, a miner must read a randomly selected 256 KiB recall chunk from historical weave data, combine it with a packing key derived via [RandomX (now RandomXSquared since the 2.9 fork)](https://deepwiki.com/ArweaveTeam/arweave/5-mining-system), compute a SHA-256-based mining hash, and advance a verifiable delay function. Blocks are not signed: as in Bitcoin, a SPoRA block is authenticated by its PoW solution rather than a signer key, and the miner's reward address appears in the header without being used to sign it. Validator identity is therefore not a cryptographic object — mining is open and permissionless, weighted by stored-data footprint. The randomness inputs (RandomX / RandomXSquared and the VDF) are hash and symmetric primitives rather than EC-based.
-
-**Current state.** All consensus-binding cryptography is hash-based. Grover's algorithm provides at most a quadratic speedup against SHA-256 mining, reducing the effective work factor from 2^256 to 2^128, which remains within the symmetric-security margin typically demanded by post-quantum analyses. No EC signatures are involved in block production.
-
-**Planned future work.** No consensus-side post-quantum changes have been published; the [2.9 RandomXSquared upgrade](https://www.storagenewsletter.com/2025/01/29/arweave-2-9-upgrade-introduces-breakthrough-data-preparation-algorithm/) targeted miner fairness and ASIC resistance rather than quantum resilience.
+Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
 
 ## 3. P2P Networking
 
@@ -101,7 +95,7 @@ Arweave's value proposition is that data, once paid for, is stored *forever* by 
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Arweave's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ➖, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Arweave's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain ➖, Other ❌.
 
 The trajectory is the opposite of EC sunset: the [2.9.1 hard fork (3 Feb 2025)](https://github.com/ArweaveTeam/arweave/releases) *added* ECDSA secp256k1 as a second EC scheme alongside RSA-PSS at the L1 tx layer, and [ANS-104](https://github.com/ArweaveTeam/arweave-standards/blob/master/ans/ANS-104.md) continues to onboard additional EC families (Ethereum, Solana, and downstream Cosmos / Aptos types) rather than retiring any. No published plan deprecates RSA-PSS or ECDSA at the protocol layer; no statement from the Digital History Association (the foundation coordinating Arweave protocol releases) or Forward Research proposes an EC retirement schedule; no migration strategy or timeline has been disclosed.
 
