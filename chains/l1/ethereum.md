@@ -23,7 +23,7 @@
 
 Ethereum is the most-coordinated PQC migration in the L1 space, with a published [Post-Quantum hub](https://pq.ethereum.org/), a dedicated EF Post-Quantum team formed in early 2026, and a strategic priority commitment in the [2026 Protocol Priorities](https://blog.ethereum.org/en/2026/02/18/protocol-priorities-update-2026). All three of the EF's 2026 protocol tracks (Scale, Improve UX, Harden the L1) touch PQ work. The [Strawmap](https://strawmap.org/) — authored by EF Protocol team members and published as a strawman, not an official EF roadmap — sketches a PQC adoption sequence across multiple forks with milestones I*/J*/L*/M* spanning PQ key registries, attestations, sig aggregation, and PQ blobs. The Ethereum Foundation targets L1 PQC adoption by 2029.
 
-Implementation has progressed furthest on the consensus layer. The [Lean Consensus / leanEthereum roadmap](https://leanroadmap.org/) coordinates eight client teams building a hash-based replacement stack: **leanSig** (generalized XMSS / Winternitz signatures using Poseidon1), **leanMultisig** (aggregate signatures over leanSig), and **leanVM** (a minimal zkVM for recursive aggregation, cited at ~250x compression ratio in May 2026 coverage). Five PQ devnets have shipped through early 2026, with weekly interop devnets ongoing via [pq.ethereum.org](https://pq.ethereum.org/) as of May 2026. Transaction-layer migration is structured around account abstraction: [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) shipped in Pectra (May 2025), and [a series of draft EIPs](https://ethresear.ch/t/the-road-to-post-quantum-ethereum-transaction-is-paved-with-account-abstraction-aa/21783) (8141, 7701, 7932, plus precompile drafts 7619/7592/8051/8052) define the path for native protocol-level PQC support. None of these has shipped to mainnet.
+Implementation has progressed furthest on the consensus layer. The [Lean Consensus / leanEthereum roadmap](https://leanroadmap.org/) coordinates eight client teams building a hash-based replacement stack: **leanSig** (generalized XMSS / Winternitz signatures using Poseidon1), **leanMultisig** (aggregate signatures over leanSig), and **leanVM** (a minimal zkVM for recursive aggregation, cited at ~250x compression ratio in May 2026 coverage). Five PQ devnets have shipped through early 2026, with weekly interop devnets ongoing via [pq.ethereum.org](https://pq.ethereum.org/) as of May 2026. Transaction-layer migration is structured around account abstraction: [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) shipped in Pectra (May 2025), and [a series of draft EIPs](https://ethresear.ch/t/the-road-to-post-quantum-ethereum-transaction-is-paved-with-account-abstraction-aa/21783) (8141, 7701, 7932, plus precompile drafts 7619/7592/8051/8052) define the path for native protocol-level PQC support. In parallel, **SPHINCS-** — an EVM-optimized stateless hash-based signature family — has been proposed as a per-account stopgap that requires no precompile or consensus change, achieving verification at approximately 127k–150k gas by substituting KECCAK256 for SHAKE256. None of these proposals has shipped to mainnet.
 
 ## Proposed and Implemented PQC Algorithms
 
@@ -34,6 +34,7 @@ Implementation has progressed furthest on the consensus layer. The [Lean Consens
 | **leanVM** (zkVM for recursive PQ aggregation) | BLS pairing-based aggregation | Consensus, On-Chain | In Development (shipped on pq-devnet-4; weekly interop ongoing) |
 | **Falcon / FN-DSA** | ECDSA secp256k1 | Tx Signatures, On-Chain | On Roadmap (EIP-7619, EIP-7592, EIP-8052 draft precompiles; ZKNox/ETHFALCON pure-Solidity demos) |
 | **ML-DSA** (Dilithium) | ECDSA secp256k1 | Tx Signatures, On-Chain | On Roadmap (EIP-8051 draft precompile) |
+| **SPHINCS-** (EVM-optimized hash-based, KECCAK256) | ECDSA secp256k1 | Tx Signatures | Discussed (researcher proposal, June 2026; no EIP filed) |
 | **STARK / hash-based commitments** | KZG on BLS12-381 | Other (DA blobs) | On Roadmap (Strawmap M* milestone, "PQ blobs") |
 
 ## 1. Transaction Signatures
@@ -44,11 +45,11 @@ Ethereum's protocol-level transaction signatures are still ECDSA secp256k1 only.
 
 Several draft EIPs converge on the protocol-level path. [EIP-8141](https://eips.ethereum.org/EIPS/eip-8141) ("Frame Transactions," 2026-01-29) introduces a new transaction type whose validity and fee logic are arbitrary EVM code, providing what the EIP describes as "a native off-ramp from the elliptic curve based cryptographic system used to authenticate transactions today, to post-quantum (PQ) secure systems." It received CFI status for the Hegota upgrade but was [dropped from Hegota headliners](https://bitcoinethereumnews.com/ethereum/ethereum-hegota-upgrade-drops-framework-transactions-over-complexity-concerns/) over implementation complexity concerns raised by client teams; it remains under review for a future fork and is the most-cited Ethereum-specific PQC artifact in social media through May 2026. [EIP-7932](https://eips.ethereum.org/EIPS/eip-7932) defines a registry and decoder precompile framework for adding PQ algorithms via separate companion EIPs. [EIP-7701](https://eips.ethereum.org/EIPS/eip-7701) covers protocol-level native AA.
 
-At the smart-contract-wallet level, PQC is already feasible without a fork: pure-Solidity **Falcon-1024** verification has been [demonstrated under ~10M gas](https://ethresear.ch/t/the-road-to-post-quantum-ethereum-transaction-is-paved-with-account-abstraction-aa/21783), and ZKNox's ETHFALCON dropped the cost from ~24M to ~3.6M gas, making PQC via ERC-4337 practical today.
+At the smart-contract-wallet level, PQC is already feasible without a fork: pure-Solidity **Falcon-1024** verification has been [demonstrated under ~10M gas](https://ethresear.ch/t/the-road-to-post-quantum-ethereum-transaction-is-paved-with-account-abstraction-aa/21783), and ZKNox's ETHFALCON dropped the cost from ~24M to ~3.6M gas, making PQC via ERC-4337 practical today. Separately, **SPHINCS-** — an EVM-optimized stateless hash-based signature family derived from SPHINCS+ — was [proposed](https://www.cryptotimes.io/2026/06/15/ethereum-eyes-preemptive-quantum-protection-for-7-cents-without-a-hard-fork/) in June 2026. By swapping SHAKE256 for KECCAK256 (Ethereum's native hash), **SPHINCS-** achieves approximately 127k–150k gas per verification without a precompile or consensus change, and is [framed as a per-account stopgap](https://bitcoinist.com/ethereum-sphincs-post-quantum-wallet-signatures/) before Ethereum's longer-term PQC upgrades.
 
 **Current state.** Mainnet transactions are exclusively ECDSA secp256k1. EIP-7702 shipped in Pectra (May 2025) as the AA enabler.
 
-**Planned future work.** EIP-8141 (Draft, dropped from Hegota, under review for future forks), EIP-7701 (Draft), EIP-7932 (Draft, 2025-04-12). Precompile drafts 7619, 7592, 8051, 8052 are tracked under On-Chain Logic. The Ethereum Foundation targets L1 PQC adoption by 2029.
+**Planned future work.** EIP-8141 (Draft, dropped from Hegota, under review for future forks), EIP-7701 (Draft), EIP-7932 (Draft, 2025-04-12). Precompile drafts 7619, 7592, 8051, 8052 are tracked under On-Chain Logic. **SPHINCS-** is a researcher proposal (June 2026) with no EIP filed. The Ethereum Foundation targets L1 PQC adoption by 2029.
 
 ## 2. Consensus
 
@@ -149,6 +150,7 @@ EF process and venue activity:
 - 2026-04-21: Coinbase publishes an advisory paper characterizing Ethereum as "early but complex (BLS deeply embedded)" and highlighting a "1-of-2 signing" recipe as a near-term migration pattern.
 - 2026 (Hegota planning): EIP-8141 dropped from Hegota headliners; remains under review for future forks.
 - 2026-05 (ongoing): Weekly PQ interop devnets run under EF's four-team PQ structure; pq-devnet-5+ is active.
+- 2026-06-14: **SPHINCS-** proposal published — an EVM-optimized stateless hash-based signature family derived from SPHINCS+, achieving ~127k–150k gas verification by using KECCAK256 instead of SHAKE256. Framed as a per-account stopgap; no EIP filed.
 
 Implementation tracking:
 
@@ -164,7 +166,7 @@ Research and supporting material:
 
 ---
 
-_Generated on 07 May 2026 based on information as of 06 May 2026._
+_Generated on 15 Jun 2026 based on information as of 15 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

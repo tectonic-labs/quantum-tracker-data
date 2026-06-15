@@ -21,7 +21,7 @@
 | Other Features | ➖ | ➖ | Not Applicable |
 | EC Sunset | F | ❌ | Not Discussed |
 
-Aptos is a Move-based L1 using [AptosBFT consensus](https://aptos.dev/protocol/blockchain/consensus) (HotStuff-derived) with Ed25519 as the primary [transaction signature scheme](https://aptos.dev/guides/transactions/signatures) and BLS12-381 for aggregated validator signatures. The most significant PQC work is **SLH-DSA-SHA2-128s** (FIPS 205 / SPHINCS+), which is [deeply integrated into aptos-core mainline](https://github.com/aptos-labs/aptos-core) across 43+ files — covering key generation, signing, verification, serialization, smoke tests, API tests, gas accounting, and benchmarks. A [TypeScript SDK PR](https://github.com/aptos-labs/aptos-ts-sdk/pull/802) extends SLH-DSA support to client-side tooling.
+Aptos is a Move-based L1 using [AptosBFT consensus](https://aptos.dev/protocol/blockchain/consensus) (HotStuff-derived) with Ed25519 as the primary [transaction signature scheme](https://aptos.dev/guides/transactions/signatures) and BLS12-381 for aggregated validator signatures. The most significant PQC work is **SLH-DSA-SHA2-128s** (FIPS 205 / SPHINCS+), which is [deeply integrated into aptos-core mainline](https://github.com/aptos-labs/aptos-core) across 43+ files — covering key generation, signing, verification, serialization, smoke tests, API tests, gas accounting, and benchmarks. A [TypeScript SDK PR](https://github.com/aptos-labs/aptos-ts-sdk/pull/802) extends SLH-DSA support to client-side tooling. A separate [hybrid post-quantum public-key encryption PR](https://github.com/aptos-labs/ace/pull/137) (opened June 2026) adds a hybrid PQ PKE scheme to the Aptos `ace` crypto repository, complementing the SLH-DSA signature track.
 
 Critically, the SLH-DSA integration is gated behind feature flag 107 (`SLH_DSA_SHA2_128S_SIGNATURE`), which has **not been activated on any network** — mainnet, testnet, or devnet. As of June 2026, no governance proposal has been submitted to enable it. Users cannot create SLH-DSA accounts today. Aptos's native key rotation and extensible signature verification architecture provide a structural migration path: when the flag is activated, users will be able to rotate to SLH-DSA keys without changing their account address. The official Aptos Stack diagram (May 2026) lists "post-quantum signatures" as an L1 Infrastructure feature, signaling intent.
 
@@ -31,6 +31,7 @@ Critically, the SLH-DSA integration is gated behind feature flag 107 (`SLH_DSA_S
 |-----------|----------|----------|--------|
 | **SLH-DSA-SHA2-128s** (FIPS 205) | Ed25519 | Tx Signatures | In Development |
 | **SLH-DSA-SHA2-128s** (FIPS 205) | Ed25519 | On-Chain | In Development |
+| **Hybrid PQ PKE** | EC-based encryption | Tx Signatures | In Development |
 
 ## 1. Transaction Signatures
 
@@ -38,11 +39,11 @@ Critically, the SLH-DSA integration is gated behind feature flag 107 (`SLH_DSA_S
 
 Aptos currently supports [Ed25519 (primary), secp256k1 (secondary), and MultiEd25519](https://aptos.dev/guides/transactions/signatures) for transaction signing. The AuthenticationKey derivation includes a signature scheme identifier, enabling multi-scheme addresses. Native key rotation allows users to change keys without changing their account address.
 
-**SLH-DSA-SHA2-128s** (FIPS 205 / SPHINCS+) is [integrated into aptos-core mainline](https://github.com/aptos-labs/aptos-core) across 43+ files with full signing key, verifying key, and signature implementation, plus gas accounting (`SLH_DSA_SHA2_128S_BASE_COST`). A [TypeScript SDK PR](https://github.com/aptos-labs/aptos-ts-sdk/pull/802) (draft, 19 comments) extends PQC support to client-side tooling. SLH-DSA-SHA2-128s is stateless and purely hash-based (no lattice assumptions) — the most conservative PQC signature choice, though it carries larger signatures (~7,856 bytes) and slower signing compared to lattice alternatives.
+**SLH-DSA-SHA2-128s** (FIPS 205 / SPHINCS+) is [integrated into aptos-core mainline](https://github.com/aptos-labs/aptos-core) across 43+ files with full signing key, verifying key, and signature implementation, plus gas accounting (`SLH_DSA_SHA2_128S_BASE_COST`). A [TypeScript SDK PR](https://github.com/aptos-labs/aptos-ts-sdk/pull/802) (draft, 19 comments) extends PQC support to client-side tooling. SLH-DSA-SHA2-128s is stateless and purely hash-based (no lattice assumptions) — the most conservative PQC signature choice, though it carries larger signatures (~7,856 bytes) and slower signing compared to lattice alternatives. Additionally, a [hybrid post-quantum public-key encryption PR](https://github.com/aptos-labs/ace/pull/137) (opened June 2026) adds a **hybrid PQ PKE** scheme to the Aptos `ace` crypto repository, complementing the signature track with an encryption primitive.
 
 **Current state.** Ed25519 is the primary transaction signature scheme. SLH-DSA-SHA2-128s code is merged in mainline and actively maintained (feature-flag gating refactored as recently as May 2026), but the feature flag (flag 107) has not been activated via governance. No governance proposal to enable it has been submitted. A search of all 132 mainnet governance proposals found none referencing flag 107.
 
-**Planned future work.** AIP-137, authored by the Aptos Labs Head of Cryptography and accepted December 2025, covers SLH-DSA signing accounts. Activation requires a single governance vote — the code is production-ready and waiting for that vote. The TS SDK PR remains in draft.
+**Planned future work.** AIP-137, authored by the Aptos Labs Head of Cryptography and accepted December 2025, covers SLH-DSA signing accounts. Activation requires a single governance vote — the code is production-ready and waiting for that vote. The TS SDK PR remains in draft. The hybrid PQ PKE PR is open and under active development.
 
 ## 2. Consensus
 
@@ -96,7 +97,7 @@ AIP-137 (SLH-DSA-SHA2-128s signing accounts) was accepted in December 2025. SLH-
 
 ---
 
-_Generated on 03 Jun 2026 based on information as of 03 Jun 2026._
+_Generated on 15 Jun 2026 based on information as of 15 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

@@ -22,13 +22,17 @@
 | Other Features | B | 🔧 | In Development |
 | EC Sunset | F | ❌ | Not Discussed |
 
-NEAR Protocol's PQC posture improved materially in May 2026 with an [official blog announcement](https://www.near.org/blog/making-near-protocol-post-quantum-safe) from Near One. The headline item is active development of **FIPS-204 (ML-DSA-65)** as a new signing scheme for user transactions, with a testnet target of Q2 2026 — reconfirmed by NEAR co-founder Illia Polosukhin on 2026-06-02. The live implementation PR — [nearcore#15731](https://github.com/near/nearcore/pull/15731) — adds ML-DSA-65 via `aws-lc-rs`, protocol-gated behind a `PostQuantumSignatures` feature flag. As of early June 2026, productionization is nearing completion: end-to-end access-key tests ([#15815](https://github.com/near/nearcore/pull/15815)), verification benchmarks ([#15813](https://github.com/near/nearcore/pull/15813)), and a key-hash optimization from SHA3-384 to SHA3-256 ([#15830](https://github.com/near/nearcore/pull/15830)) have all merged, with gas pricing ([#15842](https://github.com/near/nearcore/pull/15842)) and a domain-tag refactor ([#15860](https://github.com/near/nearcore/pull/15860)) still open. NEAR's account model — human-readable names decoupled from key material, with rotatable access keys — gives it a structural advantage: migrating an account to a PQC key is a single transaction. Consensus, P2P, and EC sunset remain in early discussion only, and on-chain logic has no PQC primitives on the roadmap.
+> **Testnet activity**: ML-DSA-65 (`PostQuantumSignatures` feature) has been stabilized on protocol version 85 in nearcore and is targeting testnet deployment by end of Q2 2026. Mainnet remains on protocol version 83. This is not yet active on mainnet.
+
+NEAR Protocol is one of the most advanced non-PQC-native L1 chains in post-quantum migration. In May 2026, Near One [announced](https://www.near.org/blog/making-near-protocol-post-quantum-safe) active development of **FIPS-204 (ML-DSA-65)** as a third signing scheme for user transactions. By mid-June 2026, the implementation reached a major milestone: ML-DSA-65 was [stabilized on the mainnet-bound stable protocol track](https://github.com/near/nearcore/pull/15878) (protocol version 85), with all productionization work — gas pricing, transaction size accounting, key-hash optimization, and end-to-end tests — merged into nearcore. Mainnet activation awaits a validator vote to upgrade from protocol v83 to v85, targeted for end of Q2 2026 as [confirmed](https://www.cryptotimes.io/2026/05/07/near-plans-post-quantum-safe-signing-for-q2-2026-testnet/) by NEAR co-founder Illia Polosukhin.
+
+NEAR's account model gives it a structural advantage: accounts are identified by human-readable names decoupled from key material, and each account holds rotatable access keys. Migrating to a PQC key requires only a single transaction. Consensus, P2P, and EC sunset remain in early discussion stages, and on-chain logic has no PQC primitives on the roadmap.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **ML-DSA-65** (FIPS 204) | Ed25519, ECDSA secp256k1 | Tx Signatures | In Development (testnet Q2 2026; [nearcore#15731](https://github.com/near/nearcore/pull/15731)) |
+| **ML-DSA-65** (FIPS 204) | Ed25519, ECDSA secp256k1 | Tx Signatures | In Development (stabilized on protocol v85; [nearcore#15878](https://github.com/near/nearcore/pull/15878)) |
 
 ## Transaction Signatures
 
@@ -36,26 +40,29 @@ NEAR Protocol's PQC posture improved materially in May 2026 with an [official bl
 
 NEAR transactions are signed with Ed25519 (default) or ECDSA secp256k1. Both are broken by Shor's algorithm. NEAR already supports two signature schemes in its runtime, and its architecture is designed to accommodate additional algorithms.
 
-Near One is actively implementing **FIPS-204 (ML-DSA-65)** as a third signing scheme. The implementation PR [nearcore#15731](https://github.com/near/nearcore/pull/15731) (opened 2026-05-14) adds `MLDSA65` key-type variants using the FIPS-certified `aws-lc-rs` (BoringCrypto) library, gated by a `PostQuantumSignatures` protocol feature flag. To manage state costs, the full ~2 KB public key travels on the wire but is stored in the trie as a ~33-byte SHA3-256 hash (optimized from SHA3-384/49 bytes via [#15830](https://github.com/near/nearcore/pull/15830), merged 2026-06-02). Testnet deployment is planned for the end of Q2 2026, confirmed by NEAR co-founder Illia Polosukhin (most recently on 2026-06-02) and the [Near One blog](https://www.near.org/blog/making-near-protocol-post-quantum-safe).
+Near One has implemented **FIPS-204 (ML-DSA-65)** as a third signing scheme. The core implementation PR [nearcore#15731](https://github.com/near/nearcore/pull/15731) (opened 2026-05-14) adds `MLDSA65` key-type variants using the FIPS-certified `aws-lc-rs` (BoringCrypto) library, gated by a `PostQuantumSignatures` protocol feature flag. To manage state costs, the full ~2 KB public key travels on the wire but is stored in the trie as a ~33-byte SHA3-256 hash (optimized from SHA3-384/49 bytes via [#15830](https://github.com/near/nearcore/pull/15830), merged 2026-06-02).
 
-Supporting PRs that have merged since late May 2026:
+On 2026-06-10, the critical stabilization PR [nearcore#15878](https://github.com/near/nearcore/pull/15878) merged, moving ML-DSA-65 from the nightly/future-gated protocol config (v154) down to the stable protocol version (v85). This means ML-DSA-65 is now part of the mainnet-bound stable protocol track — the first major non-PQC-native L1 to reach this milestone with a NIST FIPS 204 signature scheme.
+
+All productionization PRs have merged:
 
 - [nearcore#15815](https://github.com/near/nearcore/pull/15815) (merged 2026-06-01): end-to-end ML-DSA-65 access-key tests covering AddKey, view, sign, DeleteKey, and function-call key flows.
 - [nearcore#15813](https://github.com/near/nearcore/pull/15813) (merged 2026-06-02): ML-DSA-65 verification distribution and worst-case Criterion benchmarks, feeding the gas pricing constant.
 - [nearcore#15830](https://github.com/near/nearcore/pull/15830) (merged 2026-06-02): hash ML-DSA-65 access keys with SHA3-256 instead of SHA3-384, shrinking the on-trie key-handle from 49 to ~33 bytes.
+- [nearcore#15842](https://github.com/near/nearcore/pull/15842) (merged 2026-06-08): `ml_dsa_65_verification_cost` = 100 Ggas, charged to burnt gas per ML-DSA-65 signature verified.
+- [nearcore#15860](https://github.com/near/nearcore/pull/15860) (merged 2026-06-08): generalizes the ML-DSA-65 hash domain tag into a `HashDomainTag` enum for future reuse.
+- [nearcore#15869](https://github.com/near/nearcore/pull/15869) (merged 2026-06-09): counts ML-DSA-65 signatures (~3.3 KB) against transaction size limits; adds architecture documentation.
+- [nearcore#15873](https://github.com/near/nearcore/pull/15873) (merged 2026-06-09): removes undesired `non_exhaustive` attribute from hash domain types.
 
-Still open:
-
-- [nearcore#15842](https://github.com/near/nearcore/pull/15842): `ml_dsa_65_verification_cost` = 100 Ggas at protocol v154, charged to burnt gas per ML-DSA-65 signature verified.
-- [nearcore#15860](https://github.com/near/nearcore/pull/15860): generalizes the ML-DSA-65 hash domain tag into a `HashDomainTag` enum for future reuse.
+Developer SDK support is in progress: [near-sdk-rs#1557](https://github.com/near/near-sdk-rs/pull/1557) (draft, 2026-06-13) exposes the ML-DSA-65 `PublicKey` type to the contract SDK.
 
 Wallet integration is in progress, with Near One collaborating with Ledger and other hardware and software wallet builders.
 
 NEAR's account model is a notable structural advantage. Accounts are identified by human-readable names rather than being derived from public keys. Each account holds one or more rotatable access keys. Migrating to a PQC key requires only a single transaction to add a new ML-DSA access key and remove the old Ed25519 key — no address change or fund transfer needed.
 
-**Current state.** Mainnet transactions use Ed25519 and ECDSA secp256k1 exclusively. No PQC signing is available on mainnet or testnet today.
+**Current state.** Mainnet transactions use Ed25519 and ECDSA secp256k1 exclusively. ML-DSA-65 is stabilized in nearcore on the stable protocol track (v85) but mainnet remains on protocol v83.
 
-**Planned future work.** ML-DSA-65 signing on testnet by end of Q2 2026. No mainnet activation timeline has been announced.
+**Planned future work.** Mainnet activation when validators vote to upgrade to protocol v85 (targeted end of Q2 2026). Wallet and SDK tooling in progress.
 
 ## Consensus
 
@@ -121,15 +128,7 @@ Near One is researching an emergency fallback mechanism — allowing users to pr
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, NEAR's PQC-adoption ratings per category are:
-
-| Category | PQC Adoption |
-|----------|--------------|
-| Transaction Signatures | 🔧 In Development |
-| Consensus | ⚠️ Discussed |
-| P2P Networking | ⚠️ Discussed |
-| On-Chain Logic | ❌ Not Discussed |
-| Other Features | 🔧 In Development |
+> Adding PQC alongside EC is not the same as retiring EC. For reference, NEAR's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ⚠️, P2P ⚠️, On-Chain ❌, Other 🔧.
 
 NEAR's current strategy is additive: ML-DSA-65 will be offered alongside Ed25519 and ECDSA, and users will rotate keys voluntarily. No deprecation, forced migration, or removal timeline has been announced for any EC-based cryptography across any layer.
 
@@ -144,7 +143,10 @@ NEAR protocol changes are led by the NEAR Foundation and core developer teams, w
 PQ-relevant announcements and reference documentation:
 
 - [2026-05-06 Blog: "Preparing NEAR for the Quantum Computing Era"](https://www.near.org/blog/making-near-protocol-post-quantum-safe) — **FIPS-204 (ML-DSA-65)** implementation announced; testnet Q2 2026; longer-term consensus/P2P PQC research confirmed; quantum-safe Chain Signatures under development; ZKP proof-of-ownership research disclosed.
-- [nearcore#15731](https://github.com/near/nearcore/pull/15731) — Live ML-DSA-65 implementation PR (opened 2026-05-14), `aws-lc-rs`, `PostQuantumSignatures` protocol gate. Supporting merges: [#15815](https://github.com/near/nearcore/pull/15815) (e2e tests), [#15813](https://github.com/near/nearcore/pull/15813) (benchmarks), [#15830](https://github.com/near/nearcore/pull/15830) (SHA3-256 key hash). Open: [#15842](https://github.com/near/nearcore/pull/15842) (gas pricing), [#15860](https://github.com/near/nearcore/pull/15860) (domain tag refactor).
+- [nearcore#15731](https://github.com/near/nearcore/pull/15731) — Live ML-DSA-65 implementation PR (opened 2026-05-14), `aws-lc-rs`, `PostQuantumSignatures` protocol gate.
+- [nearcore#15878](https://github.com/near/nearcore/pull/15878) — ML-DSA-65 stabilized on stable protocol version 85 (merged 2026-06-10). Moves ML-DSA-65 from nightly/future config to the mainnet-bound stable track.
+- Supporting merges: [#15815](https://github.com/near/nearcore/pull/15815) (e2e tests), [#15813](https://github.com/near/nearcore/pull/15813) (benchmarks), [#15830](https://github.com/near/nearcore/pull/15830) (SHA3-256 key hash), [#15842](https://github.com/near/nearcore/pull/15842) (gas pricing), [#15860](https://github.com/near/nearcore/pull/15860) (domain tag refactor), [#15869](https://github.com/near/nearcore/pull/15869) (tx size limits), [#15873](https://github.com/near/nearcore/pull/15873) (cleanup).
+- [near-sdk-rs#1557](https://github.com/near/near-sdk-rs/pull/1557) — Draft PR exposing ML-DSA-65 public keys to the contract SDK (opened 2026-06-13).
 - [CryptoTimes coverage](https://www.cryptotimes.io/2026/05/07/near-plans-post-quantum-safe-signing-for-q2-2026-testnet/) — Illia Polosukhin confirms Q2 2026 testnet timeline.
 - [Cointelegraph coverage](https://cointelegraph.com/news/quantum-threat-not-just-about-stolen-funds-near) — Near One on proof-of-ownership ZKP research.
 - [BanklessTimes coverage](https://www.banklesstimes.com/articles/2026/05/07/near-protocol-soars-after-quantum-safe-signing-confirmed-for-q2/) — Market reaction and technical summary.
@@ -158,7 +160,7 @@ PQ-relevant announcements and reference documentation:
 
 ---
 
-_Generated on 08 Jun 2026 based on information as of 08 Jun 2026._
+_Generated on 15 Jun 2026 based on information as of 15 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
