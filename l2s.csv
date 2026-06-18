@@ -1,0 +1,21 @@
+project,ticker,tier,category,settlement_exposure,data_availability_exposure,proof_exposure,tx_signature_exposure,onchain_exposure,other_exposure,ec_sunset,date_last_updated,audit,report
+Base,BASE,F,L2 (optimistic),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/base.md
+OP Mainnet,OP,F,L2 (optimistic),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/op-mainnet.md
+World Chain,WLD,F,L2 (optimistic),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/world-chain.md
+Mantle,MNT,F,L2 (optimistic),c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/mantle.md
+Ink,INK,F,L2 (optimistic),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/ink.md
+Unichain,UNI,F,L2 (optimistic),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/unichain.md
+Blast,BLAST,F,L2 (optimistic),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/blast.md
+Soneium,SONEIUM,F,L2 (optimistic),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/soneium.md
+Arbitrum One,ARB,F,L2 (optimistic),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/arbitrum-one.md
+Arbitrum Nova,NOVA,F,L2 (optimistic),c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/arbitrum-nova.md
+zkSync Era,ZK,F,L2 (zk-snark),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/zksync-era.md
+Abstract,ABS,F,L2 (zk-snark),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/abstract.md
+Scroll,SCR,F,L2 (zk-snark),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/scroll.md
+Linea,LINEA,F,L2 (zk-snark),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/linea.md
+StarkNet,STRK,D,L2 (zk-stark),c-planned.svg,c-planned.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,2026-06-18,,chains/l2/starknet.md
+Taiko,TKO,F,L2 (zk-snark),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/taiko.md
+MegaETH,MEGA,F,L2 (optimistic),c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/megaeth.md
+Metis,METIS,F,L2 (optimistic),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/metis.md
+Etherlink,XTZ,F,L2 (optimistic),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/etherlink.md
+X Layer,OKB,F,L2 (zk-snark),c-planned.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/x-layer.md

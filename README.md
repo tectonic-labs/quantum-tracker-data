@@ -6,7 +6,8 @@ CSV data files consumed by the Quantum Tracker website at runtime.
 
 CSV files are organized by segment (one CSV per segment):
 
-- `chains.csv` + `chains_commentary.csv` -- top 200 blockchains (L1 + L2) -- *populated*
+- `chains.csv` + `chains_commentary.csv` -- top 200 L1 blockchains -- *populated*
+- `l2s.csv` + `l2s_commentary.csv` -- L2 networks (rollups, sidechains, payment channels) -- *populated*
 - `coins.csv` -- top 200 coins and tokens -- *pending*
 - `wallets.csv` + `wallets_commentary.csv` -- wallets -- *populated*
 - `nfts.csv` -- top 100 NFT projects -- *pending*
@@ -16,6 +17,7 @@ Each segment that has commentary annotations splits status and commentary across
 Each segment has a matching subdirectory carrying long-form public reports and per-segment notes:
 
 - `chains/l1/` -- L1 chain PQC readiness reports (populated; see [`chains/l1/README.md`](chains/l1/README.md))
+- `chains/l2/` -- L2 chain PQC readiness reports -- *populated*
 - `coins/` -- *pending* (see [`coins/README.md`](coins/README.md))
 - `wallets/` -- *pending* (see [`wallets/README.md`](wallets/README.md))
 - `nfts/` -- *pending* (see [`nfts/README.md`](nfts/README.md))
@@ -85,6 +87,49 @@ Tier assignments are sourced upstream and mirrored into this repo.
   - Roadmap exists but is not credible / has slipped repeatedly.
   - State proof / overlay layer uses PQC but the user-transaction path does not.
 - Empty commentary is the default; a star (`*`) appears in the UI only when a row has commentary.
+
+## l2s.csv schema
+
+L2 networks use a different column set than L1 chains. The L1 `consensus_exposure` column is replaced by three L2-specific columns: `settlement_exposure`, `data_availability_exposure`, and `proof_exposure`. The `p2p_exposure` column is omitted from the CSV (most L2s have centralized sequencers with no meaningful p2p surface) but is still tracked in intel files and public reports.
+
+| # | Column | Type | Notes |
+|---|--------|------|-------|
+| 1 | `project` | string | Chain deployment name (e.g. "Base", "Arbitrum One", "StarkNet"). |
+| 2 | `ticker` | string | Symbol if applicable. |
+| 3 | `tier` | enum | Overall PQC-readiness grade: `S`–`F` or empty. Same scale as chains.csv. |
+| 4 | `category` | enum | `L2 (optimistic)`, `L2 (zk-snark)`, `L2 (zk-stark)`, `L2 (payment-channel)`, `L2 (ephemeral)`. |
+| 5 | `settlement_exposure` | status | PQC exposure of the parent settlement chain. Inherited from the settlement layer's overall posture. |
+| 6 | `data_availability_exposure` | status | PQC exposure of the DA layer. Blobs inherit settlement; DAC/EigenDA have independent EC exposure. |
+| 7 | `proof_exposure` | status | PQC exposure of the proof/verification system. SNARK (BN254) = vulnerable; STARK (hash) = favorable. |
+| 8 | `tx_signature_exposure` | status | Same as chains.csv — user transaction signature scheme. |
+| 9 | `onchain_exposure` | status | Same as chains.csv — availability of PQC verification on-chain. |
+| 10 | `other_exposure` | status | Bridges, DAC details, cross-chain messaging, sequencer keys. |
+| 11 | `ec_sunset` | status | Plans to remove EC. |
+| 12 | `date_last_updated` | date | ISO `YYYY-MM-DD`. |
+| 13 | `audit` | string | URL or empty. |
+| 14 | `report` | string | Relative URL to public report (e.g. `chains/l2/base.md`). Empty = lock icon. |
+
+### L2 category values
+
+| Category | Meaning |
+|----------|---------|
+| `L2 (optimistic)` | Optimistic rollup with fraud proofs (OP Stack, Arbitrum Nitro, Metis, etc.). |
+| `L2 (zk-snark)` | ZK rollup using EC-pairing-based SNARKs for L1 verification (zkSync, Scroll, Linea, Taiko, Polygon CDK). |
+| `L2 (zk-stark)` | ZK rollup using hash-based STARKs all the way to L1 verification (StarkNet). Note: most "STARK" L2s actually wrap to SNARK for L1 — those are `L2 (zk-snark)`. |
+| `L2 (payment-channel)` | Payment channel network (Lightning Network). |
+| `L2 (ephemeral)` | Ephemeral rollup (MagicBlock). |
+
+### Settlement vs DA vs Proof — the L2-specific columns
+
+These three columns replace the L1 `consensus_exposure` column because L2 security decomposes differently:
+
+- **Settlement**: The L2 cannot be more secure than its settlement layer. This is an inherited ceiling. Ethereum-settling L2s inherit Ethereum's B-tier posture.
+- **Data Availability**: Where tx data is published. Ethereum blobs = inherits settlement (KZG on roadmap). AnyTrust DAC / EigenDA = independent EC exposure (BLS12-381).
+- **Proof / Verification**: The L2's own crypto surface. SNARK proofs (BN254/BLS12-381 pairings) are quantum-vulnerable. STARK proofs (hash-based FRI) are quantum-favorable. Most ZK L2s use STARK inner provers but wrap to SNARK for L1 — rated by the L1-facing proof.
+
+### Networking — not in CSV, in reports
+
+Networking is tracked in intel files and included in public reports but omitted from the CSV. Most L2s have centralized sequencers with no p2p to rate; decentralized sequencing is still rare. This avoids a column that's `n-not-applicable.svg` for 80%+ of rows.
 
 ## wallets.csv schema
 
