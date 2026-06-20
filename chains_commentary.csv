@@ -54,7 +54,7 @@ Kaia,KAIA,,,Modified Istanbul BFT with VRF-based proposer election; merger of Kl
 IOTA,IOTA,,,"Tangle DAG; Mysticeti DPoS (Rebased upgrade May 2025) with MoveVM; originally used Winternitz one-time signatures (hash-based, quantum-resistant), now Ed25519",,Switched from hash-based Winternitz signatures to Ed25519 in Chrysalis (2021); IOTA 2.0 plans return to hash-based signatures,,,,,,,,,,Roadmap mentions returning to hash-based signatures with IOTA 2.0,,,
 Plasma,XPL,,,PlasmaBFT (HotStuff-derived) consensus; stablecoin-focused L1; EVM-compatible; periodically anchors to Bitcoin,,,,,,,,,,,,,,,
 Theta Network,THETA,,,Multi-level BFT; ~31 enterprise validators + thousands of guardian nodes; video streaming L1,,,,,,,,,,,,,,,
-NEO,NEO,,,dBFT 2.0 (delegated Byzantine Fault Tolerance); originally NEO N3,,,,,,,,,,,,,,,
+NEO,NEO,,,dBFT 2.0 (delegated Byzantine Fault Tolerance); secp256r1 primary,,NeoQS whitepaper concept + 2018 Arqit partnership + 2019 proposal #85; all stalled,,Not addressed,,Not addressed,,Not addressed,,Not addressed,,No EC removal plan,,,
 THORChain,RUNE,,,Cosmos SDK / CometBFT; uses GG20 Threshold Signature Scheme for cross-chain custody,,,,,,,,,,GG20 TSS for cross-chain vault control is ECDSA-based (quantum-vulnerable),,,,,
 Akash Network,AKT,,,Cosmos-SDK decentralized compute marketplace (CometBFT),,,,,,,,,,,,,,,
 Story,IP,,,Cosmos SDK + custom Geth fork EVM execution; IP-focused L1; mainnet Feb 2025,,,,,,,,,,,,,,,
