@@ -38,7 +38,7 @@ Terra Luna Classic,LUNC,,,Cosmos SDK / Tendermint; community-preserved original 
 Dash,DASH,,,PoW + masternodes,,,,Not rated — PoW (X11) quantum-resistant since genesis; no migration to track,,,,,,Masternode quorum sigs use BLS (quantum-vulnerable),,,,,
 Beldex,BDX,,,Monero fork; ring signatures + stealth addresses; PoS with masternodes since 2021. Quantum break is retroactive: deanonymizes the entire historical ledger.,,,,,,,,,,Ring signatures (Monero-derived) are EC-based; quantum break enables retroactive deanonymization,,,,,
 Provenance,HASH,,,Cosmos SDK / CometBFT; finance-focused L1 with ~70+ validators,,,,,,,,,,,,,,,
-XDC Network,XDC,,,Enterprise / trade finance,,,,,,,,,,,,,,,
+XDC Network,XDC,,,Enterprise / trade finance,,Co-founder blog (Mar 2024) discusses PQC research; no specifics,,Blog lists consensus as research area; no specifics,,Not addressed,,Not addressed,,,,No EC removal discussion,,,
 ASI Alliance,FET,,,"Fetch.ai chain (Cosmos SDK / CometBFT, DPoS); new ASI:Chain blockDAG L1 in DevNet (Oct 2025), mainnet targeted late 2026/early 2027",,,,,,,,,,,,,,,
 Chiliz,CHZ,,,Sports/entertainment chain,,,,,,,,,,,,,,,
 Tezos,XTZ,,,Self-amending; LPoS,,,,,,,,,,,,,,,
