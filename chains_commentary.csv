@@ -62,7 +62,7 @@ Sonic,S,,,"Fantom rebrand; high-throughput EVM L1, mainnet Dec 2024 (FTM->S 1:1 
 MegaETH,MEGA,,,Real-time L1/L2 hybrid; settles to Ethereum via EigenDA,,,,,,,,,,,,,,,
 Berachain,BERA,,,Proof-of-Liquidity (PoL); EVM execution on BeaconKit (CometBFT-based) consensus; mainnet Feb 2025,,,,,,,,,,,,,,,
 Ravencoin,RVN,,,Bitcoin-derived asset-issuance L1; PoW (KAWPOW),,,,Not rated — PoW (KAWPOW) quantum-resistant since genesis; no migration to track,,,,,,,,,,,
-Zilliqa,ZIL,,,Sharded L1; pBFT-style consensus with Schnorr (EC-Schnorr) multisigs,,,,,,,,,,,,,,,
+Zilliqa,ZIL,,,Sharded L1; pBFT-style consensus with Schnorr (EC-Schnorr) multisigs,,Governance proposal (Nov 2025) discusses ML-DSA + FN-DSA with hybrid mode; not accepted,,Not addressed in PQC proposal,,Not addressed,,Proposal discusses PQC verification opcodes for Scilla and EVM; not implemented,,No PQC implications for sharding,,EC keys remain valid indefinitely per proposal,,,
 Mina Protocol,MINA,,,"Succinct (~22 KB) recursive-zk L1; Ouroboros Samasika PoS, Schnorr over Pallas (Pasta) curves",,Schnorr over Pallas curve (EC),,Ouroboros Samasika PoS uses EC sigs; VRF leader election,,,,,,Recursive SNARKs (Kimchi/Pickles) rely on Pallas/Vesta cycle pairings; quantum-vulnerable,,,,,
 Sahara AI,SAHARA,,,"Agentic AppChain for AI agents; testnet only as of 2026-04, mainnet targeted Q4 2026",,,,,,,,,,,,,,,
 Oasis Network,ROSE,,,Confidential-compute L1 (TEE-based ParaTimes like Sapphire/Cipher); Tendermint-style BFT consensus,,,,,,,,,,,,,,,
