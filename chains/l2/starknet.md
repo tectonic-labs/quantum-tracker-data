@@ -19,7 +19,7 @@
 |----------|:-----:|:----:|--------|
 | Settlement Layer | B | 🔧 | In Development |
 | Data Availability | C | 🗺️ | Roadmapped |
-| Proof / Verification | D | ⚠️ | Discussed |
+| Proof / Verification | A | ✅ | Shipped |
 | Transaction Signatures | D | ⚠️ | Discussed |
 | Networking | F | ❌ | Not Discussed |
 | On-Chain Environment | D | ⚠️ | Discussed |
@@ -28,19 +28,21 @@
 
 ## Overview
 
-StarkNet is the most PQC-differentiated major Layer 2 in active production. Its proof system is built on ZK-STARKs — Fast Reed-Solomon IOP proofs that rely entirely on hash function collision-resistance, not on elliptic-curve discrete-log hardness. The Stwo prover (launched November 2025) uses Circle STARKs over the Mersenne-31 field, further refining the hash-based design. A cryptographically relevant quantum computer running Shor's algorithm cannot forge a StarkNet STARK proof; breaking these proofs would require breaking SHA-3 or comparable hash functions, which requires Grover's algorithm — a far more manageable threat addressed by increasing hash output length.
+StarkNet is the most PQC-differentiated major Layer 2 in active production. Its proof system is built on ZK-STARKs — Fast Reed-Solomon IOP proofs that rely entirely on hash function collision-resistance, not on elliptic-curve discrete-log hardness. The Stwo prover (launched November 2025) uses Circle STARKs over the Mersenne-31 field with Blake2s Merkle commitments and Keccak for the L1 Fiat-Shamir channel. StarkNet is the only major L2 whose proof pipeline is quantum-safe end-to-end: prover (Stwo, hash-based), recursive aggregation (STARK-in-STARK via Cairo verifier programs — no Groth16 or PLONK SNARK wrapper), and L1 verifier (Keccak + modexp only, zero EC precompile calls). A cryptographically relevant quantum computer running Shor's algorithm cannot forge a StarkNet STARK proof.
 
-This structural advantage sets StarkNet apart from all major SNARK-based L2s (zkSync Era, Scroll, Linea, Polygon zkEVM), whose L1 verifiers rely on BN254 elliptic-curve pairings and are directly vulnerable to Shor's algorithm.
+This structural advantage sets StarkNet apart from all major SNARK-based L2s (zkSync Era, Scroll, Linea, Polygon zkEVM, Taiko), whose L1 verifiers rely on BN254 elliptic-curve pairings and are directly vulnerable to Shor's algorithm.
 
-However, StarkNet's EC exposure is real and distributed across multiple layers. Transaction signatures use ECDSA on the Stark curve (a Weierstrass elliptic curve, equally vulnerable to Shor's). Full-node networking uses libp2p with EC-based node identity and Diffie-Hellman key exchange. The Cairo VM includes EC builtins and Pedersen hash (EC-based) in addition to the quantum-safe Poseidon hash. StarkWare operates the L1 verifier contract upgrade keys via EC-keyed multisig. The Pedersen-to-Poseidon hash migration, actively underway in Cairo 1.x, is a concrete positive trend removing one EC dependency from the proving layer.
+However, StarkNet's EC exposure is real and distributed across multiple layers. Transaction signatures use ECDSA on the Stark curve (a Weierstrass elliptic curve, equally vulnerable to Shor's). Full-node networking uses libp2p with EC-based node identity and Diffie-Hellman key exchange. The Cairo VM includes EC builtins and Pedersen hash (EC-based) in addition to the quantum-safe Poseidon hash. StarkWare operates the L1 verifier contract upgrade keys via EC-keyed multisig.
 
-Most notably, a community project (s2morrow) has deployed Falcon-512 account contracts on StarkNet mainnet, taking advantage of StarkNet's native account abstraction architecture. Falcon-512 signature verification has been implemented in pure Cairo and tested on-chain. This is live, community-deployed PQC — no other major L2 can make an equivalent claim. It is not a protocol-level default, and StarkWare has not published a formal roadmap to make it one, but the architectural openness that enables it is a genuine structural advantage.
+A notable distinction: this report rates the proof system and the state commitment hash separately. The proof system (STARK/FRI) earns top marks because STARK proofs cannot be forged by breaking EC discrete-log. The state commitment trie still uses Pedersen hash (EC-based) for contract and storage trie nodes — this is tracked under Other Features, not Proof. Pedersen is a *proven computation* (a Cairo VM builtin in the AIR constraints); breaking Pedersen's EC discrete-log cannot produce a valid STARK proof, but it could compromise state-root integrity if combined with other vulnerabilities. See Other Features for the full state-trie migration status.
+
+Most notably, a community project (s2morrow) has deployed Falcon-512 account contracts on StarkNet mainnet, taking advantage of StarkNet's native account abstraction architecture. This is live, community-deployed PQC — no other major L2 can make an equivalent claim.
 
 ## Proposed and Implemented PQC Algorithms
 
 **Falcon-512** — implemented in pure Cairo by the s2morrow community project; Falcon-512 account contracts are live on StarkNet mainnet. StarkNet's native account abstraction allows any account to use custom signature verification without protocol changes. This is a community-driven deployment, not an official StarkWare initiative.
 
-**Stwo / Circle STARKs** — StarkWare's Stwo prover (live November 2025) generates STARK proofs over the Mersenne-31 prime field using Circle STARKs and FRI. The proof system is hash-based throughout, with no EC pairings at any layer of proof generation or L1 verification.
+**Stwo / Circle STARKs** — StarkWare's Stwo prover (live November 2025) generates STARK proofs over the Mersenne-31 prime field using Circle STARKs and FRI. The proof system is hash-based throughout, with no EC pairings at any layer of proof generation, recursive aggregation, or L1 verification. SHARP uses recursive STARKs (STARK-in-STARK via Cairo verifier programs) rather than wrapping to a SNARK — unique among major ZK L2s.
 
 **Poseidon hash** — Cairo 1.x defaults to Poseidon (an algebraic sponge construction over a prime field, no EC) for new contract storage slots and address derivation, actively replacing Pedersen hash (which uses Stark-curve EC point additions) throughout the Cairo VM and state trie.
 
@@ -64,15 +66,19 @@ Ethereum's blob DA uses KZG commitments over BLS12-381 EC pairings, which are qu
 
 ## Proof / Verification
 
-**Grade: D ⚠️**
+**Grade: A ✅**
 
-StarkNet's proof system is the strongest quantum-resistant argument of any major L2. The Stwo prover (deployed November 2025) generates Circle STARK proofs over the Mersenne-31 prime field using FRI. The entire proving pipeline — from execution trace to L1 verification — depends on hash function collision-resistance, not on elliptic-curve hardness. The Solidity STARK verifier contract on Ethereum L1 performs hash-based verification only; it requires no EC pairings.
+StarkNet's proof system is the strongest quantum-resistant component of any major L2 — and the only one that is quantum-safe end-to-end with no SNARK wrapper.
 
-In concrete terms: a CRQC running Shor's algorithm cannot break StarkNet STARK proofs, because there is no discrete-log problem to solve. A quantum attacker would instead need Grover's algorithm to attack the underlying hash functions, which at best halves the effective security bits — a manageable threat addressed by using hash outputs of sufficient length (which STARK proof systems already do).
+The Stwo prover (deployed November 2025, replacing Stone) generates Circle STARK proofs over the Mersenne-31 prime field using FRI (Fast Reed-Solomon IOP). The entire proving pipeline depends on hash function collision-resistance, not on elliptic-curve hardness:
 
-The residual concern is the **Pedersen hash builtin** in the Cairo VM. Pedersen hash is computed via Stark-curve EC point additions and is used in the Merkle-Patricia trie for state commitment and in legacy Cairo 0 contracts. If a CRQC could break the Stark-curve discrete log, it could potentially construct colliding Pedersen hash inputs and forge state root values — an attack on state integrity, not proof soundness. The Poseidon migration in Cairo 1.x is actively replacing Pedersen for new storage and contract addresses, but legacy Pedersen usage persists in existing contracts and the trie until the migration is complete.
+- **Prover**: Stwo Circle STARKs over M31, Blake2s for FRI Merkle commitments.
+- **Recursive aggregation**: SHARP uses recursive STARKs — Cairo-based STARK verifier programs that verify inner proofs inside a STARK proof. No Groth16 or PLONK SNARK wrapper at any stage. This is unique among major ZK L2s.
+- **L1 verifier**: The Solidity SHARP verifier contracts (GpsStatementVerifier, FriStatementContract, MerkleStatementContract) use only Keccak256 hashing and modexp (precompile 0x05) for field arithmetic. Zero EC precompile calls — no ecrecover, ecAdd, ecMul, or ecPairing.
 
-The rating reflects the genuine quantum-resistant design of the STARK proof system, tempered by the incomplete Pedersen retirement: stronger than any SNARK-based L2, but not fully clean while EC-based Pedersen remains in legacy use.
+A CRQC running Shor's algorithm cannot break StarkNet STARK proofs, because there is no discrete-log problem to solve. A quantum attacker would instead need Grover's algorithm to attack the underlying hash functions, which at best halves the effective security bits — a manageable threat addressed by hash outputs of sufficient length.
+
+**Important scope note**: This rating covers the proof system mechanics only — whether a CRQC can forge a proof that the L1 verifier accepts. The state commitment hash function (Pedersen, EC-based) used in StarkNet's Merkle-Patricia trie is tracked under Other Features. Pedersen is a *proven computation* (a Cairo VM builtin in the AIR constraints) — it is proven *by* the STARK, not used *by* the STARK. Breaking Pedersen's EC discrete-log cannot produce a valid STARK proof. See Other Features for the state-root integrity concern.
 
 ## Transaction Signatures
 
@@ -112,9 +118,11 @@ The rating reflects the coexistence of EC-vulnerable builtins and live community
 
 **Grade: D ⚠️**
 
-**StarkGate bridge:** The official StarkNet L1↔L2 bridge. L1 deposit transactions are signed with user secp256k1 ECDSA. L1-to-L2 message passing is triggered by Ethereum events. L2-to-L1 withdrawal proofs are verified via the hash-based STARK verifier — the withdrawal verification path is quantum-resistant. Bridge governance (upgrade authority) uses an EC-keyed StarkWare multisig on L1. The split between hash-based withdrawal verification and EC-keyed governance represents a mixed posture.
+**State commitment (Pedersen hash in state trie):** StarkNet's state is committed via a binary Merkle-Patricia trie. Contract trie nodes, storage trie nodes, and legacy storage key addressing use Pedersen hash, which computes hashes via Stark-curve EC point additions. A CRQC could find Pedersen hash collisions by solving the Stark-curve discrete log, potentially enabling construction of fraudulent state roots. The top-level state commitment already uses Poseidon; class trie leaves use Poseidon; compiled_class_hash migrated to Blake2s (v0.14.1, November 2025). But the core contract/storage trie migration has not started. No published timeline for full trie migration exists.
 
-**Pedersen-to-Poseidon migration:** The ongoing migration of Cairo's state commitment hashing from Pedersen (Stark-curve EC point addition) to Poseidon (prime-field permutation, no EC) is the most concrete active PQC-positive development in StarkNet's history. Cairo 1.x defaults to Poseidon for new contract storage slots and addresses. Legacy contracts and existing trie entries still use Pedersen; the migration is ongoing. Completing this migration would remove the primary EC dependency from StarkNet's internal hash layer.
+**StarkGate bridge:** The official StarkNet L1-L2 bridge. L1 deposit transactions are signed with user secp256k1 ECDSA. L2-to-L1 withdrawal proofs are verified via the hash-based STARK verifier — the withdrawal verification path is quantum-resistant. Bridge governance (upgrade authority) uses an EC-keyed StarkWare multisig on L1.
+
+**Pedersen-to-Poseidon migration:** The ongoing migration of Cairo's state commitment hashing from Pedersen (Stark-curve EC point addition) to Poseidon (prime-field permutation, no EC) is the most concrete active PQC-positive development in StarkNet's internal architecture. Cairo 1.x defaults to Poseidon for new contract storage slots and addresses. Legacy contracts and existing trie entries still use Pedersen; the migration is ongoing but incomplete.
 
 **SHARP prover:** StarkWare's centralized Shared Prover aggregates proofs from StarkNet and StarkEx, submitting batched STARK proofs to Ethereum L1. The proof content is hash-based and quantum-resistant. SHARP's L1 transaction submission key is a standard EC-signed Ethereum account — a residual EC surface in the proof submission path, though not in the proof itself.
 
@@ -126,9 +134,9 @@ StarkWare has publicly emphasized the quantum resistance of the STARK proof syst
 
 The practical stance appears to be: the proof system is safe; transaction signatures are fixable via account abstraction when needed; no formal timeline has been set for any of this. No SNIPs (StarkNet Improvement Proposals) addressing PQC migration have been identified.
 
-For reference, StarkNet's PQC-adoption ratings per category are: Settlement B 🔧, DA C 🗺️, Proof D ⚠️, Tx Sigs D ⚠️, Networking ❌, On-Chain D ⚠️, Other D ⚠️.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Settlement B 🔧, DA C 🗺️, Proof A ✅, Tx Sigs D ⚠️, Networking F ❌, On-Chain D ⚠️, Other D ⚠️.
 
-EC is present in transaction signatures (Stark-curve ECDSA), networking (libp2p X25519/Ed25519), the Cairo VM (EC ops builtin, Pedersen hash builtin, secp256k1/r1 syscalls), and governance multisigs. The Poseidon migration addresses one EC-based hash function. No other EC component has a published retirement plan.
+EC is present in transaction signatures (Stark-curve ECDSA), networking (libp2p X25519/Ed25519), the Cairo VM (EC ops builtin, Pedersen hash builtin, secp256k1/r1 syscalls), and governance multisigs. The STARK proof system has no EC to sunset (already clean). The Poseidon migration addresses one EC-based hash function. No other EC component has a published retirement plan.
 
 ## Governance
 
@@ -136,7 +144,7 @@ StarkNet improvement proposals (SNIPs) are the protocol's RFC process. The Stark
 
 ---
 
-_Generated on 18 Jun 2026 based on information as of 18 Jun 2026._
+_Generated on 20 Jun 2026 based on information as of 20 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
