@@ -13,7 +13,7 @@ zkSync Era,ZK,F,L2 (zk-snark),b-dev.svg,c-planned.svg,f-nothing.svg,f-nothing.sv
 Abstract,ABS,F,L2 (zk-snark),b-dev.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/abstract.md
 Scroll,SCR,F,L2 (zk-snark),b-dev.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/scroll.md
 Linea,LINEA,F,L2 (zk-snark),b-dev.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/linea.md
-StarkNet,STRK,D,L2 (zk-stark),b-dev.svg,c-planned.svg,a-done.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,2026-06-20,,chains/l2/starknet.md
+StarkNet,STRK,A,L2 (zk-stark),b-dev.svg,c-planned.svg,a-done.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,2026-06-20,,chains/l2/starknet.md
 Taiko,TKO,F,L2 (zk-snark),b-dev.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/taiko.md
 MegaETH,MEGA,F,L2 (optimistic),b-dev.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/megaeth.md
 Metis,METIS,F,L2 (optimistic),b-dev.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-18,,chains/l2/metis.md
@@ -24,4 +24,4 @@ Derive,DRV,F,L2 (optimistic),b-dev.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg
 Stacks,STX,F,L2 (other),c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-20,,chains/l2/stacks.md
 Aztec,AZTEC,F,L2 (zk-snark),b-dev.svg,b-dev.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-20,,chains/l2/aztec.md
 Polygon CDK,POL,F,L2 (zk-snark),b-dev.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-20,,chains/l2/polygon-cdk.md
-Immutable X,IMX,F,L2 (zk-stark),b-dev.svg,f-nothing.svg,a-done.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-06-20,,chains/l2/immutable-x.md
+Immutable X,IMX,A,L2 (zk-stark),b-dev.svg,f-nothing.svg,a-done.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-06-20,,chains/l2/immutable-x.md
