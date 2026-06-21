@@ -17,32 +17,32 @@
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Settlement Layer | C | 🗺️ | Roadmapped |
+| Settlement Layer | B | 🔧 | In Development |
 | Data Availability | C | 🗺️ | Roadmapped |
 | Proof / Verification | F | ❌ | Not Discussed |
-| Transaction Signatures | F | ❌ | Not Discussed |
+| Transaction Signatures | C | 🗺️ | Roadmapped |
 | Networking | F | ❌ | Not Discussed |
 | On-Chain Environment | F | ❌ | Not Discussed |
 | Other Features | F | ❌ | Not Discussed |
-| EC Sunset | F | ❌ | Not Discussed |
+| EC Sunset | C | 🗺️ | Roadmapped |
 
 ## Overview
 
-Blast is an OP Stack optimistic rollup and a member of the Optimism Superchain, operated by the Blast team. Its defining product feature — native yield for ETH and stablecoins via automatic rebasing through L1 LST and T-bill yield routing — is an application-layer mechanism that does not alter the chain's underlying cryptographic architecture.
+Blast is an OP Stack optimistic rollup and a member of the Optimism Superchain, operated by the Blast team. Its defining product feature — native yield for ETH and stablecoins via automatic rebasing through L1 LST and T-bill yield routing — is an application-layer mechanism that does not introduce any new cryptographic primitive or alter the chain's underlying PQC exposure.
 
-As a standard OP Stack deployment, Blast inherits virtually all of its PQC posture directly from the OP Stack and, through it, from Ethereum. Settlement and Data Availability land at 🗺️ because Ethereum has active PQC research underway (the pq.ethereum.org initiative, leanSig, leanVM). Every other category is unaddressed: transaction signatures are ECDSA secp256k1, Cannon fault proofs rely on EC-signed output roots, the op-node P2P layer uses secp256k1 node identity, and neither the Blast team nor OP Labs has published any PQC roadmap for Blast-specific components. The Superchain Security Council multisig, bridge withdrawal mechanism, and native yield contracts are all fully EC-dependent.
+As a standard Superchain deployment, Blast inherits virtually all of its PQC posture directly from the OP Stack and, through it, from Ethereum. Settlement earns a B because Ethereum has active PQC research underway (the pq.ethereum.org initiative), and Data Availability earns a C because Ethereum's KZG blob scheme is on a replacement roadmap. Transaction Signatures and EC Sunset each earn a C: OP Labs published a post-quantum roadmap for the Superchain in January 2026 committing to deprecate ECDSA-signed EOA transactions within a 10-year window (by January 2036), with EIP-7702 smart wallet delegation as the migration path. Blast inherits this roadmap as a Superchain member. Every other category is unaddressed: Cannon fault proofs rely on EC-signed output roots, the op-node P2P layer uses secp256k1 node identity, and no PQC plans cover proof, networking, on-chain, or bridge components. The Superchain Security Council multisig, bridge withdrawal mechanism, and native yield contracts are all fully EC-dependent.
 
 ## Proposed and Implemented PQC Algorithms
 
-Blast does not currently propose or implement any post-quantum cryptographic algorithms.
+Blast does not currently propose or implement any post-quantum cryptographic algorithms. The inherited OP Labs PQ roadmap commits to deprecating ECDSA EOA transactions by January 2036 via EIP-7702 smart wallet migration, but the specific PQC algorithm has not yet been chosen.
 
 ## Settlement Layer
 
-**Grade: C 🗺️**
+**Grade: B 🔧**
 
 Blast settles to Ethereum. Output roots are proposed via the `DisputeGameFactory` and `FaultDisputeGame` contracts on Ethereum L1; withdrawals finalize after a 7-day challenge window. Blast's settlement security is bounded by Ethereum's own security.
 
-Ethereum has active PQC work underway across consensus-layer validator signatures, blob attestations, and transaction signatures. That activity earns Ethereum a 🔧 in-development rating in affected categories; Blast inherits this trajectory at the settlement layer. The Superchain Security Council 2-of-2 multisig (Optimism Foundation + Security Council) controls contract upgrades and is entirely EC-based. A sufficiently capable quantum attacker holding either signer's key could unilaterally upgrade or drain Superchain bridge contracts, including Blast's.
+Ethereum has active PQC work in progress — consensus-layer validator signatures, blob attestations, and transaction signatures are all subjects of ongoing research — earning an in-development (B) rating. The Superchain Security Council 2-of-2 multisig (Optimism Foundation + Security Council) controls contract upgrades and is entirely EC-based. A sufficiently capable quantum attacker holding either signer's key could unilaterally upgrade or drain Superchain bridge contracts, including Blast's.
 
 ## Data Availability
 
@@ -62,11 +62,11 @@ Blast uses the OP Stack Cannon fault proof system. Cannon's internal execution t
 
 ## Transaction Signatures
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-We have found no public information indicating migration activity for Blast in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+Blast is EVM-equivalent. Every user account today is a secp256k1 ECDSA address; there is no PQC transaction type in the OP Stack protocol. However, as a Superchain member, Blast inherits OP Labs' post-quantum roadmap published in January 2026. That roadmap commits to deprecating ECDSA-signed EOA transactions within a 10-year window (by January 2036), using EIP-7702 smart wallet delegation as the migration path. Under this plan, EOAs delegate key management to PQ-aware smart contract accounts, allowing a gradual transition away from raw ECDSA signing at the protocol level.
 
-Blast is EVM-equivalent. Every user account is a secp256k1 ECDSA address; there is no PQC transaction type in the OP Stack protocol. EIP-7702 (available from the Isthmus upgrade onward) allows delegation to smart contract wallets, which could in principle implement PQC signature verification at the application layer, but no Blast-specific PQC wallet migration plan has been published, and application-layer workarounds do not change the protocol-level exposure.
+The specific PQC algorithm has not yet been chosen — OP Labs has noted uncertainty about whether NIST-standardized lattice-based signatures are the best long-term option. No implementation has started. EIP-7702 is available on OP Stack chains from the Isthmus upgrade onward, providing the application-layer mechanism that the roadmap builds on.
 
 ## Networking
 
@@ -94,27 +94,27 @@ We have found no public information indicating migration activity for Blast in t
 
 Blast's primary additional cryptographic surface is its bridge, governance infrastructure, and native yield contracts. L2-to-L1 withdrawals depend on Merkle proofs anchored to EC-signed output roots (see Proof / Verification). The Superchain Security Council 2-of-2 multisig controls upgrade authority over Blast's contracts; both signers use standard EC (secp256k1) Ethereum keys. A Guardian role can pause the bridge in emergencies and is also EC-keyed.
 
-Blast's native yield feature routes L1 LST and T-bill yield back to rebasing ETH and stablecoin balances via Blast bridge contracts on Ethereum L1. These contracts are EC-keyed and represent an additional pool of EC-secured value with no PQC retirement plan. The yield feature is application-layer and does not introduce new cryptographic primitives, but it increases the economic stakes of a bridge key compromise.
+Blast's native yield feature routes L1 LST and T-bill yield back to rebasing ETH and stablecoin balances via Blast bridge contracts on Ethereum L1. These contracts are EC-keyed and represent an additional pool of EC-secured value. The yield feature is application-layer and does not introduce new cryptographic primitives, but it increases the economic stakes of a bridge key compromise. None of these components have PQC retirement plans.
 
 ## EC Sunset
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-No PQC discussions have been found from the Blast team regarding retirement of EC-based cryptography from any Blast component.
+As a Superchain member, Blast inherits OP Labs' post-quantum roadmap published in January 2026. That roadmap establishes a 10-year window to deprecate ECDSA-signed EOA transactions by January 2036, using EIP-7702 smart wallet delegation as the migration path. This covers transaction signatures only.
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, Blast's PQC-adoption ratings per category are: Settlement 🗺️, DA 🗺️, Proof ❌, Tx Sigs ❌, Networking ❌, On-Chain ❌, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, Blast's PQC-adoption ratings per category are: Settlement 🔧, DA 🗺️, Proof ❌, Tx Sigs 🗺️, Networking ❌, On-Chain ❌, Other ❌.
 
-EC is present in every layer of Blast: transaction signatures, output root proposals, bridge governance multisigs, the Guardian role, op-node peer identity, RPC transport, and the native yield bridge contracts. No component has a published plan for EC removal.
+The published sunset plan addresses transaction signatures but does not cover consensus, networking, on-chain precompiles, bridge governance, or proof system components. EC is present across Blast's full stack: output root proposals, bridge governance multisigs, the Guardian role, op-node peer identity, RPC transport, and the native yield bridge contracts. Only EOA transaction signatures have a published removal timeline.
 
 ## Governance
 
 Blast operates within the Optimism Collective governance structure as a Superchain member. Protocol upgrades to the OP Stack go through Optimism Improvement Proposals (OIPs) voted on by the Token House (OP holders) and are subject to Security Council veto. Emergency actions require the 2-of-2 Security Council multisig. Blast-specific operational decisions — sequencer operation, output root proposals, and native yield contract management — are made by the Blast team.
 
-No PQC-related proposals have been identified in the Optimism Collective governance forum or in Blast's own communications.
+The PQ roadmap for the Superchain was published by OP Labs in January 2026. No Blast-specific PQC proposals have been identified in Blast's own communications or in the Optimism Collective governance forum.
 
 ---
 
-_Generated on 18 Jun 2026 based on information as of 18 Jun 2026._
+_Generated on 20 Jun 2026 based on information as of 20 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

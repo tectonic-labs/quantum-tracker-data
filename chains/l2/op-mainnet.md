@@ -20,21 +20,23 @@
 | Settlement Layer | B | 🔧 | In Development |
 | Data Availability | C | 🗺️ | Roadmapped |
 | Proof / Verification | F | ❌ | Not Discussed |
-| Transaction Signatures | F | ❌ | Not Discussed |
+| Transaction Signatures | C | 🗺️ | Roadmapped |
 | Networking | F | ❌ | Not Discussed |
 | On-Chain Environment | F | ❌ | Not Discussed |
 | Other Features | F | ❌ | Not Discussed |
-| EC Sunset | F | ❌ | Not Discussed |
+| EC Sunset | C | 🗺️ | Roadmapped |
 
 ## Overview
 
-OP Mainnet is the canonical OP Stack deployment, operated by OP Labs and the reference implementation for the Optimism Superchain. As the reference chain, OP Mainnet's architecture is essentially identical to the OP Stack itself — there are no OP-Mainnet-specific deviations in proof system, transaction format, networking, or on-chain environment. Its PQC posture is therefore the OP Stack's PQC posture.
+OP Mainnet is the canonical OP Stack deployment, operated by OP Labs and the reference implementation for the Optimism Superchain. As the reference chain, OP Mainnet's architecture is identical to the OP Stack itself — there are no OP-Mainnet-specific deviations in proof system, transaction format, networking, or on-chain environment. Its PQC posture is therefore the OP Stack's PQC posture.
 
-Settlement is provided by Ethereum, and OP Mainnet's most favorable ratings come from Ethereum's active PQC migration effort. Ethereum's consensus-layer and blob-attestation work — catalogued at pq.ethereum.org — earns the settlement category a B and data availability a C. Every other category is unaddressed: transaction signatures are ECDSA secp256k1, the Cannon fault proof system relies on EC-signed output roots proposed by EC-keyed accounts, the op-node P2P layer uses secp256k1 node identity, and no PQC roadmap has been published for any OP Stack component by OP Labs or the Optimism Foundation. The Superchain Security Council 2-of-2 multisig, Guardian role, and all bridge governance keys are fully EC-dependent.
+Settlement is provided by Ethereum, and OP Mainnet's most favorable ratings come from Ethereum's active PQC migration effort. Ethereum's consensus-layer and blob-attestation work — catalogued at pq.ethereum.org — earns the settlement category a B and data availability a C. Transaction signatures and EC Sunset both earn a C, based on OP Labs' published "A Post-Quantum Roadmap for the Superchain" (January 2026), which commits to deprecating ECDSA-signed EOA transactions within a 10-year window (by January 2036) via EIP-7702 smart wallet migration. The specific PQC algorithm has not yet been chosen, and implementation has not started.
+
+Every other category is unaddressed: the Cannon fault proof system relies on EC-signed output roots proposed by EC-keyed accounts, the op-node P2P layer uses secp256k1 node identity, and no PQC verification primitive exists on-chain. The Superchain Security Council 2-of-2 multisig, Guardian role, and all bridge governance keys are fully EC-dependent.
 
 ## Proposed and Implemented PQC Algorithms
 
-OP Mainnet does not currently propose or implement any post-quantum cryptographic algorithms.
+No specific PQC algorithm has been selected. OP Labs' January 2026 PQ roadmap acknowledges that "we don't yet know whether the NIST-standardized lattice-based signatures are the best long-term choice." The migration strategy relies on EIP-7702 smart wallet delegation, deferring algorithm selection to a future phase.
 
 ## Settlement Layer
 
@@ -64,11 +66,13 @@ OP Mainnet uses the OP Stack Cannon fault proof system. Cannon's internal execut
 
 ## Transaction Signatures
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-We have found no public information indicating migration activity for OP Mainnet in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+OP Mainnet is EVM-equivalent. Every user account today is a secp256k1 ECDSA address. However, OP Labs published "A Post-Quantum Roadmap for the Superchain" in January 2026, committing to a 10-year ECDSA deprecation window. Under this roadmap, raw ECDSA-signed EOA transactions are expected to be deprecated by January 2036.
 
-OP Mainnet is EVM-equivalent. Every user account is a secp256k1 ECDSA address; there is no PQC transaction type in the OP Stack protocol. EIP-7702 (available from the Isthmus upgrade onward) allows delegation to smart contract wallets, which could in principle implement PQC signature verification at the application layer, but no OP-Stack-level PQC wallet migration plan has been published, and application-layer workarounds do not change the protocol-level exposure.
+The migration strategy centers on EIP-7702, available since the Isthmus upgrade. EIP-7702 allows EOAs to delegate transaction validation to smart contract wallets, which could implement PQC signature verification. OP Labs envisions a phased approach: smart wallet migration first, protocol-level enforcement second, and pluggable post-quantum signature schemes third. The specific PQC algorithm has not been selected — OP Labs has publicly stated uncertainty about whether NIST lattice-based signatures are the right long-term choice.
+
+Implementation has not started. Rated C (roadmap published with credible plan and timeline, but no code in flight).
 
 ## Networking
 
@@ -98,17 +102,25 @@ The planned Superchain shared sequencing feature will introduce a sequencer cons
 
 ## EC Sunset
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-No PQC discussions have been found from OP Labs or the Optimism Foundation regarding retirement of EC-based cryptography from any OP Mainnet or OP Stack component.
+OP Labs published "A Post-Quantum Roadmap for the Superchain" in January 2026, making the OP Stack the first major L2 stack with a published EC deprecation commitment. The roadmap commits to deprecating ECDSA-signed EOA transactions by January 2036 via EIP-7702 smart wallet delegation. This is a concrete, time-bound plan — albeit one that covers transaction signatures only.
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, OP Mainnet's PQC-adoption ratings per category are: Settlement 🔧, DA 🗺️, Proof ❌, Tx Sigs ❌, Networking ❌, On-Chain ❌, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, OP Mainnet's PQC-adoption ratings per category are: Settlement B 🔧, DA C 🗺️, Proof F ❌, Tx Sigs C 🗺️, Networking F ❌, On-Chain F ❌, Other F ❌.
 
-EC is present in every layer of OP Mainnet: transaction signatures, output root proposals, bridge governance multisigs, the Guardian role, op-node peer identity, and RPC transport. The Isthmus upgrade adds BLS12-381 precompiles to the EVM, increasing rather than decreasing the EC surface. No component has a published plan for EC removal.
+The roadmap's scope is limited to transaction signature EC retirement. EC remains in every other layer of OP Mainnet with no published retirement plan: output root proposer keys (Proof), op-node peer identity and RPC transport (Networking), EVM EC precompiles including ecrecover, BN254, and BLS12-381 (On-Chain), the Security Council 2-of-2 multisig, the Guardian role, and bridge governance keys (Other). The Isthmus upgrade adds BLS12-381 precompiles to the EVM, increasing the EC on-chain surface.
+
+## Governance
+
+The Optimism Collective governs OP Mainnet through two chambers: the Token House (OP token holders vote on protocol upgrades and treasury) and the Citizens' House (non-transferable Citizen badges vote on public goods funding). Protocol changes require Token House approval and are subject to Security Council veto. Technical specifications flow through the OP Stack specs repository via pull requests.
+
+The 2-of-2 multisig (Optimism Foundation + Security Council) retains emergency upgrade authority. Standard upgrades require Token House vote. During the current "Stage 1" rollup maturity phase, the Optimism Foundation retains significant operational control.
+
+The January 2026 PQ roadmap was published as a blog post by OP Labs, not as a formal governance proposal. No Optimism Improvement Proposals (OIPs) addressing PQC migration have been identified.
 
 ---
 
-_Generated on 18 Jun 2026 based on information as of 18 Jun 2026._
+_Generated on 20 Jun 2026 based on information as of 20 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

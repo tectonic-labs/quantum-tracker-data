@@ -21,17 +21,17 @@
 | Settlement Layer | B | 🔧 | In Development |
 | Data Availability | F | ❌ | Not Discussed |
 | Proof / Verification | F | ❌ | Not Discussed |
-| Transaction Signatures | F | ❌ | Not Discussed |
+| Transaction Signatures | C | 🗺️ | Roadmapped |
 | Networking | F | ❌ | Not Discussed |
 | On-Chain Environment | F | ❌ | Not Discussed |
 | Other Features | F | ❌ | Not Discussed |
-| EC Sunset | F | ❌ | Not Discussed |
+| EC Sunset | C | 🗺️ | Roadmapped |
 
 ## Overview
 
 Derive (formerly Lyra) is an OP Stack optimistic rollup and member of the Optimism Superchain, focused on options and perpetuals DeFi. As a standard OP Stack deployment, Derive inherits the vast majority of its cryptographic properties — and therefore its PQC posture — directly from the OP Stack. Its proof system, transaction format, networking, and on-chain environment are identical to other OP Stack chains like Base and OP Mainnet.
 
-Settlement is provided by Ethereum. Ethereum has active PQC research underway (the pq.ethereum.org effort, leanSig, leanVM), and Derive inherits that in-development posture for its settlement layer. Every other category is unaddressed.
+Settlement is provided by Ethereum. Ethereum has active PQC research underway (the pq.ethereum.org effort, leanSig, leanVM), and Derive inherits that in-development posture for its settlement layer. As a Superchain member, Derive inherits the OP Labs post-quantum roadmap published in January 2026, which commits to deprecating ECDSA-signed EOA transactions within a 10-year window (by January 2036) via EIP-7702 smart wallet migration. This earns Transaction Signatures and EC Sunset a 🗺️ roadmapped rating. PQC algorithm selection has not been finalized.
 
 **Key deviation from the OP Stack baseline: Derive uses Celestia for data availability instead of Ethereum blobs.** Most OP Stack chains post transaction data to Ethereum as EIP-4844 blobs and inherit Ethereum's DA rating. Derive instead publishes data to Celestia, whose CometBFT consensus uses Ed25519 validator signatures — a quantum-vulnerable elliptic curve scheme with no PQC migration roadmap. Furthermore, Derive does not use Celestia's Blobstream bridge for on-chain DA verification; sequencer transaction roots are not checked against Blobstream data roots on L1. This means Derive's DA is rated ❌ rather than the 🗺️ that standard blob-based OP Stack chains receive. If Celestia becomes unavailable, the sequencer can fall back to Ethereum, but funds may be at risk if the sequencer posts an unavailable transaction root before fallback occurs.
 
@@ -39,7 +39,9 @@ Bridge governance also deviates: Derive uses a 4/13 multisig (rather than the Su
 
 ## Proposed and Implemented PQC Algorithms
 
-Derive does not currently propose or implement any post-quantum cryptographic algorithms.
+| Algorithm | Category | Status | Notes |
+|-----------|----------|--------|-------|
+| TBD (NIST PQC) | Transaction Signatures | Roadmapped | OP Labs PQ roadmap commits to PQC tx sigs via EIP-7702 smart wallet migration by Jan 2036; specific algorithm not yet chosen |
 
 ## Settlement Layer
 
@@ -47,7 +49,7 @@ Derive does not currently propose or implement any post-quantum cryptographic al
 
 Derive settles to Ethereum. Output roots are proposed on Ethereum L1 via the `DisputeGameFactory` and `FaultDisputeGame` contracts; withdrawals finalize after a 7-day challenge window. Derive's settlement security is therefore bounded by Ethereum's own security.
 
-Ethereum has active PQC work in progress — consensus-layer validator signatures, blob attestations, and transaction signatures are all subjects of ongoing research and development. That activity earns Ethereum an in-development rating in affected categories, and Derive inherits this. The settlement-layer contracts themselves (upgrade admin keys, output root proposer keys) are EC-keyed and have no independent PQC retirement plan, but the upstream Ethereum effort provides a credible trajectory.
+Ethereum has active PQC work in progress — consensus-layer validator signatures, blob attestations, and transaction signatures are all subjects of ongoing research and development. That activity earns Ethereum an in-development rating, and Derive inherits this. The settlement-layer contracts themselves (upgrade admin keys, output root proposer keys) are EC-keyed and have no independent PQC retirement plan, but the upstream Ethereum effort provides a credible trajectory.
 
 ## Data Availability
 
@@ -69,11 +71,13 @@ Derive uses the OP Stack Cannon fault proof system. Cannon's internal execution 
 
 ## Transaction Signatures
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-We have found no public information indicating migration activity for Derive in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+Derive is EVM-equivalent. Every user account today is a secp256k1 ECDSA address; there is no PQC transaction type in the OP Stack protocol. However, as a Superchain member, Derive inherits the OP Labs post-quantum roadmap published in January 2026, which commits to deprecating ECDSA-signed EOA transactions within a 10-year window (by January 2036).
 
-Derive is EVM-equivalent. Every user account is a secp256k1 ECDSA address; there is no PQC transaction type in the OP Stack protocol. EIP-7702 (available from the Isthmus upgrade onward) allows delegation to smart contract wallets, which could in principle implement PQC signature verification at the application layer, but no Derive-specific PQC wallet migration plan has been published, and application-layer workarounds do not change the protocol-level exposure.
+The migration path is EIP-7702 smart wallet delegation: EOAs delegate key management to PQ-aware smart contract accounts. EIP-7702 is available from the Isthmus upgrade onward, providing the mechanism for migration. The specific PQC signature algorithm has not yet been chosen — OP Labs has stated that uncertainty remains about whether NIST-standardized lattice-based signatures are the best long-term choice.
+
+No implementation work has started. The rating reflects a published roadmap with a credible plan but no code in flight.
 
 ## Networking
 
@@ -105,19 +109,19 @@ The planned Superchain shared sequencing feature, when it arrives, will introduc
 
 ## EC Sunset
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-No PQC discussions have been found from the Derive team regarding retirement of EC-based cryptography from any Derive component.
+Derive inherits the OP Labs post-quantum roadmap (January 2026), which commits to deprecating ECDSA-signed EOA transactions by January 2036 via EIP-7702 smart wallet migration. This provides a credible EC retirement plan for transaction signatures specifically.
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, Derive's PQC-adoption ratings per category are: Settlement 🔧, DA ❌, Proof ❌, Tx Sigs ❌, Networking ❌, On-Chain ❌, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. The OP Labs roadmap covers transaction signatures only — no EC sunset plan exists for consensus, networking, on-chain precompiles, or bridge governance. For reference, Derive's PQC-adoption ratings per category are: Settlement 🔧, DA ❌, Proof ❌, Tx Sigs 🗺️, Networking ❌, On-Chain ❌, Other ❌.
 
-EC is present in every layer of Derive: transaction signatures, output root proposals, bridge governance multisig, op-node peer identity, and RPC transport. The Celestia DA layer adds Ed25519 as an additional EC dependency beyond what standard OP Stack chains carry. The Isthmus upgrade adds BLS12-381 precompiles to the EVM, increasing rather than decreasing the EC surface. No component has a published plan for EC removal.
+EC is present in every layer of Derive: output root proposals, bridge governance multisig (4/13), op-node peer identity, RPC transport, and the Celestia DA layer (Ed25519). The Celestia DA dependency adds an EC surface beyond what standard OP Stack chains carry. The Isthmus upgrade adds BLS12-381 precompiles to the EVM, increasing rather than decreasing the EC surface. Outside of transaction signatures, no component has a published plan for EC removal.
 
 ## Governance
 
 Derive operates within the Optimism Collective governance structure. Protocol upgrades to the OP Stack — including any that would affect Derive — go through Optimism Improvement Proposals (OIPs) voted on by the Token House (OP holders) and are subject to Security Council veto. Emergency or unilateral actions require the 2-of-2 Security Council multisig. Derive-specific operational decisions (sequencer operation, DA configuration, output root proposals) are made by the Derive team. Bridge governance is controlled by a 4/13 multisig separate from the Superchain Security Council.
 
-No PQC-related proposals have been identified in the Optimism Collective governance forum or in Derive's own governance communications.
+No PQC-related proposals have been identified in the Optimism Collective governance forum or in Derive's own governance communications. The OP Labs PQ roadmap was published as a blog post in January 2026 but has not yet been formalized as an OIP.
 
 ---
 

@@ -1,9 +1,9 @@
-# Soneium (SONE) — Public PQC Readiness Report
+# Soneium (SONEIUM) — Public PQC Readiness Report
 
 | | |
 |---|---|
 | **Name** | Soneium |
-| **Ticker** | SONE |
+| **Ticker** | SONEIUM |
 | **Website** | https://soneium.org |
 | **GitHub** | https://github.com/soneium |
 | **Stack** | OP Stack |
@@ -17,32 +17,38 @@
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Settlement Layer | C | 🗺️ | Roadmapped |
+| Settlement Layer | B | 🔧 | In Development |
 | Data Availability | C | 🗺️ | Roadmapped |
 | Proof / Verification | F | ❌ | Not Discussed |
-| Transaction Signatures | F | ❌ | Not Discussed |
+| Transaction Signatures | C | 🗺️ | Roadmapped |
 | Networking | F | ❌ | Not Discussed |
 | On-Chain Environment | F | ❌ | Not Discussed |
 | Other Features | F | ❌ | Not Discussed |
-| EC Sunset | F | ❌ | Not Discussed |
+| EC Sunset | C | 🗺️ | Roadmapped |
 
 ## Overview
 
 Soneium is an OP Stack optimistic rollup operated by Sony and a member of the Optimism Superchain. As a standard OP Stack deployment with no meaningful protocol-level deviations, Soneium inherits virtually all of its cryptographic properties — and therefore its PQC posture — directly from the OP Stack and, through it, from Ethereum.
 
-Settlement and Data Availability land at 🗺️ because Ethereum has active PQC research underway (the pq.ethereum.org initiative, leanSig, leanVM). Every other category is unaddressed: transaction signatures are ECDSA secp256k1, Cannon fault proofs rely on EC-signed output roots, the op-node P2P layer uses secp256k1 node identity, and neither Sony, the Soneium team, nor OP Labs has published any PQC roadmap for Soneium-specific components. The Superchain Security Council multisig and the bridge's output-root-based withdrawal mechanism are both fully EC-dependent.
+Settlement earns a B because Ethereum has active PQC research and implementation underway (pq.ethereum.org). Data Availability earns a C because Ethereum's KZG blob scheme is on a replacement roadmap, though the timeline is undefined. Transaction Signatures earn a C because OP Labs published a post-quantum roadmap for the Superchain (January 2026) committing to deprecate ECDSA-signed EOA transactions within a 10-year window (by January 2036), with EIP-7702 smart wallet delegation as the migration path; Soneium inherits this roadmap as a Superchain member. EC Sunset also earns a C for the same reason — the published ECDSA deprecation commitment covers transaction signatures, though no sunset plan exists for consensus, networking, or on-chain EC primitives.
+
+Every other category is unaddressed: Cannon fault proofs rely on EC-signed output roots, the op-node P2P layer uses secp256k1 node identity, there is no PQC verification precompile, and the Superchain Security Council multisig and bridge governance are fully EC-dependent.
 
 ## Proposed and Implemented PQC Algorithms
 
-Soneium does not currently propose or implement any post-quantum cryptographic algorithms.
+No specific PQC algorithm has been selected. The OP Labs post-quantum roadmap acknowledges uncertainty about whether NIST-standardized lattice-based signatures are the right long-term choice. The roadmap commits to a migration framework (EIP-7702 smart wallet delegation) rather than a specific algorithm.
+
+| Algorithm | Use Case | Status |
+|-----------|----------|--------|
+| TBD | Transaction signatures (via smart wallet delegation) | Roadmapped — no algorithm selected; 10-year migration window to Jan 2036 |
 
 ## Settlement Layer
 
-**Grade: C 🗺️**
+**Grade: B 🔧**
 
-Soneium settles to Ethereum. Output roots are proposed via the `DisputeGameFactory` and `FaultDisputeGame` contracts on Ethereum L1; withdrawals finalize after a 7-day challenge window. Soneium's settlement security is bounded by Ethereum's own security.
+Soneium settles to Ethereum. Output roots are proposed on Ethereum L1 via the `DisputeGameFactory` and `FaultDisputeGame` contracts; withdrawals finalize after a 7-day challenge window. Soneium's settlement security is bounded by Ethereum's own security.
 
-Ethereum has active PQC work underway across consensus-layer validator signatures, blob attestations, and transaction signatures. That activity earns Ethereum a 🔧 in-development rating in affected categories; Soneium inherits this trajectory at the settlement layer. The Superchain Security Council 2-of-2 multisig (Optimism Foundation + Security Council) controls contract upgrades and is entirely EC-based. A sufficiently capable quantum attacker holding either signer's key could unilaterally upgrade or drain Superchain bridge contracts, including Soneium's.
+Ethereum has active PQC work in progress — consensus-layer validator signatures, blob attestations, and transaction signatures are all subjects of ongoing research and implementation at pq.ethereum.org — earning an in-development (B) rating. The Superchain Security Council 2-of-2 multisig (Optimism Foundation + Security Council) controls contract upgrades and is entirely EC-based. A sufficiently capable quantum attacker holding either signer's key could unilaterally upgrade or drain Superchain bridge contracts, including Soneium's.
 
 ## Data Availability
 
@@ -62,11 +68,13 @@ Soneium uses the OP Stack Cannon fault proof system. Cannon's internal execution
 
 ## Transaction Signatures
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-We have found no public information indicating migration activity for Soneium in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+Soneium is EVM-equivalent. Every user account today is a secp256k1 ECDSA address; there is no PQC transaction type in the OP Stack protocol. However, as a Superchain member, Soneium inherits the OP Labs post-quantum roadmap published in January 2026 ("A Post-Quantum Roadmap for the Superchain"). That roadmap commits to deprecating raw ECDSA-signed EOA transactions within a 10-year window (by January 2036).
 
-Soneium is EVM-equivalent. Every user account is a secp256k1 ECDSA address; there is no PQC transaction type in the OP Stack protocol. EIP-7702 (available from the Isthmus upgrade onward) allows delegation to smart contract wallets, which could in principle implement PQC signature verification at the application layer, but no Soneium-specific PQC wallet migration plan has been published, and application-layer workarounds do not change the protocol-level exposure.
+The migration path is EIP-7702 smart wallet delegation: EOAs delegate key management to PQ-aware smart contract accounts during the transition window. EIP-7702 is available from the Isthmus upgrade onward. The specific PQC algorithm has not been chosen — OP Labs has stated that it is not yet clear whether NIST-standardized lattice-based signatures are the best long-term choice.
+
+No implementation work has started. The rating reflects a published roadmap with a credible plan but no code in flight.
 
 ## Networking
 
@@ -98,23 +106,28 @@ The planned Superchain shared sequencing feature, when it arrives, will introduc
 
 ## EC Sunset
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-No PQC discussions have been found from Sony or the Soneium team regarding retirement of EC-based cryptography from any Soneium component.
+As a Superchain member, Soneium inherits the OP Labs post-quantum roadmap (January 2026), which includes an explicit commitment to deprecate ECDSA-signed EOA transactions by January 2036. This is one of the first published EC sunset commitments from any L2 stack.
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, Soneium's PQC-adoption ratings per category are: Settlement 🗺️, DA 🗺️, Proof ❌, Tx Sigs ❌, Networking ❌, On-Chain ❌, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, Soneium's PQC-adoption ratings per category are: Settlement 🔧, DA 🗺️, Proof ❌, Tx Sigs 🗺️, Networking ❌, On-Chain ❌, Other ❌.
 
-EC is present in every layer of Soneium: transaction signatures, output root proposals, bridge governance multisigs, the Guardian role, op-node peer identity, and RPC transport. No component has a published plan for EC removal.
+The ECDSA deprecation commitment covers transaction signatures only. No EC sunset plan exists for:
+
+- **Proof / Verification**: EC-signed output roots, EC-keyed proposers and challengers
+- **Networking**: secp256k1 op-node peer identity, classical TLS
+- **On-Chain Environment**: `ecrecover`, BN254 precompiles (Isthmus adds BLS12-381, expanding the EC surface)
+- **Other Features**: Security Council 2-of-2 multisig, Guardian role, bridge governance keys
 
 ## Governance
 
 Soneium operates within the Optimism Collective governance structure as a Superchain member. Protocol upgrades to the OP Stack go through Optimism Improvement Proposals (OIPs) voted on by the Token House (OP holders) and are subject to Security Council veto. Emergency actions require the 2-of-2 Security Council multisig. Soneium-specific operational decisions (sequencer operation, output root proposals) are made by Sony.
 
-No PQC-related proposals have been identified in the Optimism Collective governance forum or in Soneium's own communications.
+The OP Labs post-quantum roadmap was published as a blog post in January 2026, establishing the 10-year ECDSA deprecation framework. No formal OIP governance proposal has been submitted for PQC migration yet.
 
 ---
 
-_Generated on 18 Jun 2026 based on information as of 18 Jun 2026._
+_Generated on 20 Jun 2026 based on information as of 20 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

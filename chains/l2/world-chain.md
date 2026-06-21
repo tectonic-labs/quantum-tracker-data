@@ -20,21 +20,23 @@
 | Settlement Layer | B | 🔧 | In Development |
 | Data Availability | C | 🗺️ | Roadmapped |
 | Proof / Verification | F | ❌ | Not Discussed |
-| Transaction Signatures | F | ❌ | Not Discussed |
+| Transaction Signatures | C | 🗺️ | Roadmapped |
 | Networking | F | ❌ | Not Discussed |
 | On-Chain Environment | F | ❌ | Not Discussed |
 | Other Features | F | ❌ | Not Discussed |
-| EC Sunset | F | ❌ | Not Discussed |
+| EC Sunset | C | 🗺️ | Roadmapped |
 
 ## Overview
 
 World Chain is an OP Stack optimistic rollup operated by Tools for Humanity (the company behind Worldcoin) and a member of the Optimism Superchain. It is designed to give priority blockspace to World ID-verified humans, but this prioritization is an application-layer sequencer policy — it does not alter any cryptographic primitive or PQC exposure. All of World Chain's PQC ratings are inherited directly from the OP Stack baseline.
 
-As with all standard Superchain deployments, the most favorable ratings come from Ethereum's active PQC migration effort. Settlement earns a B because Ethereum has active PQC research underway (pq.ethereum.org), and Data Availability earns a C because Ethereum's KZG blob scheme is on a replacement roadmap, even if the timeline is undefined. Every other category is unaddressed. World ID itself uses Groth16 ZK proofs over the BN254 curve for identity commitments — an EC-pairing-based construction that is quantum-vulnerable — but this is an application-layer identity system, not a chain-level protocol concern for this evaluation. No PQC discussions have been identified from Tools for Humanity, Worldcoin, or the World Chain team.
+As a Superchain member, World Chain inherits OP Labs' published post-quantum roadmap (January 2026), which commits to deprecating ECDSA-signed EOA transactions within a 10-year window (by January 2036) via EIP-7702 smart wallet migration. This earns the Transaction Signatures and EC Sunset categories a C (Roadmapped) rating. Settlement earns a B because Ethereum has active PQC research underway (pq.ethereum.org), and Data Availability earns a C because Ethereum's KZG blob scheme is on a replacement roadmap. Every other category is unaddressed: the Cannon fault proof system relies on EC-signed output roots, the op-node P2P layer uses secp256k1 node identity, and no PQC precompile exists on-chain.
+
+World ID itself uses Groth16 ZK proofs over the BN254 curve for identity commitments — an EC-pairing-based construction that is quantum-vulnerable — but this is an application-layer identity system, not a chain-level protocol concern for this evaluation.
 
 ## Proposed and Implemented PQC Algorithms
 
-World Chain does not currently propose or implement any post-quantum cryptographic algorithms.
+World Chain does not currently propose or implement any post-quantum cryptographic algorithms. The OP Labs PQ roadmap acknowledges that the specific PQC algorithm for transaction signatures has not yet been chosen.
 
 ## Settlement Layer
 
@@ -62,11 +64,13 @@ World Chain uses the OP Stack Cannon fault proof system. Cannon's internal bisec
 
 ## Transaction Signatures
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-We have found no public information indicating migration activity for World Chain in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+World Chain is EVM-equivalent. Every user account is a secp256k1 ECDSA address today; there is no PQC transaction type in the OP Stack protocol.
 
-World Chain is EVM-equivalent. Every user account is a secp256k1 ECDSA address; there is no PQC transaction type in the OP Stack protocol. World ID-gated priority blockspace reserves transaction ordering capacity for verified humans but does not alter the signature scheme used to authorize those transactions. EIP-7702 (available from the Isthmus upgrade onward) enables smart account delegation at the application layer but does not change the protocol-level exposure.
+As a Superchain member, World Chain inherits OP Labs' "A Post-Quantum Roadmap for the Superchain" (January 14, 2026), which commits to deprecating raw ECDSA-signed EOA transactions within a 10-year window (by January 2036). The migration path is EIP-7702 smart wallet delegation: EOAs delegate key management to PQ-aware smart contract accounts. The specific PQC algorithm is not yet chosen — OP Labs has stated "We don't yet know whether the NIST-standardized lattice-based signatures are the best long-term choice." No implementation has started.
+
+World ID-gated priority blockspace reserves transaction ordering capacity for verified humans but does not alter the signature scheme used to authorize those transactions.
 
 ## Networking
 
@@ -96,17 +100,23 @@ World ID, the chain's distinctive identity feature, uses Groth16 ZK proofs (over
 
 ## EC Sunset
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-No PQC discussions have been found from Tools for Humanity, Worldcoin, or the World Chain team regarding retirement of EC-based cryptography from any chain component.
+As a Superchain member, World Chain inherits the OP Labs post-quantum roadmap (January 2026), which commits to deprecating ECDSA-signed EOA transactions within a 10-year window (by January 2036) via EIP-7702 smart wallet delegation. This constitutes a published EC retirement plan for transaction signatures.
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, World Chain's PQC-adoption ratings per category are: Settlement 🔧, DA 🗺️, Proof ❌, Tx Sigs ❌, Networking ❌, On-Chain ❌, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, World Chain's PQC-adoption ratings per category are: Settlement 🔧, DA 🗺️, Proof ❌, Tx Sigs 🗺️, Networking ❌, On-Chain ❌, Other ❌.
 
-EC is present in every layer: transaction signatures, output root proposals, bridge governance multisigs, the Guardian role, op-node peer identity, and RPC transport. No component has a published plan for EC removal.
+The EC sunset commitment covers transaction signatures only. No EC sunset plan exists for consensus, networking, on-chain precompiles, bridge governance, or the Security Council multisig. EC remains present across all other layers of the stack.
+
+## Governance
+
+World Chain operates under the Optimism Collective governance model as a Superchain member. Protocol upgrades to the OP Stack require Token House approval and are subject to Security Council veto. The 2-of-2 multisig (Optimism Foundation + Security Council) can act unilaterally in emergencies. Tools for Humanity operates the World Chain sequencer and output root proposer under this shared governance framework.
+
+OP Labs published "A Post-Quantum Roadmap for the Superchain" on January 14, 2026, committing to a 10-year ECDSA EOA deprecation window. No World Chain-specific or Tools for Humanity PQC governance proposals have been submitted.
 
 ---
 
-_Generated on 18 Jun 2026 based on information as of 18 Jun 2026._
+_Generated on 20 Jun 2026 based on information as of 20 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

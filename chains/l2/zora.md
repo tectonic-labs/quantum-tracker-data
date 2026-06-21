@@ -5,6 +5,7 @@
 | **Name** | Zora |
 | **Ticker** | ZORA |
 | **Website** | https://zora.co |
+| **GitHub** | https://github.com/ourzora |
 | **Stack** | OP Stack |
 | **Settlement layer** | Ethereum |
 | **Data availability** | Ethereum blobs (EIP-4844) |
@@ -19,21 +20,27 @@
 | Settlement Layer | B | 🔧 | In Development |
 | Data Availability | C | 🗺️ | Roadmapped |
 | Proof / Verification | F | ❌ | Not Discussed |
-| Transaction Signatures | F | ❌ | Not Discussed |
+| Transaction Signatures | C | 🗺️ | Roadmapped |
 | Networking | F | ❌ | Not Discussed |
 | On-Chain Environment | F | ❌ | Not Discussed |
 | Other Features | F | ❌ | Not Discussed |
-| EC Sunset | F | ❌ | Not Discussed |
+| EC Sunset | C | 🗺️ | Roadmapped |
 
 ## Overview
 
-Zora is an NFT-focused L2 built on the OP Stack and a member of the Optimism Superchain. As a standard OP Stack deployment with no cryptographic deviations, Zora inherits all of its cryptographic properties — and therefore its PQC posture — directly from the OP Stack.
+Zora is an NFT-focused L2 built on the OP Stack and a member of the Optimism Superchain. As a standard OP Stack deployment with no cryptographic customizations, Zora inherits all of its cryptographic properties — and therefore its PQC posture — directly from the OP Stack.
 
-Settlement is provided by Ethereum, and Zora's PQC outlook in that category rises and falls with Ethereum's own migration progress. Ethereum has active PQC work underway (the pq.ethereum.org effort, leanSig, leanVM), which earns the Settlement category a 🔧 in-development rating inherited from Ethereum. Data availability uses Ethereum blobs with KZG commitments over BLS12-381 (quantum-vulnerable); Ethereum's roadmap includes replacing BLS12-381 with quantum-resistant alternatives, landing DA at 🗺️. Every other category is unaddressed: transaction signatures are ECDSA secp256k1, the Cannon fault proof system relies on EC-signed output roots, the op-node P2P layer uses secp256k1 node identity, and neither the Zora team nor OP Labs has published any PQC roadmap. The Superchain Security Council multisig and the bridge's output-root-based withdrawal mechanism are both fully EC-dependent.
+Settlement is provided by Ethereum, and Zora's PQC outlook in that category rises and falls with Ethereum's own migration progress. Ethereum has active PQC work underway, which earns the Settlement category a B (in-development). Data availability uses Ethereum blobs with KZG commitments over BLS12-381 (quantum-vulnerable); Ethereum's roadmap includes replacing BLS12-381 with quantum-resistant alternatives, landing DA at C (roadmapped).
+
+As a Superchain member, Zora inherits OP Labs' published post-quantum roadmap (January 2026), which commits to deprecating ECDSA-signed EOA transactions within a 10-year window (by January 2036) via EIP-7702 smart wallet migration. This earns Transaction Signatures and EC Sunset each a C (roadmapped). However, the roadmap covers transaction signatures only — no EC sunset plan exists for consensus, networking, on-chain precompiles, or bridge governance. Every other category remains unaddressed: the Cannon fault proof system relies on EC-signed output roots, the op-node P2P layer uses secp256k1 node identity, and the Superchain Security Council multisig and bridge withdrawal mechanism are fully EC-dependent.
 
 ## Proposed and Implemented PQC Algorithms
 
-Zora does not currently propose or implement any post-quantum cryptographic algorithms.
+| Algorithm | Category | Status | Notes |
+|-----------|----------|--------|-------|
+| TBD (NIST PQC candidate) | Transaction Signatures | Roadmapped | OP Labs' PQ roadmap acknowledges uncertainty about which algorithm to adopt; EIP-7702 smart wallet migration is the planned delivery mechanism |
+
+OP Labs has published a commitment to deprecate ECDSA EOA transactions by January 2036 but has not yet selected a specific post-quantum algorithm. As stated in the roadmap: "We don't yet know whether the NIST-standardized lattice-based signatures are the best long-term choice."
 
 ## Settlement Layer
 
@@ -41,7 +48,7 @@ Zora does not currently propose or implement any post-quantum cryptographic algo
 
 Zora settles to Ethereum. Output roots are proposed on Ethereum L1 via the `DisputeGameFactory` and `FaultDisputeGame` contracts; withdrawals finalize after a 7-day challenge window. Zora's settlement security is therefore bounded by Ethereum's own security.
 
-Ethereum has active PQC work in progress — consensus-layer validator signatures, blob attestations, and transaction signatures are all subjects of ongoing research and implementation. That activity earns Ethereum a 🔧 in-development rating, and Zora inherits this directly. The settlement-layer contracts themselves (upgrade admin keys, output root proposer keys) are EC-keyed and have no independent PQC retirement plan, but the upstream Ethereum effort provides active development momentum.
+Ethereum has active PQC work in progress — consensus-layer validator signatures, blob attestations, and transaction signatures are all subjects of ongoing research and implementation. That activity earns Ethereum a B (in-development) rating, and Zora inherits this directly. The settlement-layer contracts themselves (upgrade admin keys, output root proposer keys) are EC-keyed and have no independent PQC retirement plan, but the upstream Ethereum effort provides active development momentum.
 
 The Superchain Security Council 2-of-2 multisig (Optimism Foundation + Security Council) controls contract upgrades and is entirely EC-based. A sufficiently capable quantum attacker holding either signer's key could unilaterally upgrade or drain Superchain bridge contracts, including Zora's.
 
@@ -63,11 +70,13 @@ Zora uses the OP Stack Cannon fault proof system. Cannon's internal execution tr
 
 ## Transaction Signatures
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-We have found no public information indicating migration activity for Zora in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
+Zora is EVM-equivalent. Every user account today is a secp256k1 ECDSA address; there is no PQC transaction type in the OP Stack protocol. However, as a Superchain member, Zora inherits OP Labs' published post-quantum roadmap (January 14, 2026), which commits to deprecating ECDSA-signed EOA transactions within a 10-year window (by January 2036).
 
-Zora is EVM-equivalent. Every user account is a secp256k1 ECDSA address; there is no PQC transaction type in the OP Stack protocol. EIP-7702 (available from the Isthmus upgrade onward) allows delegation to smart contract wallets, which could in principle implement PQC signature verification at the application layer, but no Zora-specific PQC wallet migration plan has been published, and application-layer workarounds do not change the protocol-level exposure.
+The migration path is EIP-7702 smart wallet delegation: EOAs delegate key management to PQ-aware smart contract accounts during the transition window. After the window closes, raw ECDSA EOA transactions are expected to be deprecated across Superchain chains. The specific PQC algorithm has not yet been chosen — OP Labs has acknowledged uncertainty about whether NIST-standardized lattice-based signatures are the best long-term option.
+
+EIP-7702 is available on OP Stack chains since the Isthmus upgrade, providing the infrastructure for the migration. However, no implementation of PQC-aware smart wallet contracts has started, and no concrete timeline for intermediate milestones has been published beyond the 2036 endpoint.
 
 ## Networking
 
@@ -99,19 +108,23 @@ The planned Superchain shared sequencing feature, when it arrives, will introduc
 
 ## EC Sunset
 
-**Grade: F ❌**
+**Grade: C 🗺️**
 
-No PQC discussions have been found from the Zora team regarding retirement of EC-based cryptography from any Zora component.
+OP Labs published "A Post-Quantum Roadmap for the Superchain" (January 14, 2026) with an explicit 10-year ECDSA deprecation window. As a Superchain member, Zora inherits this commitment: ECDSA-signed EOA transactions are expected to be deprecated by January 2036, with EIP-7702 smart wallet delegation as the migration path.
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, Zora's PQC-adoption ratings per category are: Settlement 🔧, DA 🗺️, Proof ❌, Tx Sigs ❌, Networking ❌, On-Chain ❌, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, Zora's PQC-adoption ratings per category are: Settlement 🔧, DA 🗺️, Proof ❌, Tx Sigs 🗺️, Networking ❌, On-Chain ❌, Other ❌.
 
-EC is present in every layer of Zora: transaction signatures, output root proposals, bridge governance multisigs, the Guardian role, op-node peer identity, and RPC transport. The Isthmus upgrade adds BLS12-381 precompiles to the EVM, increasing rather than decreasing the EC surface. No component has a published plan for EC removal.
+The published EC sunset plan covers transaction signatures only. No EC sunset plan exists for:
+- **Proof / Verification**: EC-signed output roots and EC-keyed proposers/challengers
+- **Networking**: secp256k1 node identity in op-node P2P and classical TLS for RPC
+- **On-Chain Environment**: `ecrecover` and BN254 precompiles (the Isthmus upgrade adds BLS12-381 precompiles, increasing the EC surface)
+- **Other Features**: Security Council 2-of-2 multisig, Guardian role, and bridge governance keys
 
 ## Governance
 
 Zora operates within the Optimism Collective governance structure. Protocol upgrades to the OP Stack — including any that would affect Zora — go through Optimism Improvement Proposals (OIPs) voted on by the Token House (OP holders) and are subject to Security Council veto. Emergency or unilateral actions require the 2-of-2 Security Council multisig. Zora-specific operational decisions (sequencer operation, output root proposals) are made by the Zora team.
 
-No PQC-related proposals have been identified in the Optimism Collective governance forum or in Zora's own governance communications.
+The key PQC-relevant governance action to date is the OP Labs post-quantum roadmap published January 14, 2026, committing to a 10-year ECDSA deprecation window for transaction signatures across the Superchain. No formal OIP has been filed to implement this roadmap, and no PQC-specific proposals have been identified in the Optimism Collective governance forum or in Zora's own governance communications.
 
 ---
 
