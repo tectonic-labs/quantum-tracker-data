@@ -16,11 +16,11 @@
 | Transaction Signatures | D | ⚠️ | Discussed |
 | Consensus | D | ⚠️ | Discussed |
 | P2P Networking | F | ❌ | Not Discussed |
-| On-Chain Logic | B | 🔧 | In Development |
+| On-Chain Logic | C | 🗺️ | Roadmapped |
 | Other Features | F | ❌ | Not Discussed |
 | EC Sunset | F | ❌ | Not Discussed |
 
-Solana's PQC story is most advanced at the on-chain primitive layer and least developed everywhere else. Two validator clients are actively building **Falcon** verification syscalls: [firedancer-io/firedancer#9446](https://github.com/firedancer-io/firedancer/pull/9446) (a native C implementation from Jump Trading, iterated April 22–29, 2026) and [anza-xyz/solana-sdk#537](https://github.com/anza-xyz/solana-sdk/pull/537) (a liboqs-based draft from an external contributor, stale since February 2026 with merge conflicts). The corresponding Solana Improvement Document, [SIMD-0461](https://github.com/solana-foundation/solana-improvement-documents/pull/461), is in `Idea` status — the earliest lifecycle stage — and a maintainer comment from Anza on March 18, 2026 noted that the proposal had not been raised in internal prioritization conversations.
+Solana's PQC work is at the discussion and roadmap stage across the board, with no migration shipped or in active flight as of mid-June 2026. A chain-provided **Falcon** verification syscall was proposed in [SIMD-0461](https://github.com/solana-foundation/solana-improvement-documents/pull/461), but it was [closed unmerged on June 17, 2026](https://github.com/solana-foundation/solana-improvement-documents/pull/461) — maintainers paused it pending demand, indicating they would reopen it later, and pointed instead to an application-level (on-chain program) Falcon verifier as the near-term path. The two validator-client syscall efforts that backed it ([firedancer-io/firedancer#9446](https://github.com/firedancer-io/firedancer/pull/9446), a native C implementation from Jump Trading; [anza-xyz/solana-sdk#537](https://github.com/anza-xyz/solana-sdk/pull/537), a liboqs-based draft) are both stale.
 
 The [Solana Foundation's first PQ-named statement](https://solana.com/news/quantum-readiness), published April 27, 2026, frames migration as wallet-scoped: research, then new wallets, then migrate existing wallets. Notably, both core validator client teams — Anza and Firedancer/Jump — have independently converged on **Falcon** (FN-DSA, NIST FIPS 206 IPD) as the candidate scheme, a significant signal. However, the Foundation's statement uses the phrase *"no change is required today or likely anytime soon"* and the roadmap does not commit to a protocol-envelope PQ transaction type. Validator consensus signing, P2P transport, and Turbine block propagation are not mentioned.
 
@@ -28,7 +28,7 @@ The [Solana Foundation's first PQ-named statement](https://solana.com/news/quant
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **Falcon / FN-DSA** | Ed25519 | On-Chain (verification syscall) | In Development (firedancer#9446 active; solana-sdk#537 stale; SIMD-0461 in `Idea` status) |
+| **Falcon / FN-DSA** | Ed25519 | On-Chain (verification syscall) | On Roadmap (SIMD-0461 syscall proposal closed unmerged June 2026; client PRs firedancer#9446 and solana-sdk#537 stale) |
 | **ML-DSA** (Dilithium) | Ed25519 | Tx Signatures | Discussed (Project Eleven prototype testnet, December 2025) |
 
 ## 1. Transaction Signatures
@@ -63,15 +63,19 @@ We have found no public information indicating migration activity for Solana in 
 
 ## 4. On-Chain Logic
 
-**Grade: B 🔧**
+**Grade: C 🗺️**
 
-Solana exposes EC signature verification through native [precompiled programs](https://solana.com/docs/core/programs/precompiles): Ed25519Program, Secp256k1Program (ECDSA secp256k1 with pubkey recovery), and Secp256r1Program (NIST P-256). All three are EC-based; no PQC syscall is on mainnet, testnet, or feature-flagged.
+This category rates whether the chain itself provides a post-quantum signature-verification primitive — a precompile, builtin, or syscall callable by on-chain programs. It does not credit verification logic a developer writes inside their own program; an application-level Falcon verifier is the smart-contract-wallet pattern, available on any sufficiently expressive chain, and is not a chain-provided facility.
 
-Two validator clients are implementing a **Falcon** verification syscall. [firedancer-io/firedancer#9446](https://github.com/firedancer-io/firedancer/pull/9446) is a native C implementation from a Jump Trading engineer, iterated continuously between April 22 and April 29, 2026. [anza-xyz/solana-sdk#537](https://github.com/anza-xyz/solana-sdk/pull/537) implements the same primitive through liboqs from an external contributor; it has been stale since February 1, 2026 and is in `mergeable_state: dirty`. The matching [SIMD-0461](https://github.com/solana-foundation/solana-improvement-documents/pull/461) is in `Idea` status with `simd-bot` indicating "Cannot merge yet — Missing approval from Anza." A Firedancer/Jump engineer commented on April 21, 2026 proposing to ship in Solana v4.1, but no Anza response was recorded.
+Solana exposes EC signature verification through native [precompiled programs](https://solana.com/docs/core/programs/precompiles): Ed25519Program, Secp256k1Program (ECDSA secp256k1 with pubkey recovery), and Secp256r1Program (NIST P-256). All three are EC-based; no PQC verification primitive is on mainnet, testnet, or feature-flagged.
 
-**Current state.** No PQC syscall on mainnet. Native **Falcon** implementation actively iterated in Firedancer.
+A chain-provided **Falcon** verification syscall was proposed in [SIMD-0461](https://github.com/solana-foundation/solana-improvement-documents/pull/461), but it was [closed unmerged on June 17, 2026](https://github.com/solana-foundation/solana-improvement-documents/pull/461); maintainers paused the effort pending demand and signalled they would reopen it later, pointing to an application-level on-chain Falcon verifier as the near-term route. The two validator-client syscall efforts that supported it — [firedancer-io/firedancer#9446](https://github.com/firedancer-io/firedancer/pull/9446) (native C, Jump Trading; last iterated April 22–29, 2026) and [anza-xyz/solana-sdk#537](https://github.com/anza-xyz/solana-sdk/pull/537) (liboqs-based, external contributor; stale since February 1, 2026, `mergeable_state: dirty`) — are no longer in active development. A separate hash-primitive proposal, [SIMD-0563](https://github.com/solana-foundation/solana-improvement-documents/pull/563) (a Keccak-f1600 syscall, opened June 15, 2026), is referenced as something that would speed an application-level verifier.
 
-**Planned future work.** firedancer#9446 continues iteration. SIMD-0461 awaits Anza review and movement out of `Idea` status.
+This is graded on the chain-provided primitive only. With the syscall proposal closed and the client implementations stale, no PQ verification primitive is in active flight; a chain-provided primitive remains plausible (the proposal can be reopened) but is back at the roadmap stage, hence the C rather than a higher grade.
+
+**Current state.** No PQC verification primitive on mainnet, testnet, or behind a feature flag. The chain-provided syscall proposal is closed; the surviving Falcon path is application-level.
+
+**Planned future work.** SIMD-0461 can be reopened "when there is more demand"; SIMD-0563 (Keccak-f1600 syscall) would support an application-level verifier in the interim.
 
 ## 5. Other Features
 
@@ -91,7 +95,7 @@ Two validator clients are implementing a **Falcon** verification syscall. [fired
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Solana's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ⚠️, P2P ❌, On-Chain 🔧, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Solana's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ⚠️, P2P ❌, On-Chain 🗺️, Other ❌.
 
 The [Foundation's April 27, 2026 statement](https://solana.com/news/quantum-readiness) is explicit: *"no change is required today or likely anytime soon."* The proposed wallet-migration sequence — research, then new wallets, then migrate existing wallets — does not impose mandatory deprecation, a fork date, or a scheduled retirement of Ed25519. SIMD-0461 frames **Falcon** as *"an alternative to the existing Ed25519 signatures,"* explicitly additive. Searches for `deprecate`, `sunset`, `retire`, or `remove ed25519` against the Solana Improvement Documents repository return no matches.
 
@@ -105,8 +109,9 @@ Solana's protocol changes flow through the [Solana Improvement Documents (SIMDs)
 
 Active PQ-relevant work:
 
-- [SIMD-0461](https://github.com/solana-foundation/solana-improvement-documents/pull/461) — Falcon precompile / verification syscall. Status: `Idea`. simd-bot: "Cannot merge yet — Missing approval from Anza."
-- [firedancer-io/firedancer#9446](https://github.com/firedancer-io/firedancer/pull/9446) — Native C Falcon syscall. Active iteration April 22–29, 2026.
+- [SIMD-0461](https://github.com/solana-foundation/solana-improvement-documents/pull/461) — Falcon verification syscall. Status: Closed (unmerged) 2026-06-17; maintainers paused pending demand.
+- [SIMD-0563](https://github.com/solana-foundation/solana-improvement-documents/pull/563) — Keccak-f1600 syscall. Status: Open (created 2026-06-15). Hash primitive referenced as support for an application-level Falcon verifier.
+- [firedancer-io/firedancer#9446](https://github.com/firedancer-io/firedancer/pull/9446) — Native C Falcon syscall. Last iterated April 22–29, 2026; stale.
 - [anza-xyz/solana-sdk#537](https://github.com/anza-xyz/solana-sdk/pull/537) — Falcon via liboqs. Status: stale since 2026-02-01; merge conflicts.
 - [SIMD-0326 (Alpenglow)](https://github.com/solana-foundation/solana-improvement-documents/pull/326) — consensus rewrite. Non-PQC; included for context.
 
@@ -120,7 +125,7 @@ Searches across `firedancer-io`, `anza-xyz`, and `Syndica` for `post-quantum`, `
 
 ---
 
-_Generated on 07 May 2026 based on information as of 06 May 2026._
+_Generated on 22 Jun 2026 based on information as of 22 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

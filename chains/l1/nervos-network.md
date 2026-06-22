@@ -57,9 +57,9 @@ We have found no public information indicating migration activity for Nervos Net
 
 **Grade: A ✅**
 
-CKB-VM is a RISC-V virtual machine. Cryptographic primitives are not provided as protocol-level precompiles; they are deployed as bytecode "system scripts" or "lock scripts." The secp256k1 verifier is a deployed system script, and the **SPHINCS+** verifier is a deployed lock script live in production. Because verifier code is data, new PQC families (lattice-based, code-based, or others) can be added by deploying new lock scripts — no hard fork required.
+CKB-VM is a RISC-V virtual machine that, by design, has no protocol-level signature precompiles — every verifier is deployed bytecode. The secp256k1 verifier ships as a system script, and the **SPHINCS+** verifier ships as a [single canonical Quantum-Resistant Lock Script](https://github.com/nervosnetwork/quantum-resistant-lock-script) that applications reference rather than re-implement, with the standard [Quantum Purse wallet](https://talk.nervos.org/t/quantum-purse-a-wallet-light-client-in-your-browser/8758) built on it. That shared, consistent tooling — rather than each developer writing their own verifier — is what earns the on-chain layer its grade: post-quantum verification is something the platform provides to everyone, not a bespoke construction. Because verifier code is data, further PQC families (lattice-based, code-based, or others) can be added as new lock scripts without a hard fork.
 
-**Current state.** [**SPHINCS+** verification is live](https://blog.cryptape.com/quantum-computation-new-challenge-to-ckbs-security) in production via the Quantum-Resistant Lock Script. Hash-based PQ verification is therefore available on-chain today.
+**Current state.** [**SPHINCS+** verification is live](https://blog.cryptape.com/quantum-computation-new-challenge-to-ckbs-security) in production via the canonical Quantum-Resistant Lock Script, used by standard wallet tooling. Hash-based PQ verification is therefore available on-chain today.
 
 **Planned future work.** Active addition of further PQC families is referenced in Cryptape and CKB documentation. Additional schemes can ship as new lock scripts without protocol changes.
 
@@ -87,7 +87,7 @@ Because new signature schemes ship as bytecode lock scripts rather than protocol
 
 ---
 
-_Generated on 06 May 2026 based on information as of 05 May 2026._
+_Generated on 22 Jun 2026 based on information as of 22 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
