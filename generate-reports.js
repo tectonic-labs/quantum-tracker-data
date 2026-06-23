@@ -26,6 +26,7 @@ const GITHUB_BASE = 'https://raw.githubusercontent.com/tectonic-labs/quantum-tra
 
 const TABS = {
   blockchains: { csv: '/chains.csv', reportBase: '/chains/l1/', nameKey: 'project' },
+  l2s:         { csv: '/l2s.csv',    reportBase: '/chains/l2/', nameKey: 'project' },
   coins:       { csv: '/coins.csv',  reportBase: '/coins/',      nameKey: 'project' },
   wallets:     { csv: '/wallets.csv', reportBase: '/wallets/',    nameKey: 'wallet' },
   nfts:        { csv: '/nfts.csv',   reportBase: '/nfts/',       nameKey: 'project' },
