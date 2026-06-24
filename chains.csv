@@ -8,7 +8,7 @@ TRON,TRX,D,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discus
 Dogecoin,DOGE,D,L1,d-discussed.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-06-15,,chains/l1/dogecoin.md
 Hyperliquid,HYPE,D,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/hyperliquid.md
 Cardano,ADA,C,L1,c-planned.svg,d-discussed.svg,f-nothing.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,2026-05-18,,chains/l1/cardano.md
-Bitcoin Cash,BCH,D,L1,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,c-planned.svg,f-nothing.svg,d-discussed.svg,2026-06-15,,chains/l1/bitcoin-cash.md
+Bitcoin Cash,BCH,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,d-discussed.svg,2026-06-22,,chains/l1/bitcoin-cash.md
 Zcash,ZEC,C,L1 (Privacy),f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,b-dev.svg,c-planned.svg,2026-06-15,,chains/l1/zcash.md
 Monero,XMR,D,L1 (Privacy),d-discussed.svg,n-not-applicable.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-06-15,,chains/l1/monero.md
 Canton,CC,C,L1 (Enterprise),c-planned.svg,d-discussed.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-06-08,,chains/l1/canton.md

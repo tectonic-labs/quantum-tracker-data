@@ -16,9 +16,9 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | ➖ | ➖ | Not Applicable |
+| Consensus | A | ✅ | Shipped |
 | P2P Networking | F | ❌ | Not Discussed |
-| On-Chain Logic | C | 🗺️ | Roadmapped |
+| On-Chain Logic | D | ⚠️ | Discussed |
 | Other Features | F | ❌ | Not Discussed |
 | EC Sunset | D | ⚠️ | Discussed |
 
@@ -30,8 +30,8 @@ The most concrete PQC work is [Quantumroot](https://blog.bitjson.com/quantumroot
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **LM-OTS** (Leighton-Micali One-Time Signatures, SHA-256-based) | ECDSA secp256k1, Schnorr secp256k1 (vault scope) | On-Chain (Quantumroot vaults) | On Roadmap (mainnet-capable since May 2026; awaiting wallet deployment) |
-| **Lamport-OTS** (Lamport One-Time Signatures, RIPEMD-160-based PoC) | ECDSA secp256k1, Schnorr secp256k1 (one-time use context) | On-Chain (smart contract) | On Roadmap (mainnet VM supports it; no wallet or dapp uses it) |
+| **LM-OTS** (Leighton-Micali One-Time Signatures, SHA-256-based) | ECDSA secp256k1, Schnorr secp256k1 (vault scope) | On-Chain (Quantumroot vaults) | Discussed (mainnet-capable since May 2026; opt-in vault construction, awaiting wallet deployment) |
+| **Lamport-OTS** (Lamport One-Time Signatures, RIPEMD-160-based PoC) | ECDSA secp256k1, Schnorr secp256k1 (one-time use context) | On-Chain (smart contract) | Discussed (proof-of-concept; no wallet or dapp uses it) |
 
 ## 1. Transaction Signatures
 
@@ -49,7 +49,13 @@ Quantumroot (see On-Chain Logic) is an opt-in vault primitive, not a chain-wide 
 
 ## 2. Consensus
 
-Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
+**Grade: A ✅**
+
+Bitcoin Cash secures consensus with SHA-256d proof-of-work (with AMAS difficulty adjustment). Proof-of-work is hash-based, so it is not exposed to Shor's algorithm the way elliptic-curve signature schemes are — the consensus layer is quantum-resistant by construction and requires no migration.
+
+**Current state.** SHA-256d proof-of-work; no elliptic-curve dependency in the consensus mechanism.
+
+**Planned future work.** None required for quantum resistance at the consensus layer.
 
 ## 3. P2P Networking
 
@@ -63,7 +69,9 @@ BCH inherits the legacy pre-BIP-324 Bitcoin P2P protocol — plaintext, unauthen
 
 ## 4. On-Chain Logic
 
-**Grade: C 🗺️**
+**Grade: D ⚠️**
+
+This category rates whether the chain provides post-quantum signature verification at the same level it provides its elliptic-curve verification. Bitcoin Cash verifies EC signatures through dedicated VM opcodes (`OP_CHECKSIG` / `OP_CHECKMULTISIG`), so reaching that bar would mean either a dedicated post-quantum verification opcode or a single canonical, ecosystem-shared post-quantum script that applications reference rather than re-implement. Today BCH has neither: there is no PQ opcode (and none on a published timeline), and the hash-based options are individual constructions a developer builds themselves — exactly the kind of application-level verification this category does not credit. The work is real and chain-attributable, which is why it rates Discussed rather than lower, but it has not reached the chain-provided or canonical-tooling threshold.
 
 Bitcoin Cash extended Bitcoin Script in two material directions. [CHIP-2021-02 (May 2022)](https://gitlab.com/GeneralProtocols/research/chips/-/blob/master/CHIP-2021-02-Add-Native-Introspection-Opcodes.md) added 15 native introspection opcodes (codepoints 0xc0-0xcf), including OP_UTXOBYTECODE and OP_ACTIVEBYTECODE, enabling contracts to read and verify script conditions without extra hashing layers. [CashTokens (May 2023)](https://cashtokens.org/docs/spec/chip/) added fungible and non-fungible token primitives — token category IDs are derived from UTXO position rather than from EC primitives, with NFT commitments structured as hash-based attestations issued under ECDSA / Schnorr keys.
 
@@ -73,9 +81,9 @@ A separate [**Lamport-OTS** proof-of-concept](https://dorahacks.io/buidl/36826) 
 
 BCH's recent VM extensions — [BigInt arithmetic (May 2025)](https://upgradespecs.bitcoincashnode.org/2025-05-15-upgrade/), [loops](https://github.com/bitjson/bch-loops) and [functions (May 2026)](https://upgradespecs.bitcoincashnode.org/2026-05-15-upgrade/) — enable implementing PQC signature verification directly in script without requiring dedicated opcodes.
 
-**Current state.** ECDSA / Schnorr verification through OP_CHECKSIG and OP_CHECKMULTISIG; native introspection opcodes; CashTokens primitives. Quantumroot LM-OTS vaults are mainnet-capable but not yet deployed by any wallet. No PQ verification precompile.
+**Current state.** ECDSA / Schnorr verification through OP_CHECKSIG and OP_CHECKMULTISIG; native introspection opcodes; CashTokens primitives. Quantumroot LM-OTS vaults are mainnet-capable but exist as an individual vault construction not yet deployed by any wallet. No PQ verification opcode, and no single canonical PQ script shared across tooling.
 
-**Planned future work.** Quantumroot awaits first wallet deployment. No chain-wide post-quantum signature opcode has been proposed.
+**Planned future work.** Quantumroot awaits first wallet deployment. No dedicated post-quantum signature opcode has been proposed.
 
 ## 5. Other Features
 
@@ -95,7 +103,7 @@ BCH's recent VM extensions — [BigInt arithmetic (May 2025)](https://upgradespe
 
 **Grade: D ⚠️**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Bitcoin Cash's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain 🗺️, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Bitcoin Cash's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ⚠️, Other ❌.
 
 Bitcoin Cash has no formal plan to retire elliptic-curve cryptography. The chain adopted Schnorr alongside ECDSA in 2019, both on secp256k1 — additive rather than substitutive — and the Quantumroot path is structured as opt-in vaults, again additive.
 
@@ -128,7 +136,7 @@ No chain-wide post-quantum signature CHIP has been proposed.
 
 ---
 
-_Generated on 04 Jun 2026 based on information as of 04 Jun 2026._
+_Generated on 22 Jun 2026 based on information as of 22 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
