@@ -1,0 +1,9 @@
+project,ticker,tier,category,tx_signature_exposure,consensus_exposure,p2p_exposure,onchain_exposure,other_exposure,ec_sunset,date_last_updated,audit,report
+Cellframe,CELL,A,L1 (PQC-native),a-done.svg,a-done.svg,a-done.svg,a-done.svg,a-done.svg,n-not-applicable.svg,2026-04-30,,chains/pq/cellframe.md
+Mochimo,MCM,A,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,n-not-applicable.svg,a-done.svg,n-not-applicable.svg,2026-04-30,,chains/pq/mochimo.md
+QANplatform,QANX,A,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,a-done.svg,n-not-applicable.svg,f-nothing.svg,2026-04-30,,chains/pq/qanplatform.md
+QRL,QRL,B,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,b-dev.svg,a-done.svg,n-not-applicable.svg,2026-04-30,,chains/pq/qrl.md
+Abelian,ABEL,D,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,d-discussed.svg,a-done.svg,n-not-applicable.svg,2026-04-30,,chains/pq/abelian.md
+Asentum,ASE,D,L1 (PQC-native),b-dev.svg,b-dev.svg,d-discussed.svg,d-discussed.svg,n-not-applicable.svg,n-not-applicable.svg,2026-05-18,,chains/pq/asentum.md
+Naoris Protocol,NAORIS,D,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,n-not-applicable.svg,2026-04-30,,chains/pq/naoris-protocol.md
+XX Network,XX,F,L1 (PQC-native),f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/pq/xx-network.md
