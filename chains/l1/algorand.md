@@ -46,7 +46,7 @@ The [technical brief](https://algorand.co/blog/technical-brief-quantum-resistant
 
 **Current state.** Ed25519 is the default signing scheme. Falcon-1024 is available as an opt-in alternative via CLI and LogicSig. The AVM `falcon_verify` opcode is live on mainnet (Sept 2024). Accounts that have rotated to Falcon keys are post-quantum secure for transaction signing; accounts on Ed25519 remain exposed. However, no typical-user wallet — notably Pera Wallet, the dominant Algorand wallet — ships PQC signing, which limits real-world adoption. A native PQ account type ([PR #6639](https://github.com/algorand/go-algorand/pull/6639)) with deterministic Falcon-1024 and a quantum-hardened address derivation scheme is in active development, gated behind a consensus flag.
 
-**Planned future work.** The [2025+ roadmap](https://algorand.co/blog/algorands-2025-roadmap-building-for-real-world-use) positions the phased rollout as: State Proofs (complete), user account Falcon keys (live), AVM `falcon_verify` opcode (complete), native PQ account type (in progress), and consensus upgrade (planned, dependent on post-quantum VRF). Additional open pull requests include [go-algorand#6637](https://github.com/algorand/go-algorand/pull/6637) (large LogicSig per-byte size pricing, a PQ-enabling infrastructure change since PQ signatures are large), [go-algorand#6573](https://github.com/algorand/go-algorand/pull/6573) (quantum-hardened LogicSig address derivation), and [algorand/falcon#15](https://github.com/algorand/falcon/pull/15) (vectorized Falcon verification speedup).
+**Planned future work.** The [2025+ roadmap](https://algorand.co/blog/algorands-2025-roadmap-building-for-real-world-use) positions the phased rollout as: State Proofs (complete), user account Falcon keys (live), AVM `falcon_verify` opcode (complete), native PQ account type (in progress), and consensus upgrade (planned, dependent on post-quantum VRF). Additional related work includes [go-algorand#6637](https://github.com/algorand/go-algorand/pull/6637) (large LogicSig per-byte size pricing, a PQ-enabling infrastructure change since PQ signatures are large), the merged [go-algorand#6592](https://github.com/algorand/go-algorand/pull/6592) (quantum-hardened LogicSig address derivation via auto-salting of TEAL v13 programs, merged June 2026), and [algorand/falcon#15](https://github.com/algorand/falcon/pull/15) (vectorized Falcon verification speedup).
 
 ## 2. Consensus
 
@@ -127,13 +127,13 @@ PQC-relevant governance activity:
 - **Falcon-1024 for user accounts**: [Launched November 2025](https://algorand.co/blog/technical-brief-quantum-resistant-transactions-on-algorand-with-falcon-signatures); opt-in via CLI.
 - **[go-algorand#6639](https://github.com/algorand/go-algorand/pull/6639)**: Open PR (2026-06-04, updated 2026-06-07) for native PQ account type with deterministic Falcon-1024 signatures. +4,818/-1,521 across 42 files.
 - **[go-algorand#6637](https://github.com/algorand/go-algorand/pull/6637)**: Open PR (2026-05-30) for large LogicSig per-byte size pricing, enabling PQ-sized signatures in LogicSigs.
-- **[go-algorand#6573](https://github.com/algorand/go-algorand/pull/6573)**: Open PR (2026-03-05) for quantum-hardened LogicSig address derivation via iterative hashing.
+- **[go-algorand#6592](https://github.com/algorand/go-algorand/pull/6592)**: Merged (2026-06-25); auto-salts TEAL v13 programs so LogicSig hashes avoid valid on-curve points, hardening address derivation against quantum address-grinding. Supersedes the closed [#6573](https://github.com/algorand/go-algorand/pull/6573).
 - **[algorand/falcon#15](https://github.com/algorand/falcon/pull/15)**: Open PR (2026-02-17) for vectorized Falcon verification speedup.
 - **Post-quantum VRF**: Research stage; no ARC or specification published.
 
 ---
 
-_Generated on 08 Jun 2026 based on information as of 08 Jun 2026._
+_Generated on 26 Jun 2026 based on information as of 26 Jun 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
