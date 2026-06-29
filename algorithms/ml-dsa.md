@@ -6,7 +6,7 @@
 | **Cryptographic family** | Lattice (module-LWE) |
 | **NIST standardization** | FIPS 204 |
 | **Typically replaces** | ECDSA / EdDSA |
-| **L1 blockchains tracked** | 22 |
+| **L1 blockchains tracked** | 21 |
 
 ML-DSA, standardized by NIST as FIPS 204 and developed under the name CRYSTALS-Dilithium, is a lattice-based digital signature scheme. It is the most widely referenced post-quantum signature across the L1 blockchains tracked here, favored for its balance of moderate signature size and fast verification.
 
@@ -15,23 +15,20 @@ ML-DSA, standardized by NIST as FIPS 204 and developed under the name CRYSTALS-D
 | Status | L1s |
 |--------|----:|
 | ✅ Implemented | 3 |
-| 🔧 In Development | 8 |
+| 🔧 In Development | 7 |
 | 🗺️ On Roadmap | 2 |
 | ⚠️ Discussed | 9 |
-| **Total** | **22** |
+| **Total** | **21** |
 
 Each L1 is counted once, in its furthest-along adoption status. A chain listed under a given status may still be earlier-stage in some categories; the per-chain detail below shows every category each chain applies the algorithm to.
 
-## L1 blockchains (22)
+## L1 blockchains (21)
 
 - ✅ **[Cellframe](../chains/l1/cellframe.md)** — Tx Signatures, Consensus — Implemented
 - ✅ **[Naoris Protocol](../chains/l1/naoris-protocol.md)**
   - Tx Signatures — Implemented
   - Consensus — Implemented
 - ✅ **[QANplatform](../chains/l1/qanplatform.md)** — Tx Signatures, Consensus, On-Chain — Implemented
-- 🔧 **[Asentum](../chains/l1/asentum.md)**
-  - Tx Signatures — In Development (mainnet launched 2026-05-13)
-  - Consensus — In Development (mainnet launched 2026-05-13)
 - 🔧 **[Bitcoin](../chains/l1/bitcoin.md)** — Tx Signatures, On-Chain — In Development (BTQ third-party fork only)
 - 🔧 **[BNB Chain](../chains/l1/bnb-chain.md)**
   - Tx Signatures — In Development

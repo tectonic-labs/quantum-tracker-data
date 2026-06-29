@@ -23,7 +23,7 @@ Each L1 is counted once per algorithm, in its furthest-along status across every
 
 | Algorithm | Family | Standardization | ✅ | 🔧 | 🗺️ | ⚠️ | L1s |
 |---|---|---|:--:|:--:|:--:|:--:|:--:|
-| [ML-DSA (Dilithium)](ml-dsa.md) | Lattice (module-LWE) | FIPS 204 | 3 | 8 | 2 | 9 | 22 |
+| [ML-DSA (Dilithium)](ml-dsa.md) | Lattice (module-LWE) | FIPS 204 | 3 | 7 | 2 | 9 | 21 |
 | [Falcon (FN-DSA)](falcon.md) | Lattice (NTRU) | FN-DSA / FIPS 206 (draft) | 2 | 1 | 2 | 6 | 11 |
 | [SLH-DSA (SPHINCS+)](slh-dsa.md) | Hash-based (stateless) | FIPS 205 | 2 | 3 | 1 | 4 | 10 |
 | [WOTS+](wots.md) | Hash-based (one-time) | RFC 8391 component | 1 | 1 | 0 | 1 | 3 |
