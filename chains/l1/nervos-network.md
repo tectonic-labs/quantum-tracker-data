@@ -37,7 +37,7 @@ CKB accounts are identified by a "lock script" — RISC-V bytecode that defines 
 - The original **secp256k1 ECDSA** lock script (default; quantum-vulnerable).
 - A [Quantum-Resistant Lock Script using **SPHINCS+**](https://github.com/nervosnetwork/quantum-resistant-lock-script) deployed in 2025, supporting 12 selectable parameter sets.
 
-The standard ["Quantum Purse" wallet](https://talk.nervos.org/t/quantum-purse-a-wallet-light-client-in-your-browser/8758) lets users hold post-quantum keys. The underlying scheme is standardized as FIPS 205 (SLH-DSA).
+The community ["Quantum Purse" wallet](https://talk.nervos.org/t/quantum-purse-a-wallet-light-client-in-your-browser/8758) — a self-custodial, self-described "pioneering" client — lets users hold post-quantum keys. The underlying scheme is standardized as FIPS 205 (SLH-DSA).
 
 **Current state.** Both ECDSA and **SPHINCS+** lock scripts are live on mainnet. Users choose at account creation; new ECDSA accounts can also still be created.
 
