@@ -4,7 +4,7 @@ Ethereum,ETH,B,L1,c-planned.svg,b-dev.svg,f-nothing.svg,c-planned.svg,c-planned.
 BNB Chain,BNB,C,L1,c-planned.svg,b-dev.svg,d-discussed.svg,b-dev.svg,f-nothing.svg,f-nothing.svg,2026-06-08,,chains/l1/bnb-chain.md
 XRP Ledger,XRP,B,L1,c-planned.svg,b-dev.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-06-08,,chains/l1/xrp-ledger.md
 Solana,SOL,C,L1,d-discussed.svg,d-discussed.svg,f-nothing.svg,c-planned.svg,f-nothing.svg,f-nothing.svg,2026-06-22,,chains/l1/solana.md
-TRON,TRX,D,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-06-22,,chains/l1/tron.md
+TRON,TRX,B+,L1,b-plus-testnet.svg,b-plus-testnet.svg,b-plus-testnet.svg,b-plus-testnet.svg,d-discussed.svg,f-nothing.svg,2026-07-06,,chains/l1/tron.md
 Hyperliquid,HYPE,D,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,chains/l1/hyperliquid.md
 Dogecoin,DOGE,D,L1,d-discussed.svg,a-done.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-06-24,,chains/l1/dogecoin.md
 Zcash,ZEC,B,L1 (Privacy),f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,b-dev.svg,c-planned.svg,2026-06-24,,chains/l1/zcash.md
@@ -20,7 +20,7 @@ Litecoin,LTC,F,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing
 Sui,SUI,C,L1,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-25,,chains/l1/sui.md
 Avalanche,AVAX,D,L1,d-discussed.svg,d-discussed.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,2026-06-20,,chains/l1/avalanche.md
 Cronos,CRO,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-04-30,,
-NEAR Protocol,NEAR,B,L1,b-dev.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,2026-06-22,,chains/l1/near-protocol.md
+NEAR Protocol,NEAR,B+,L1,b-plus-testnet.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,2026-07-06,,chains/l1/near-protocol.md
 Bittensor,TAO,D,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,2026-04-30,,chains/l1/bittensor.md
 Aster,ASTER,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 Polkadot,DOT,D,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,
