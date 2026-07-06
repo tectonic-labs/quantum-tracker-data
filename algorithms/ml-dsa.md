@@ -6,7 +6,7 @@
 | **Cryptographic family** | Lattice (module-LWE) |
 | **NIST standardization** | FIPS 204 |
 | **Typically replaces** | ECDSA / EdDSA |
-| **L1 blockchains tracked** | 21 |
+| **L1 blockchains tracked** | 20 |
 
 ML-DSA, standardized by NIST as FIPS 204 and developed under the name CRYSTALS-Dilithium, is a lattice-based digital signature scheme. It is the most widely referenced post-quantum signature across the L1 blockchains tracked here, favored for its balance of moderate signature size and fast verification.
 
@@ -16,13 +16,13 @@ ML-DSA, standardized by NIST as FIPS 204 and developed under the name CRYSTALS-D
 |--------|----:|
 | ✅ Implemented | 3 |
 | 🔧 In Development | 7 |
-| 🗺️ On Roadmap | 2 |
+| 🗺️ On Roadmap | 1 |
 | ⚠️ Discussed | 9 |
-| **Total** | **21** |
+| **Total** | **20** |
 
 Each L1 is counted once, in its furthest-along adoption status. A chain listed under a given status may still be earlier-stage in some categories; the per-chain detail below shows every category each chain applies the algorithm to.
 
-## L1 blockchains (21)
+## L1 blockchains (20)
 
 - ✅ **[Cellframe](../chains/l1/cellframe.md)** — Tx Signatures, Consensus — Implemented
 - ✅ **[Naoris Protocol](../chains/l1/naoris-protocol.md)**
@@ -41,7 +41,6 @@ Each L1 is counted once, in its furthest-along adoption status. A chain listed u
 - 🔧 **[Quantum Resistant Ledger](../chains/l1/qrl.md)** — On-Chain Logic — In Development (Zond Testnet V2, March 2026)
 - 🔧 **[Ravencoin](../chains/l1/ravencoin.md)** — Tx Signatures — In Development (open PR, not merged)
 - 🔧 **[XRP Ledger](../chains/l1/xrp-ledger.md)** — Tx Signatures, Consensus — In Development (live on AlphaNet testnet; mainnet integration PR stalled)
-- 🗺️ **[Arc](../chains/l1/arc.md)** — Tx Signatures — On Roadmap (candidate, not yet selected)
 - 🗺️ **[Ethereum](../chains/l1/ethereum.md)** — Tx Signatures, On-Chain — On Roadmap (EIP-8051 draft precompile)
 - ⚠️ **[Cardano](../chains/l1/cardano.md)** — Tx Signatures, On-Chain — Discussed (CIP #1144 survey)
 - ⚠️ **[Cosmos Hub](../chains/l1/cosmos-hub.md)** — Consensus — Discussed

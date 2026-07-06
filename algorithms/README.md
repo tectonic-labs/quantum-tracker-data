@@ -23,9 +23,9 @@ Each L1 is counted once per algorithm, in its furthest-along status across every
 
 | Algorithm | Family | Standardization | ✅ | 🔧 | 🗺️ | ⚠️ | L1s |
 |---|---|---|:--:|:--:|:--:|:--:|:--:|
-| [ML-DSA (Dilithium)](ml-dsa.md) | Lattice (module-LWE) | FIPS 204 | 3 | 7 | 2 | 9 | 21 |
-| [Falcon (FN-DSA)](falcon.md) | Lattice (NTRU) | FN-DSA / FIPS 206 (draft) | 2 | 1 | 2 | 6 | 11 |
-| [SLH-DSA (SPHINCS+)](slh-dsa.md) | Hash-based (stateless) | FIPS 205 | 2 | 3 | 1 | 4 | 10 |
+| [ML-DSA (Dilithium)](ml-dsa.md) | Lattice (module-LWE) | FIPS 204 | 3 | 7 | 1 | 9 | 20 |
+| [Falcon (FN-DSA)](falcon.md) | Lattice (NTRU) | FN-DSA / FIPS 206 (draft) | 2 | 1 | 1 | 6 | 10 |
+| [SLH-DSA (SPHINCS+)](slh-dsa.md) | Hash-based (stateless) | FIPS 205 | 2 | 2 | 1 | 4 | 9 |
 | [WOTS+](wots.md) | Hash-based (one-time) | RFC 8391 component | 1 | 1 | 0 | 1 | 3 |
 | [LMS / LM-OTS](lms.md) | Hash-based (stateful) | NIST SP 800-208 | 0 | 0 | 1 | 1 | 2 |
 | [Dynamic key fragmentation (QuStream)](dynamic-key-fragmentation.md) | Proprietary | Non-standardized (patent-pending) | 0 | 0 | 0 | 1 | 1 |
@@ -43,7 +43,7 @@ Key-encapsulation mechanisms, proof systems, and schemes whose algorithm is not 
 
 | Algorithm | Type | Family | Standardization | ✅ | 🔧 | 🗺️ | ⚠️ | L1s |
 |---|---|---|---|:--:|:--:|:--:|:--:|:--:|
-| [ML-KEM (Kyber)](ml-kem.md) | KEM | Lattice (module-LWE) | FIPS 203 | 2 | 1 | 1 | 0 | 4 |
+| [ML-KEM (Kyber)](ml-kem.md) | KEM | Lattice (module-LWE) | FIPS 203 | 2 | 1 | 0 | 0 | 3 |
 | [Streamlined NTRU Prime](ntru-prime.md) | KEM | Lattice (NTRU) | Not NIST-standardized | 1 | 0 | 0 | 0 | 1 |
 | [STARK / hash-based proofs](stark.md) | Proof system | Hash-based | No NIST track | 0 | 1 | 1 | 0 | 2 |
 | [Lattice ZK commitments (Abelian)](lattice-zk-commitments.md) | Proof system | Lattice | Non-standardized | 1 | 0 | 0 | 0 | 1 |

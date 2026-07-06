@@ -6,7 +6,7 @@
 | **Cryptographic family** | Hash-based (stateless) |
 | **NIST standardization** | FIPS 205 |
 | **Typically replaces** | ECDSA / EdDSA |
-| **L1 blockchains tracked** | 10 |
+| **L1 blockchains tracked** | 9 |
 
 SLH-DSA, standardized by NIST as FIPS 205 and developed as SPHINCS+, is a stateless hash-based signature scheme. Its security rests only on the underlying hash function, giving it the most conservative assumptions of the standardized post-quantum signatures, at the cost of larger signatures.
 
@@ -15,21 +15,20 @@ SLH-DSA, standardized by NIST as FIPS 205 and developed as SPHINCS+, is a statel
 | Status | L1s |
 |--------|----:|
 | ✅ Implemented | 2 |
-| 🔧 In Development | 3 |
+| 🔧 In Development | 2 |
 | 🗺️ On Roadmap | 1 |
 | ⚠️ Discussed | 4 |
-| **Total** | **10** |
+| **Total** | **9** |
 
 Each L1 is counted once, in its furthest-along adoption status. A chain listed under a given status may still be earlier-stage in some categories; the per-chain detail below shows every category each chain applies the algorithm to.
 
-## L1 blockchains (10)
+## L1 blockchains (9)
 
 - ✅ **[Cellframe](../chains/l1/cellframe.md)** — Tx Signatures — Implemented (multi-algorithm option)
 - ✅ **[Nervos Network](../chains/l1/nervos-network.md)** — Tx Signatures, On-Chain — Implemented (Quantum-Resistant Lock Script, mainnet 2025)
 - 🔧 **[Aptos](../chains/l1/aptos.md)**
   - Tx Signatures — In Development
   - On-Chain — In Development
-- 🔧 **[Arc](../chains/l1/arc.md)** — Tx Signatures, On-Chain — In Development (testnet / pre-mainnet codebase)
 - 🔧 **[Sui](../chains/l1/sui.md)** — Tx Signatures — Library building blocks merged; top-level API not yet available
 - 🗺️ **[Quantum Resistant Ledger](../chains/l1/qrl.md)** — Tx Signatures, On-Chain Logic — Planned (deferred to post-Zond-mainnet)
 - ⚠️ **[Bitcoin](../chains/l1/bitcoin.md)** — Tx Signatures, On-Chain — Discussed (named in earlier BIP-360 drafts; Project Eleven's "Quantum-Safe Taproot" SLH-DSA fallback)

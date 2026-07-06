@@ -6,7 +6,7 @@
 | **Cryptographic family** | Lattice (module-LWE) |
 | **NIST standardization** | FIPS 203 |
 | **Typically replaces** | ECDH |
-| **L1 blockchains tracked** | 4 |
+| **L1 blockchains tracked** | 3 |
 
 ML-KEM, standardized by NIST as FIPS 203 and developed as CRYSTALS-Kyber, is a lattice-based key-encapsulation mechanism. On blockchains it appears in networking key exchange and note encryption rather than transaction signing.
 
@@ -16,20 +16,17 @@ ML-KEM, standardized by NIST as FIPS 203 and developed as CRYSTALS-Kyber, is a l
 |--------|----:|
 | ✅ Implemented | 2 |
 | 🔧 In Development | 1 |
-| 🗺️ On Roadmap | 1 |
+| 🗺️ On Roadmap | 0 |
 | ⚠️ Discussed | 0 |
-| **Total** | **4** |
+| **Total** | **3** |
 
 Each L1 is counted once, in its furthest-along adoption status. A chain listed under a given status may still be earlier-stage in some categories; the per-chain detail below shows every category each chain applies the algorithm to.
 
-## L1 blockchains (4)
+## L1 blockchains (3)
 
 - ✅ **[Bittensor](../chains/l1/bittensor.md)** — Other (MEV shield) — Implemented
 - ✅ **[Cellframe](../chains/l1/cellframe.md)** — P2P — Implemented
 - 🔧 **[Dash](../chains/l1/dash.md)** — Other (Orchard note encryption) — In Development
-- 🗺️ **[Arc](../chains/l1/arc.md)**
-  - Other (encrypted memos) — On Roadmap (Transition phase)
-  - P2P / TLS transport — On Roadmap (Transition phase)
 
 ---
 

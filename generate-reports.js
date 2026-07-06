@@ -34,7 +34,7 @@ const TABS = {
 };
 
 const EMOJI_TO_FILE = {
-  '✅':'a-done.svg','🔧':'b-dev.svg','🗺️':'c-planned.svg','🗺':'c-planned.svg',
+  '✅':'a-done.svg','🧪':'b-plus-testnet.svg','🔧':'b-dev.svg','🗺️':'c-planned.svg','🗺':'c-planned.svg',
   '⚠️':'d-discussed.svg','⚠':'d-discussed.svg','❌':'f-nothing.svg','➖':'n-not-applicable.svg',
 };
 
