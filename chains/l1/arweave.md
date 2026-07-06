@@ -13,7 +13,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | ➖ | ➖ | Not Applicable |
+| Consensus | A | ✅ | Shipped |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | ➖ | ➖ | Not Applicable |
 | Other Features | F | ❌ | Not Discussed |
@@ -41,7 +41,13 @@ There is no native protocol-level multisig; threshold approaches such as [Safehe
 
 ## 2. Consensus
 
-Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
+**Grade: A ✅**
+
+Arweave secures consensus with SPoRA (Succinct Proofs of Random Access) proof-of-work. Proof-of-work is hash-based, so it is not exposed to Shor's algorithm the way elliptic-curve signature schemes are — the consensus layer is quantum-resistant by construction and requires no migration.
+
+**Current state.** SPoRA (Succinct Proofs of Random Access) proof-of-work; no elliptic-curve dependency in the consensus mechanism.
+
+**Planned future work.** None required for quantum resistance at the consensus layer.
 
 ## 3. P2P Networking
 
@@ -95,7 +101,7 @@ Arweave's value proposition is that data, once paid for, is stored *forever* by 
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Arweave's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain ➖, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Arweave's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ➖, Other ❌.
 
 The trajectory is the opposite of EC sunset: the [2.9.1 hard fork (3 Feb 2025)](https://github.com/ArweaveTeam/arweave/releases) *added* ECDSA secp256k1 as a second EC scheme alongside RSA-PSS at the L1 tx layer, and [ANS-104](https://github.com/ArweaveTeam/arweave-standards/blob/master/ans/ANS-104.md) continues to onboard additional EC families (Ethereum, Solana, and downstream Cosmos / Aptos types) rather than retiring any. No published plan deprecates RSA-PSS or ECDSA at the protocol layer; no statement from the Digital History Association (the foundation coordinating Arweave protocol releases) or Forward Research proposes an EC retirement schedule; no migration strategy or timeline has been disclosed.
 

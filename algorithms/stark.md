@@ -6,7 +6,7 @@
 | **Cryptographic family** | Hash-based |
 | **NIST standardization** | No NIST track |
 | **Typically replaces** | KZG / BLS12-381 pairings |
-| **L1 blockchains tracked** | 2 |
+| **L1 blockchains tracked** | 3 |
 
 STARK and other hash-based proof or commitment systems derive their security from collision-resistant hashing rather than elliptic-curve pairings, making them a post-quantum replacement for pairing-based aggregation and KZG polynomial commitments.
 
@@ -15,20 +15,22 @@ STARK and other hash-based proof or commitment systems derive their security fro
 | Status | L1s |
 |--------|----:|
 | ✅ Implemented | 0 |
+| 🧪 Testnet Live | 0 |
 | 🔧 In Development | 1 |
 | 🗺️ On Roadmap | 1 |
-| ⚠️ Discussed | 0 |
-| **Total** | **2** |
+| ⚠️ Discussed | 1 |
+| **Total** | **3** |
 
 Each L1 is counted once, in its furthest-along adoption status. A chain listed under a given status may still be earlier-stage in some categories; the per-chain detail below shows every category each chain applies the algorithm to.
 
-## L1 blockchains (2)
+## L1 blockchains (3)
 
 - 🔧 **[BNB Chain](../chains/l1/bnb-chain.md)** — Consensus — In Development
 - 🗺️ **[Ethereum](../chains/l1/ethereum.md)** — Other (DA blobs) — On Roadmap (Strawmap M* milestone, "PQ blobs")
+- ⚠️ **[Sei](../chains/l1/sei.md)** — Tx Signatures — Discussed
 
 ---
 
-_Generated on 04 June 2026 from the L1 chain reports in this dataset._
+_Generated on 06 July 2026 from the L1 chain reports in this dataset._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_

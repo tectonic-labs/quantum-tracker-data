@@ -14,20 +14,21 @@ XMSS is a stateful hash-based signature scheme recognized by NIST in SP 800-208.
 
 | Status | L1s |
 |--------|----:|
-| ✅ Implemented | 1 |
+| ✅ Implemented | 0 |
+| 🧪 Testnet Live | 0 |
 | 🔧 In Development | 0 |
 | 🗺️ On Roadmap | 0 |
-| ⚠️ Discussed | 0 |
+| ⚠️ Discussed | 1 |
 | **Total** | **1** |
 
 Each L1 is counted once, in its furthest-along adoption status. A chain listed under a given status may still be earlier-stage in some categories; the per-chain detail below shows every category each chain applies the algorithm to.
 
 ## L1 blockchains (1)
 
-- ✅ **[Quantum Resistant Ledger](../chains/l1/qrl.md)** — Tx Signatures, Consensus, P2P — Shipped (mainnet, June 2018)
+- ⚠️ **[Sonic](../chains/l1/sonic.md)** — Tx Signatures, Consensus — Discussed
 
 ---
 
-_Generated on 04 June 2026 from the L1 chain reports in this dataset._
+_Generated on 06 July 2026 from the L1 chain reports in this dataset._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_

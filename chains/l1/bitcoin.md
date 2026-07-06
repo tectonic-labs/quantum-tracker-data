@@ -14,7 +14,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | C | 🗺️ | Roadmapped |
-| Consensus | ➖ | ➖ | Not Applicable |
+| Consensus | A | ✅ | Shipped |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | D | ⚠️ | Discussed |
 | Other Features | ➖ | ➖ | Not Applicable |
@@ -53,7 +53,13 @@ The [Project Eleven Q-Day Prize](https://www.projecteleven.com) paid out in Apri
 
 ## 2. Consensus
 
-Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
+**Grade: A ✅**
+
+Bitcoin secures consensus with SHA-256d proof-of-work. Proof-of-work is hash-based, so it is not exposed to Shor's algorithm the way elliptic-curve signature schemes are — the consensus layer is quantum-resistant by construction and requires no migration.
+
+**Current state.** SHA-256d proof-of-work; no elliptic-curve dependency in the consensus mechanism.
+
+**Planned future work.** None required for quantum resistance at the consensus layer.
 
 ## 3. P2P Networking
 
@@ -87,7 +93,7 @@ Bitcoin does not support any special features.
 
 **Grade: D ⚠️**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Bitcoin's PQC-adoption ratings per category are: Tx Signatures 🗺️, Consensus ➖, P2P ❌, On-Chain ⚠️, Other ➖.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Bitcoin's PQC-adoption ratings per category are: Tx Signatures 🗺️, Consensus ✅, P2P ❌, On-Chain ⚠️, Other ➖.
 
 [BIP-361](https://github.com/bitcoin/bips/blob/master/bip-0361.mediawiki) is Bitcoin's first published proposal that confronts EC retirement directly. It defines a two-phase consensus-layer sunset for legacy ECDSA/Schnorr spends, gated on a separate PQ signature BIP being live. Phase A (160,000 blocks, approximately 3 years after activation) imposes wallet-level limits on sending funds *to* legacy address types. Phase B (approximately 2 years after Phase A) rejects ECDSA/Schnorr spends at the consensus layer unless they satisfy a quantum-safe rescue protocol. Phase C is under research and explores zero-knowledge proof of BIP-39 seed-phrase ownership for frozen-coin recovery, designed to be compatible with an [Hourglass-style](https://groups.google.com/g/bitcoindev/c/zmg3U117aNc) spending throttle.
 

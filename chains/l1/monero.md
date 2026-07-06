@@ -14,7 +14,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | D | ⚠️ | Discussed |
-| Consensus | ➖ | ➖ | Not Applicable |
+| Consensus | A | ✅ | Shipped |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | ➖ | ➖ | Not Applicable |
 | Other Features | F | ❌ | Not Discussed |
@@ -44,7 +44,13 @@ The [Jamtis addressing scheme](https://gist.github.com/tevador/50160d160d24cfc6c
 
 ## 2. Consensus
 
-Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
+**Grade: A ✅**
+
+Monero secures consensus with RandomX proof-of-work. Proof-of-work is hash-based, so it is not exposed to Shor's algorithm the way elliptic-curve signature schemes are — the consensus layer is quantum-resistant by construction and requires no migration.
+
+**Current state.** RandomX proof-of-work; no elliptic-curve dependency in the consensus mechanism.
+
+**Planned future work.** None required for quantum resistance at the consensus layer.
 
 ## 3. P2P Networking
 
@@ -96,7 +102,7 @@ Because all privacy primitives are EC-based, a [quantum break would retroactivel
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ➖, P2P ❌, On-Chain ➖, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ⚠️, Consensus ✅, P2P ❌, On-Chain ➖, Other ❌.
 
 No production EC retirement plan exists. [FCMP++](https://xgram.io/blog/monero-fcmp) (Q1 2026) improves privacy but maintains EC dependencies. The Jamtis/CSIDH-1024 research targets one specific primitive (stealth-address key exchange) but does not address ring signatures, Pedersen commitments, Bulletproofs+, or node identity. [Community-funded post-quantum research](https://ccs.getmonero.org/proposals/research-post-quantum-monero.html) continues but acknowledges there is no complete, production-ready plan to make every component PQC-safe.
 

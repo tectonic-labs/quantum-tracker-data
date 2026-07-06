@@ -15,20 +15,21 @@ LMS (Leighton-Micali Signatures) and its LM-OTS one-time component are stateful 
 | Status | L1s |
 |--------|----:|
 | ✅ Implemented | 0 |
+| 🧪 Testnet Live | 0 |
 | 🔧 In Development | 0 |
-| 🗺️ On Roadmap | 1 |
-| ⚠️ Discussed | 1 |
+| 🗺️ On Roadmap | 0 |
+| ⚠️ Discussed | 2 |
 | **Total** | **2** |
 
 Each L1 is counted once, in its furthest-along adoption status. A chain listed under a given status may still be earlier-stage in some categories; the per-chain detail below shows every category each chain applies the algorithm to.
 
 ## L1 blockchains (2)
 
-- 🗺️ **[Bitcoin Cash](../chains/l1/bitcoin-cash.md)** — On-Chain (Quantumroot vaults) — On Roadmap (mainnet-capable since May 2026; awaiting wallet deployment)
+- ⚠️ **[Bitcoin Cash](../chains/l1/bitcoin-cash.md)** — On-Chain (Quantumroot vaults) — Discussed (mainnet-capable since May 2026; opt-in vault construction, awaiting wallet deployment)
 - ⚠️ **[IOTA](../chains/l1/iota.md)** — Other (IOTA Identity) — Discussed
 
 ---
 
-_Generated on 04 June 2026 from the L1 chain reports in this dataset._
+_Generated on 06 July 2026 from the L1 chain reports in this dataset._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_

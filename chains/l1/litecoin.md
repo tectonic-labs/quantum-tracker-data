@@ -15,7 +15,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | F | ❌ | Not Discussed |
-| Consensus | ➖ | ➖ | Not Applicable |
+| Consensus | A | ✅ | Shipped |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | F | ❌ | Not Discussed |
@@ -37,7 +37,13 @@ We have found no public information indicating migration activity for Litecoin i
 
 ## 2. Consensus
 
-Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
+**Grade: A ✅**
+
+Litecoin secures consensus with Scrypt proof-of-work. Proof-of-work is hash-based, so it is not exposed to Shor's algorithm the way elliptic-curve signature schemes are — the consensus layer is quantum-resistant by construction and requires no migration.
+
+**Current state.** Scrypt proof-of-work; no elliptic-curve dependency in the consensus mechanism.
+
+**Planned future work.** None required for quantum resistance at the consensus layer.
 
 ## 3. P2P Networking
 
@@ -63,7 +69,7 @@ We have found no public information indicating migration activity for Litecoin i
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ➖, P2P ❌, On-Chain ❌, Other ❌.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures ❌, Consensus ✅, P2P ❌, On-Chain ❌, Other ❌.
 
 We have found no public information indicating migration activity for Litecoin in this category. If we are mistaken and a proposal, draft, working group, or implementation effort exists that we have missed, we would like to hear about it — see the contact link in the footer.
 

@@ -14,7 +14,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | B | 🔧 | In Development |
-| Consensus | ➖ | ➖ | Not Applicable |
+| Consensus | A | ✅ | Shipped |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | ➖ | ➖ | Not Applicable |
 | Other Features | ➖ | ➖ | Not Applicable |
@@ -50,7 +50,13 @@ Ravencoin transactions today are signed with ECDSA secp256k1, inherited from Bit
 
 ## 2. Consensus
 
-Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
+**Grade: A ✅**
+
+Ravencoin secures consensus with KAWPOW proof-of-work. Proof-of-work is hash-based, so it is not exposed to Shor's algorithm the way elliptic-curve signature schemes are — the consensus layer is quantum-resistant by construction and requires no migration.
+
+**Current state.** KAWPOW proof-of-work; no elliptic-curve dependency in the consensus mechanism.
+
+**Planned future work.** None required for quantum resistance at the consensus layer.
 
 ## 3. P2P Networking
 
@@ -74,7 +80,7 @@ Ravencoin's native asset issuance protocol (assets are tagged UTXOs) does not in
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Ravencoin's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ➖, P2P ❌, On-Chain ➖, Other ➖.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Ravencoin's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ✅, P2P ❌, On-Chain ➖, Other ➖.
 
 No EC removal plan or timeline has been published by the Ravencoin Foundation or core development team. RIP-25 adds ML-DSA-44 as an *additional* signature option alongside ECDSA; it does not propose retiring ECDSA secp256k1 signatures.
 

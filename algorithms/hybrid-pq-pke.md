@@ -1,22 +1,20 @@
-# Streamlined NTRU Prime — PQC Adoption Across L1s
+# Hybrid PQ PKE — PQC Adoption Across L1s
 
 | | |
 |---|---|
-| **Type** | KEM |
-| **Cryptographic family** | Lattice (NTRU) |
-| **NIST standardization** | Not NIST-standardized |
-| **Typically replaces** | ECDH |
+| **Type** | Other |
+| **Cryptographic family** | -- |
+| **NIST standardization** | -- |
+| **Typically replaces** | -- |
 | **L1 blockchains tracked** | 1 |
-
-Streamlined NTRU Prime is a lattice-based key-encapsulation mechanism designed with a conservative parameter philosophy. It is not part of the NIST standards but is deployed for key exchange in privacy-oriented mixing protocols.
 
 ## Adoption summary
 
 | Status | L1s |
 |--------|----:|
-| ✅ Implemented | 1 |
+| ✅ Implemented | 0 |
 | 🧪 Testnet Live | 0 |
-| 🔧 In Development | 0 |
+| 🔧 In Development | 1 |
 | 🗺️ On Roadmap | 0 |
 | ⚠️ Discussed | 0 |
 | **Total** | **1** |
@@ -25,7 +23,7 @@ Each L1 is counted once, in its furthest-along adoption status. A chain listed u
 
 ## L1 blockchains (1)
 
-- ✅ **[Decred](../chains/l1/decred.md)** — Other (CSPP mixing) — Implemented
+- 🔧 **[Aptos](../chains/l1/aptos.md)** — Tx Signatures — In Development
 
 ---
 

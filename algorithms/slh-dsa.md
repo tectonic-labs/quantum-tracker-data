@@ -14,30 +14,31 @@ SLH-DSA, standardized by NIST as FIPS 205 and developed as SPHINCS+, is a statel
 
 | Status | L1s |
 |--------|----:|
-| ✅ Implemented | 2 |
+| ✅ Implemented | 1 |
+| 🧪 Testnet Live | 0 |
 | 🔧 In Development | 2 |
-| 🗺️ On Roadmap | 1 |
-| ⚠️ Discussed | 4 |
+| 🗺️ On Roadmap | 0 |
+| ⚠️ Discussed | 6 |
 | **Total** | **9** |
 
 Each L1 is counted once, in its furthest-along adoption status. A chain listed under a given status may still be earlier-stage in some categories; the per-chain detail below shows every category each chain applies the algorithm to.
 
 ## L1 blockchains (9)
 
-- ✅ **[Cellframe](../chains/l1/cellframe.md)** — Tx Signatures — Implemented (multi-algorithm option)
 - ✅ **[Nervos Network](../chains/l1/nervos-network.md)** — Tx Signatures, On-Chain — Implemented (Quantum-Resistant Lock Script, mainnet 2025)
 - 🔧 **[Aptos](../chains/l1/aptos.md)**
   - Tx Signatures — In Development
   - On-Chain — In Development
 - 🔧 **[Sui](../chains/l1/sui.md)** — Tx Signatures — Library building blocks merged; top-level API not yet available
-- 🗺️ **[Quantum Resistant Ledger](../chains/l1/qrl.md)** — Tx Signatures, On-Chain Logic — Planned (deferred to post-Zond-mainnet)
 - ⚠️ **[Bitcoin](../chains/l1/bitcoin.md)** — Tx Signatures, On-Chain — Discussed (named in earlier BIP-360 drafts; Project Eleven's "Quantum-Safe Taproot" SLH-DSA fallback)
 - ⚠️ **[Cardano](../chains/l1/cardano.md)** — Tx Signatures, On-Chain — Discussed (CIP #1144 survey)
+- ⚠️ **[Ethereum](../chains/l1/ethereum.md)** — Tx Signatures — Discussed (researcher proposal, June 2026; no EIP filed)
 - ⚠️ **[IOTA](../chains/l1/iota.md)** — Other (IOTA Identity) — Discussed
-- ⚠️ **[XRP Ledger](../chains/l1/xrp-ledger.md)** — Tx Signatures (test-suite scope) — Discussed (rippled#6971 PQC readiness tests)
+- ⚠️ **[Sei](../chains/l1/sei.md)** — Tx Signatures, Consensus — Discussed
+- ⚠️ **[Sonic](../chains/l1/sonic.md)** — Tx Signatures, Consensus — Discussed
 
 ---
 
-_Generated on 04 June 2026 from the L1 chain reports in this dataset._
+_Generated on 06 July 2026 from the L1 chain reports in this dataset._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_

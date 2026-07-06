@@ -13,6 +13,7 @@
 | Status | L1s |
 |--------|----:|
 | ✅ Implemented | 0 |
+| 🧪 Testnet Live | 0 |
 | 🔧 In Development | 0 |
 | 🗺️ On Roadmap | 0 |
 | ⚠️ Discussed | 1 |
@@ -26,6 +27,6 @@ Each L1 is counted once, in its furthest-along adoption status. A chain listed u
 
 ---
 
-_Generated on 04 June 2026 from the L1 chain reports in this dataset._
+_Generated on 06 July 2026 from the L1 chain reports in this dataset._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_

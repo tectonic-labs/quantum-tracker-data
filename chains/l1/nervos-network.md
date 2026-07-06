@@ -12,7 +12,7 @@
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | A | ✅ | Shipped |
-| Consensus | ➖ | ➖ | Not Applicable |
+| Consensus | A | ✅ | Shipped |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | A | ✅ | Shipped |
 | Other Features | ➖ | ➖ | Not Applicable |
@@ -45,7 +45,13 @@ The standard ["Quantum Purse" wallet](https://talk.nervos.org/t/quantum-purse-a-
 
 ## 2. Consensus
 
-Not rated — hash-based proof-of-work is quantum-resistant since genesis. This tracker covers PQC migrations.
+**Grade: A ✅**
+
+Nervos Network secures consensus with NC-Max consensus with the Eaglesong mining hash. Proof-of-work is hash-based, so it is not exposed to Shor's algorithm the way elliptic-curve signature schemes are — the consensus layer is quantum-resistant by construction and requires no migration.
+
+**Current state.** NC-Max consensus with the Eaglesong mining hash; no elliptic-curve dependency in the consensus mechanism.
+
+**Planned future work.** None required for quantum resistance at the consensus layer.
 
 ## 3. P2P Networking
 
@@ -71,7 +77,7 @@ Nervos Network does not support any special features.
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, Nervos Network's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ➖, P2P ❌, On-Chain ✅, Other ➖.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, Nervos Network's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ✅, P2P ❌, On-Chain ✅, Other ➖.
 
 The secp256k1 lock script remains available for new accounts and has no announced retirement schedule. The migration model is user-driven and requires no hard fork — a strength of the bytecode-script design — but it means EC will continue to be accepted indefinitely until users individually migrate. To schedule EC retirement, CKB would need a governance proposal or planned fork to retire the secp256k1 system script.
 

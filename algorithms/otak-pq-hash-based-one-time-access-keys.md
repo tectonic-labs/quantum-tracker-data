@@ -1,20 +1,19 @@
-# Dynamic key fragmentation (QuStream) — PQC Adoption Across L1s
+# OTAK-PQ (hash-based one-time access keys) — PQC Adoption Across L1s
 
 | | |
 |---|---|
-| **Type** | Signature |
-| **Cryptographic family** | Proprietary |
-| **NIST standardization** | Non-standardized (patent-pending) |
-| **Typically replaces** | EC transaction / block signing |
+| **Type** | Other |
+| **Cryptographic family** | -- |
+| **NIST standardization** | -- |
+| **Typically replaces** | -- |
 | **L1 blockchains tracked** | 1 |
-
-A proprietary, patent-pending key-fragmentation approach. It has not been peer-reviewed or NIST-standardized; claims should be treated with caution pending independent audit.
 
 ## Adoption summary
 
 | Status | L1s |
 |--------|----:|
 | ✅ Implemented | 0 |
+| 🧪 Testnet Live | 0 |
 | 🔧 In Development | 0 |
 | 🗺️ On Roadmap | 0 |
 | ⚠️ Discussed | 1 |
@@ -24,12 +23,10 @@ Each L1 is counted once, in its furthest-along adoption status. A chain listed u
 
 ## L1 blockchains (1)
 
-- ⚠️ **[QuStream](../chains/l1/qustream.md)**
-  - Tx Signatures — Discussed
-  - Consensus — Discussed
+- ⚠️ **[TRON](../chains/l1/tron.md)** — Tx Signatures — Discussed
 
 ---
 
-_Generated on 04 June 2026 from the L1 chain reports in this dataset._
+_Generated on 06 July 2026 from the L1 chain reports in this dataset._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
