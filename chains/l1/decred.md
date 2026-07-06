@@ -21,7 +21,7 @@
 | Other Features | A | ✅ | Shipped |
 | EC Sunset | F | ❌ | Not Discussed |
 
-Decred operates a [hybrid Proof-of-Work / Proof-of-Stake consensus](https://docs.decred.org/advanced/consensus/) with distinct quantum exposure profiles across its components. On the quantum-resistant side, its PoW mining uses Blake2b (entirely hash-based), and its [CoinShuffle++ (CSPP) privacy mixing protocol](https://docs.decred.org/) uses **sntrup4591761** (Streamlined NTRU Prime) for post-quantum key exchange — one of the few production deployments of PQC in any blockchain. On the quantum-vulnerable side, all transaction signatures (secp256k1 ECDSA, Ed25519), PoS ticket voting (Ed25519), and Politeia governance signing (Ed25519) remain EC-based with no published migration plan.
+Decred operates a [hybrid Proof-of-Work / Proof-of-Stake consensus](https://docs.decred.org/advanced/consensus/) with distinct quantum exposure profiles across its components. On the quantum-resistant side, its PoW mining uses Blake2b (entirely hash-based), and its [CoinShuffle++ (CSPP) privacy mixing protocol](https://docs.decred.org/) migrated its key exchange from EC-only (2019) to a hybrid X25519 + **sntrup4591761** (Streamlined NTRU Prime) scheme (2021) — one of the earliest production EC→PQC migrations in any blockchain. On the quantum-vulnerable side, all transaction signatures (secp256k1 ECDSA, Ed25519), PoS ticket voting (Ed25519), and Politeia governance signing (Ed25519) remain EC-based with no published migration plan.
 
 ## Proposed and Implemented PQC Algorithms
 
@@ -69,9 +69,9 @@ Decred Script supports standard signature verification opcodes for secp256k1 ECD
 
 ### CoinShuffle++ (CSPP) Mixing
 
-Decred's CoinShuffle++ privacy mixing protocol uses **sntrup4591761** (Streamlined NTRU Prime), a post-quantum key encapsulation mechanism, for key agreement between mix participants. The library defines PQPublicKey, PQSecretKey, and PQCiphertext type aliases from sntrup types and is used for quantum-resistant key agreement providing forward secrecy against quantum adversaries. This is in production — Decred's CSPP mixing has used NTRU Prime since the feature shipped.
+Decred's CoinShuffle++ privacy mixing protocol uses **sntrup4591761** (Streamlined NTRU Prime), a post-quantum key encapsulation mechanism, for key agreement between mix participants. CSPP mixing launched in August 2019 with an elliptic-curve-only key exchange; in [December 2021](https://medium.com/decred/decred-journal-december-2021-376a27e7cc4e) Streamlined NTRU Prime was added alongside X25519 as a **hybrid** key agreement, so the shared secret holds if either primitive survives. This is a genuine migration of a production privacy feature from EC to post-quantum cryptography — one of the earliest such migrations in any blockchain — providing forward secrecy against quantum adversaries.
 
-**Current state.** CSPP mixing uses **sntrup4591761** for post-quantum key exchange in production. This is one of the few live PQC deployments in any blockchain.
+**Current state.** CSPP mixing uses a hybrid X25519 + **sntrup4591761** key exchange in production. This is one of the few live PQC deployments in any blockchain.
 
 **Planned future work.** No additional PQC features beyond the existing CSPP implementation have been announced.
 
@@ -105,7 +105,7 @@ No PQC-related proposals or DCPs have been filed. No formal community discourse 
 
 ---
 
-_Generated on 07 May 2026 based on information as of 30 Apr 2026._
+_Generated on 06 Jul 2026 based on information as of 06 Jul 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
