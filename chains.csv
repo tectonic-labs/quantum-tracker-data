@@ -45,7 +45,7 @@ VeChain,VET,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-a
 ASI Alliance,FET,D,L1,d-discussed.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,chains/l1/asi-alliance.md
 Sei,SEI,D,L1,d-discussed.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,d-discussed.svg,2026-06-18,,chains/l1/sei.md
 Celestia,TIA,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,a-done.svg,f-nothing.svg,2026-05-05,,chains/l1/celestia.md
-Terra Luna Classic,LUNC,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
+Terra Luna Classic,LUNC,D,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-07-06,,
 Gnosis,GNO,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-04-30,,
 Tezos,XTZ,D,L1,d-discussed.svg,f-nothing.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/l1/tezos.md
 Conflux,CFX,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-05-05,,
@@ -57,7 +57,7 @@ Kaia,KAIA,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing
 Akash Network,AKT,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 Decred,DCR,A,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,a-done.svg,f-nothing.svg,2026-06-15,,chains/l1/decred.md
 IOTA,IOTA,D,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-05-05,,chains/l1/iota.md
-NEO,NEO,D,L1,d-discussed.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-06-20,,chains/l1/neo.md
+NEO,NEO,D,L1,d-discussed.svg,d-discussed.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,2026-07-06,,chains/l1/neo.md
 Theta Network,THETA,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 THORChain,RUNE,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 Arweave,AR,F,L1,f-nothing.svg,a-done.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-06-24,,chains/l1/arweave.md
