@@ -7,7 +7,7 @@ RAIN,RAIN,F,DeFi Governance,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-n
 LEO Token,LEO,F,Exchange Token,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,coins/leo.md
 Wrapped Bitcoin,WBTC,F,Wrapped Asset,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-05-15,,
 LAB,LAB,F,DeFi Governance,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,
-Chainlink,LINK,F,Utility,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-15,,
+Chainlink,LINK,D,Utility,f-nothing.svg,f-nothing.svg,d-discussed.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-07-07,,coins/link.md
 USD1,USD1,F,Stablecoin,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,coins/usd1.md
 Dai,DAI,F,Stablecoin,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,
 USDe,USDE,F,Stablecoin,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,
@@ -22,7 +22,7 @@ WLD,WLD,F,Identity,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.sv
 PAXG,PAXG,F,Commodity-Backed,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-13,,
 WLFI,WLFI,F,DeFi Governance,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,coins/wlfi.md
 UNI,UNI,F,DeFi Governance,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,
-RLUSD,RLUSD,F,Stablecoin,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,coins/rlusd.md
+RLUSD,RLUSD,D,Stablecoin,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,d-discussed.svg,2026-07-07,,coins/rlusd.md
 HTX,HTX,F,DeFi Governance,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,
 USDf (Falcon),USDF,F,Stablecoin,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,
 ONDO,ONDO,F,RWA,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-05-13,,

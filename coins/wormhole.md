@@ -81,7 +81,9 @@ W's NTT contracts do not embed token-specific cryptography beyond the standard N
 
 **Current state.** The protocol-layer cryptography that gives W its utility is uniformly elliptic-curve.
 
-**Planned future work.** Wormhole has [discussed](https://wormhole.com/docs/protocol/security/) transitioning to ZK proofs for VAA verification, and its [blog](https://wormhole.com/blog/) carries posts weighing STARK and SNARK options. A STARK-based (hash-based) proof system would be a post-quantum-positive direction. As of this review, however, no production deployment of ZK-based VAA verification has shipped, and the discussed ZK work does not name a post-quantum migration target for the Guardian signing layer itself.
+Wormhole is [transitioning toward ZK proofs](https://wormhole.com/blog/announcing-wormholes-zk-roadmap) for VAA verification, but this is not a post-quantum signal. The deployed ZK verifier is Groth16 — a SNARK built on elliptic-curve pairings, which is itself quantum-vulnerable — [shipped via the RISC Zero / Boundless integration](https://wormhole.com/blog/boundless-partners-with-wormhole-to-launch-zk-network-powered-by-risc-zero) across Ethereum, Base, Optimism, Arbitrum, Linea, and Avalanche. Its stated motivation is trust-minimization and permissionless verification, not quantum resistance; the ZK roadmap and the Boundless announcement carry no post-quantum framing. Crucially, Wormhole states that the ZK path does not replace the Guardian signing mechanism — it is optional and additive — so the core secp256k1 ECDSA attestation surface is untouched.
+
+Because the ZK transition is a quantum-vulnerable SNARK, is quantum-silent in motivation, and is explicitly additive to Guardian signing rather than a replacement, it does not even incidentally improve W's quantum posture, and there is no notable statement that the Guardian or attestation layer should migrate to post-quantum cryptography.
 
 ## 6. EC Sunset
 
@@ -103,7 +105,7 @@ Wormhole's product and roadmap commitments are disclosed through the Wormhole [b
 
 ---
 
-_Generated on 16 May 2026 based on information as of 15 May 2026._
+_Generated on 07 Jul 2026 based on information as of 15 May 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
