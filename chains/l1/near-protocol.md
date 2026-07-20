@@ -8,23 +8,21 @@
 | **GitHub** | https://github.com/near |
 | **Twitter/X** | [@NEARProtocol](https://x.com/nearprotocol) |
 | **On-chain environment** | WASM (Rust, AssemblyScript) |
-| **Current mainnet version** | Protocol version 84 (testnet on version 85) |
+| **Current mainnet version** | Protocol version 86 (nearcore 2.13.0, activated ~2026-07-11) |
 | **Mainnet genesis** | 2020-04-22 |
 
 ## Summary
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Transaction Signatures | B+ | 🧪 | Testnet Live |
+| Transaction Signatures | A | ✅ | Shipped |
 | Consensus | D | ⚠️ | Discussed |
 | P2P Networking | D | ⚠️ | Discussed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | B | 🔧 | In Development |
 | EC Sunset | F | ❌ | Not Discussed |
 
-> **Testnet activity**: ML-DSA-65 (the `PostQuantumSignatures` feature, gated at protocol version 85) is live and active on NEAR's public testnet as of 2026-07-06. Mainnet is on protocol version 84 — one version away. This is not yet active on mainnet.
-
-NEAR Protocol is one of the most advanced non-PQC-native L1 chains in post-quantum migration. In May 2026, Near One [announced](https://www.near.org/blog/making-near-protocol-post-quantum-safe) active development of **FIPS-204 (ML-DSA-65)** as a third signing scheme for user transactions. By mid-June 2026, the implementation reached a major milestone: ML-DSA-65 was [stabilized on the mainnet-bound stable protocol track](https://github.com/near/nearcore/pull/15878) (protocol version 85), with all productionization work — gas pricing, transaction size accounting, key-hash optimization, and end-to-end tests — merged into nearcore. As of 2026-07-06, ML-DSA-65 is **live and active on NEAR's public testnet** (protocol version 85); mainnet is on protocol version 84, one version away. This makes NEAR the first major non-PQC-native L1 with a NIST FIPS 204 signature scheme not just merged but network-activated on a mainnet-path testnet. A formal standards-track proposal, [NEP-645](https://github.com/near/NEPs/pull/645) ("ML-DSA-65 Post-Quantum Transaction Signatures", opened 2026-07-01), and an in-protocol SHA3-256 host function for quantum-safe account identifiers ([nearcore#16006](https://github.com/near/nearcore/pull/16006), merged) round out the work. Mainnet activation awaits a validator vote to upgrade from protocol v84 to v85.
+NEAR Protocol is one of the most advanced non-PQC-native L1 chains in post-quantum migration — and, as of July 2026, the first to ship a NIST post-quantum transaction-signature scheme on its production mainnet. In May 2026, Near One [announced](https://www.near.org/blog/making-near-protocol-post-quantum-safe) active development of **FIPS-204 (ML-DSA-65)** as a third signing scheme for user transactions. By mid-June 2026, ML-DSA-65 was [stabilized on the mainnet-bound stable protocol track](https://github.com/near/nearcore/pull/15878) (protocol version 85), with all productionization work — gas pricing, transaction size accounting, key-hash optimization, and end-to-end tests — merged into nearcore. The nearcore 2.13.0 release (~2026-07-11) then carried the mainnet protocol bump: as of 2026-07-20, NEAR mainnet runs protocol version 86 (≥ the activation version 85), so **ML-DSA-65 transaction signing is live and active on mainnet.** This makes NEAR the first major non-PQC-native L1 with a NIST FIPS 204 signature scheme active on production mainnet. A formal standards-track proposal, [NEP-645](https://github.com/near/NEPs/pull/645) ("ML-DSA-65 Post-Quantum Transaction Signatures", opened 2026-07-01), and an in-protocol SHA3-256 host function for quantum-safe account identifiers ([nearcore#16006](https://github.com/near/nearcore/pull/16006), merged) round out the work.
 
 NEAR's account model gives it a structural advantage: accounts are identified by human-readable names decoupled from key material, and each account holds rotatable access keys. Migrating to a PQC key requires only a single transaction. Consensus, P2P, and EC sunset remain in early discussion stages, and on-chain logic has no PQC primitives on the roadmap.
 
@@ -32,17 +30,17 @@ NEAR's account model gives it a structural advantage: accounts are identified by
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **ML-DSA-65** (FIPS 204) | Ed25519, ECDSA secp256k1 | Tx Signatures | Testnet Live (active on public testnet at protocol v85; [nearcore#15878](https://github.com/near/nearcore/pull/15878)) |
+| **ML-DSA-65** (FIPS 204) | Ed25519, ECDSA secp256k1 | Tx Signatures | Implemented (active on mainnet at protocol v86; [nearcore#15878](https://github.com/near/nearcore/pull/15878)) |
 
 ## Transaction Signatures
 
-**Grade: B+ 🧪**
+**Grade: A ✅**
 
 NEAR transactions are signed with Ed25519 (default) or ECDSA secp256k1. Both are broken by Shor's algorithm. NEAR already supports two signature schemes in its runtime, and its architecture is designed to accommodate additional algorithms.
 
 Near One has implemented **FIPS-204 (ML-DSA-65)** as a third signing scheme. The core implementation PR [nearcore#15731](https://github.com/near/nearcore/pull/15731) (opened 2026-05-14) adds `MLDSA65` key-type variants using the FIPS-certified `aws-lc-rs` (BoringCrypto) library, gated by a `PostQuantumSignatures` protocol feature flag. To manage state costs, the full ~2 KB public key travels on the wire but is stored in the trie as a ~33-byte SHA3-256 hash (optimized from SHA3-384/49 bytes via [#15830](https://github.com/near/nearcore/pull/15830), merged 2026-06-02).
 
-On 2026-06-10, the critical stabilization PR [nearcore#15878](https://github.com/near/nearcore/pull/15878) merged, moving ML-DSA-65 from the nightly/future-gated protocol config (v154) down to the stable protocol version (v85). As of 2026-07-06, protocol v85 is **live on NEAR's public testnet**, so ML-DSA-65 transaction signing is active there today; mainnet is on protocol v84. The formal standard [NEP-645](https://github.com/near/NEPs/pull/645) (opened 2026-07-01) specifies ML-DSA-65 as a first-class NEAR transaction-signature scheme, and [nearcore#16006](https://github.com/near/nearcore/pull/16006) adds an in-protocol SHA3-256 host function for quantum-safe Universal Account IDs.
+On 2026-06-10, the critical stabilization PR [nearcore#15878](https://github.com/near/nearcore/pull/15878) merged, moving ML-DSA-65 from the nightly/future-gated protocol config (v154) down to the stable protocol version (v85). The nearcore 2.13.0 release (~2026-07-11) then carried the mainnet protocol upgrade: as of 2026-07-20, NEAR mainnet runs protocol version 86, at or above the activation version 85, so **ML-DSA-65 transaction signing is live and active on mainnet today.** The formal standard [NEP-645](https://github.com/near/NEPs/pull/645) (opened 2026-07-01) specifies ML-DSA-65 as a first-class NEAR transaction-signature scheme, and [nearcore#16006](https://github.com/near/nearcore/pull/16006) adds an in-protocol SHA3-256 host function for quantum-safe Universal Account IDs. Post-activation maintenance continues via [nearcore#16064](https://github.com/near/nearcore/pull/16064) (an ML-DSA-65 gas-key / meta-transaction cost-charging fix).
 
 All productionization PRs have merged:
 
@@ -60,9 +58,9 @@ Wallet integration is in progress, with Near One collaborating with Ledger and o
 
 NEAR's account model is a notable structural advantage. Accounts are identified by human-readable names rather than being derived from public keys. Each account holds one or more rotatable access keys. Migrating to a PQC key requires only a single transaction to add a new ML-DSA access key and remove the old Ed25519 key — no address change or fund transfer needed.
 
-**Current state.** ML-DSA-65 is live and active on NEAR's public testnet at protocol v85. Mainnet transactions use Ed25519 and ECDSA secp256k1 exclusively, with mainnet on protocol v84.
+**Current state.** ML-DSA-65 is live and active on NEAR mainnet at protocol v86 — a first-class third signing scheme alongside Ed25519 and ECDSA secp256k1. Users can create ML-DSA-65 access keys and sign transactions with them on mainnet today.
 
-**Planned future work.** Mainnet activation when validators vote to upgrade from protocol v84 to v85. Retail-wallet signing is still in progress; that plus mainnet activation would move this category to Shipped.
+**Planned future work.** Retail-wallet signing UX (Ledger and software wallets) is still maturing, and post-activation maintenance such as the cost-charging fix continues. The protocol-level capability is live on mainnet.
 
 ## Consensus
 
@@ -128,7 +126,7 @@ Near One is researching an emergency fallback mechanism — allowing users to pr
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, NEAR's PQC-adoption ratings per category are: Tx Signatures 🧪, Consensus ⚠️, P2P ⚠️, On-Chain ❌, Other 🔧.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, NEAR's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ⚠️, P2P ⚠️, On-Chain ❌, Other 🔧.
 
 NEAR's current strategy is additive: ML-DSA-65 will be offered alongside Ed25519 and ECDSA, and users will rotate keys voluntarily. No deprecation, forced migration, or removal timeline has been announced for any EC-based cryptography across any layer.
 
@@ -144,7 +142,8 @@ PQ-relevant announcements and reference documentation:
 
 - [2026-05-06 Blog: "Preparing NEAR for the Quantum Computing Era"](https://www.near.org/blog/making-near-protocol-post-quantum-safe) — **FIPS-204 (ML-DSA-65)** implementation announced; testnet Q2 2026; longer-term consensus/P2P PQC research confirmed; quantum-safe Chain Signatures under development; ZKP proof-of-ownership research disclosed.
 - [nearcore#15731](https://github.com/near/nearcore/pull/15731) — Live ML-DSA-65 implementation PR (opened 2026-05-14), `aws-lc-rs`, `PostQuantumSignatures` protocol gate.
-- [nearcore#15878](https://github.com/near/nearcore/pull/15878) — ML-DSA-65 stabilized on stable protocol version 85 (merged 2026-06-10). Moves ML-DSA-65 from nightly/future config to the mainnet-bound stable track. As of 2026-07-06, protocol v85 is live on the public testnet; mainnet is on v84.
+- [nearcore#15878](https://github.com/near/nearcore/pull/15878) — ML-DSA-65 stabilized on stable protocol version 85 (merged 2026-06-10). Moves ML-DSA-65 from nightly/future config to the mainnet-bound stable track. Activated on mainnet via the nearcore 2.13.0 release (~2026-07-11); mainnet runs protocol v86 as of 2026-07-20.
+- [nearcore#16064](https://github.com/near/nearcore/pull/16064) — post-activation ML-DSA-65 gas-key / meta-transaction cost-charging fix, behind a `FixMlDsaCostCharging` protocol feature. Open.
 - [NEP-645](https://github.com/near/NEPs/pull/645) — "ML-DSA-65 Post-Quantum Transaction Signatures." Status: Open (created 2026-07-01). Formal standards-track proposal specifying ML-DSA-65 as a first-class NEAR transaction-signature scheme.
 - [nearcore#16006](https://github.com/near/nearcore/pull/16006) — adds a SHA3-256 host function for quantum-safe Universal Account IDs and carries the `ml_dsa_65_verification_cost` gas parameter. Merged.
 - ML-DSA-65 developer-tooling wave merged 2026-07-01/02: [near-cli-rs#605](https://github.com/near/near-cli-rs/pull/605), [near-jsonrpc-client-rs#190](https://github.com/near/near-jsonrpc-client-rs/pull/190), [near-socialdb-client-rs#49](https://github.com/near/near-socialdb-client-rs/pull/49), [cargo-near#436](https://github.com/near/cargo-near/pull/436), [near-workspaces-rs#449](https://github.com/near/near-workspaces-rs/pull/449). Still open: [near-validator-cli-rs#41](https://github.com/near/near-validator-cli-rs/pull/41), [docs#3061](https://github.com/near/docs/pull/3061).
@@ -163,7 +162,7 @@ PQ-relevant announcements and reference documentation:
 
 ---
 
-_Generated on 06 Jul 2026 based on information as of 06 Jul 2026._
+_Generated on 20 Jul 2026 based on information as of 20 Jul 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

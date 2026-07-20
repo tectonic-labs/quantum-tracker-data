@@ -20,7 +20,7 @@ Litecoin,LTC,F,L1,f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,f-nothing
 Sui,SUI,C,L1,c-planned.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-25,,chains/l1/sui.md
 Avalanche,AVAX,D,L1,d-discussed.svg,d-discussed.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,2026-06-20,,chains/l1/avalanche.md
 Cronos,CRO,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,2026-04-30,,
-NEAR Protocol,NEAR,B+,L1,b-plus-testnet.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,2026-07-06,,chains/l1/near-protocol.md
+NEAR Protocol,NEAR,A,L1,a-done.svg,d-discussed.svg,d-discussed.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,2026-07-20,,chains/l1/near-protocol.md
 Bittensor,TAO,B,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,b-dev.svg,f-nothing.svg,2026-04-30,,chains/l1/bittensor.md
 Aster,ASTER,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
 Polkadot,DOT,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,
