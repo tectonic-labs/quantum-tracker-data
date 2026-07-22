@@ -10,7 +10,7 @@ Dogecoin,DOGE,D,L1,d-discussed.svg,a-done.svg,f-nothing.svg,f-nothing.svg,n-not-
 Zcash,ZEC,B,L1 (Privacy),f-nothing.svg,a-done.svg,f-nothing.svg,f-nothing.svg,b-dev.svg,c-planned.svg,2026-06-24,,chains/l1/zcash.md
 Stellar,XLM,D,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,2026-06-15,,chains/l1/stellar.md
 Monero,XMR,D,L1 (Privacy),d-discussed.svg,a-done.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-06-24,,chains/l1/monero.md
-Canton,CC,C,L1 (Enterprise),c-planned.svg,d-discussed.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-06-08,,chains/l1/canton.md
+Canton,CC,B,L1 (Enterprise),b-dev.svg,d-discussed.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-07-22,,chains/l1/canton.md
 Cardano,ADA,C,L1,c-planned.svg,d-discussed.svg,f-nothing.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,2026-05-18,,chains/l1/cardano.md
 Toncoin,TON,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-04-30,,
 Bitcoin Cash,BCH,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,d-discussed.svg,2026-06-22,,chains/l1/bitcoin-cash.md
@@ -30,7 +30,7 @@ Ethereum Classic,ETC,D,L1,f-nothing.svg,a-done.svg,f-nothing.svg,d-discussed.svg
 KuCoin Community Chain,KCS,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-16,,
 Cosmos Hub,ATOM,D,L1,d-discussed.svg,d-discussed.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-06-08,,chains/l1/cosmos-hub.md
 Stable,STABLE,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,
-Algorand,ALGO,A,L1,c-planned.svg,d-discussed.svg,f-nothing.svg,a-done.svg,a-done.svg,d-discussed.svg,2026-06-22,,chains/l1/algorand.md
+Algorand,ALGO,A,L1,b-dev.svg,d-discussed.svg,f-nothing.svg,a-done.svg,a-done.svg,d-discussed.svg,2026-07-22,,chains/l1/algorand.md
 Kaspa,KAS,D,L1,d-discussed.svg,a-done.svg,f-nothing.svg,n-not-applicable.svg,n-not-applicable.svg,f-nothing.svg,2026-06-24,,chains/l1/kaspa.md
 GateChain,GT,F,L1,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,2026-05-16,,
 Beldex,BDX,F,L1 (Privacy),f-nothing.svg,f-nothing.svg,f-nothing.svg,n-not-applicable.svg,f-nothing.svg,f-nothing.svg,2026-05-05,,

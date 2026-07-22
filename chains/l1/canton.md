@@ -13,7 +13,7 @@
 
 | Category | Grade | Icon | Status |
 |----------|:-----:|:----:|--------|
-| Transaction Signatures | C | 🗺️ | Roadmapped |
+| Transaction Signatures | B | 🔧 | In Development |
 | Consensus | D | ⚠️ | Discussed |
 | P2P Networking | F | ❌ | Not Discussed |
 | On-Chain Logic | ➖ | ➖ | Not Applicable |
@@ -22,24 +22,24 @@
 
 Canton is an enterprise distributed ledger built on the Daml smart contract language, designed for institutional participants including major financial firms. In May 2026, Digital Asset merged experimental **ML-DSA-65** (NIST FIPS 204) signing support directly into Canton's main branch, making Canton one of the first enterprise DLTs to ship post-quantum cryptographic code in its mainline. The implementation includes JCE-backed configurations that allow nodes to operate with ML-DSA-65 as the default or sole signing scheme, gated behind an experimental feature flag. Cross-version compatibility between Canton 3.5 and 3.6 handles the presence or absence of ML-DSA-65 gracefully.
 
-Despite this significant step, most of Canton's cryptographic surface remains classical. P2P networking, sub-transaction privacy authorization, and the broader EC retirement plan have not yet been addressed. The ML-DSA-65 work is additive — elliptic curve schemes remain available alongside the new post-quantum option. No typical-user tooling exists for PQC signing; the current implementation targets node-operator infrastructure only.
+Despite this significant step, most of Canton's cryptographic surface remains classical. P2P networking, sub-transaction privacy authorization, and the broader EC retirement plan have not yet been addressed. The ML-DSA-65 work is additive — elliptic curve schemes remain available alongside the new post-quantum option. The signing scheme is behind an experimental flag and the user-facing Daml SDK integration is still in progress, so it is not yet reachable through standard end-user workflows.
 
 ## Proposed and Implemented PQC Algorithms
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **ML-DSA-65** | Ed25519, ECDSA | Tx Signatures | Roadmapped |
+| **ML-DSA-65** | Ed25519, ECDSA | Tx Signatures | In Development |
 | **ML-DSA-65** | Ed25519, ECDSA | Consensus | Discussed |
 
 ## Transaction Signatures
 
-**Grade: C 🗺️**
+**Grade: B 🔧**
 
 Canton currently supports Ed25519 (primary) and ECDSA with NIST curves (secondary) for all transaction signing. Parties in multi-party Daml contracts are authorized through [topology-based key management](https://docs.daml.com/canton/usermanual/identity_management.html) tied to these schemes.
 
 **Current state.** On 2026-05-20, [commit `8d252e65`](https://github.com/digital-asset/canton) merged experimental **ML-DSA-65** signing into Canton's main branch. The implementation adds `SigningKeySpec.MlDsa65` and `SigningAlgorithmSpec.MlDsa65` case objects, with JCE provider configurations supporting both ML-DSA-65-as-default and ML-DSA-65-only modes. Activation requires setting `<node>.crypto.enable-experimental = true`. The code directly references [NIST FIPS 204](https://www.nist.gov/). Test fixtures covering participant, sequencer, and mediator roles in PQC-only configurations ship alongside the implementation. The change includes cross-version compatibility handling so that Canton 3.5 nodes that do not speak ML-DSA-65 can still interoperate with Canton 3.6 nodes that do.
 
-**Why grade C, not B.** The ML-DSA-65 implementation is protocol-level infrastructure for node operators. No typical-user tooling for PQC signing exists — end users and application developers cannot yet generate or use ML-DSA-65 keys through standard Canton SDK workflows.
+**Why grade B, not A.** The ML-DSA-65 signing scheme is merged into Canton's mainline (not merely proposed), and the user-facing integration into the Daml SDK is actively in progress — so a post-quantum signing path is being wired toward standard developer workflows. It stays In Development rather than Shipped because the scheme is behind an experimental flag, is not the default or mandatory scheme, and end users cannot yet generate or use ML-DSA-65 keys through standard Canton SDK workflows.
 
 **Planned future work.** Promotion from experimental to default or mandatory status has not been scheduled. The backing JCE provider library (likely Bouncy Castle PQC or a custom provider) has not been publicly confirmed. The ML-DSA-65 changes are already cascading into the Daml SDK.
 
@@ -83,7 +83,7 @@ Canton's defining feature is [sub-transaction privacy](https://www.canton.networ
 
 Although **ML-DSA-65** was shipped experimentally in May 2026, this is an additive change — EC schemes remain available and there is no stated policy or plan to remove them. EC Sunset requires an explicit commitment to retiring elliptic-curve cryptography, not merely offering a post-quantum alternative alongside it.
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures 🗺️, Consensus ⚠️, P2P ❌, On-Chain ➖, Other ❌.
+Adding PQC alongside EC is not the same as retiring EC. For reference, this chain's PQC-adoption ratings per category are: Tx Signatures 🔧, Consensus ⚠️, P2P ❌, On-Chain ➖, Other ❌.
 
 A full EC sunset would require updating all Super Validator nodes, a hard fork to change the default transaction signature scheme, re-issuance of key material across all participants, and managing a dual-signature transition period in an enterprise setting with strict governance requirements.
 
@@ -101,7 +101,7 @@ Key dates on the public record:
 
 ---
 
-_Generated on 08 Jun 2026 based on information as of 25 May 2026._
+_Generated on 22 Jul 2026 based on information as of 22 Jul 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
