@@ -46,7 +46,7 @@ Columns mirror the Quantum Tracker product table, with a `_commentary` cell inse
 |---|--------|------|-------|
 | 1 | `project` | string | Project name. |
 | 2 | `ticker` | string | Symbol if applicable; empty otherwise. |
-| 3 | `tier` | enum | Overall PQC-readiness grade: `S`, `A`, `B+`, `B`, `C`, `D`, or `F`. Empty for chains not on the tier list (genesis-PQC chains, unevaluated chains). See "Tier values" below. |
+| 3 | `tier` | enum | Overall PQC-readiness grade: `S`, `A`, `B`, `C`, `D`, or `F`. Empty for chains not on the tier list (genesis-PQC chains, unevaluated chains). See "Tier values" below. (A chain whose best stoplight is the `b-plus-testnet.svg` Testnet-Live cell grades tier `B`; there is no separate `B+` tier.) |
 | 4 | `category` | enum | Constrained vocabulary. L1 values: `L1`, `L1 (Privacy)`, `L1 (Enterprise)`, `L1 (PQC-native)`. L2 values follow the same pattern (e.g. `L2 (optimistic)`, `L2 (zk)`). Any further qualifier (`— claims unverified`, `— marketed`, sub-classification) belongs in `category_commentary`, not the category cell. |
 | 5 | `category_commentary` | string | Optional caveat about classification (e.g. "marketed as PQC-native but blockchain layer is standard EC", "claims unverified", "enterprise DLT"). |
 | 6 | `tx_signature_exposure` | status | See status values above. |
@@ -71,8 +71,7 @@ Columns mirror the Quantum Tracker product table, with a `_commentary` cell inse
 |------|---------|
 | `S` | Quantum Fortress — fully quantum-safe across all bands, EC sunset locked in before Q-Day. |
 | `A` | Ahead of the Curve — multiple bands already running PQC in production on mainnet. |
-| `B+` | Testnet Live — PQC live on a public mainnet-path testnet, not yet on mainnet. One protocol bump from production. |
-| `B` | Building It — PQC code written and being integrated (code in flight, audit, or private devnet), not yet live on a public mainnet-path testnet. |
+| `B` | Building It — PQC code written and being integrated (code in flight, audit, or private devnet), **or** live on a public mainnet-path testnet (the `b-plus-testnet.svg` Testnet-Live cell), but not yet on mainnet. |
 | `C` | Charting the Course — roadmap exists, funding allocated, but no code running on any network yet. |
 | `D` | Discussing It — some awareness, maybe a PoC or governance thread; no roadmap from protocol owners. |
 | `F` | Future Victims — no PQC discussion, roadmap, or proposals visible. |
@@ -98,7 +97,7 @@ L2 networks use a different column set than L1 chains. The L1 `consensus_exposur
 |---|--------|------|-------|
 | 1 | `project` | string | Chain deployment name (e.g. "Base", "Arbitrum One", "StarkNet"). |
 | 2 | `ticker` | string | Symbol if applicable. |
-| 3 | `tier` | enum | Overall PQC-readiness grade: `S`, `A`, `B+`, `B`, `C`, `D`, `F`, or empty. Same scale as chains.csv. |
+| 3 | `tier` | enum | Overall PQC-readiness grade: `S`, `A`, `B`, `C`, `D`, `F`, or empty. Same scale as chains.csv. |
 | 4 | `category` | enum | `L2 (optimistic)`, `L2 (zk-snark)`, `L2 (zk-stark)`, `L2 (payment-channel)`, `L2 (ephemeral)`. |
 | 5 | `settlement_exposure` | status | PQC exposure of the parent settlement chain. Inherited from the settlement layer's overall posture. |
 | 6 | `data_availability_exposure` | status | PQC exposure of the DA layer. Blobs inherit settlement; DAC/EigenDA have independent EC exposure. |
