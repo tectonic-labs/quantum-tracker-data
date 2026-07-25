@@ -56,7 +56,7 @@ Consensus runs on **Peach**, a custom proof-of-work algorithm designed to resist
 
 **Grade: F ❌**
 
-Source review corrected an earlier assumption that "transport encryption is implemented" — it is not. Mochimo's C node exchanges peer data over raw sockets (`send()`/`recv()`), with **no SSL/TLS or any encryption library** in the codebase. Peers are identified by IPv4 address only, with no node keys and no peer authentication. The 16-bit session identifiers in the protocol are used for liveness and self-connection detection, not as cryptographic keys, and frame integrity is only a **CRC16 checksum** — a non-cryptographic check that an on-path attacker can recompute after modifying a packet.
+Mochimo's C node exchanges peer data over raw sockets (`send()`/`recv()`), with **no SSL/TLS or any encryption library** in the codebase. Peers are identified by IPv4 address only, with no node keys and no peer authentication. The 16-bit session identifiers in the protocol are used for liveness and self-connection detection, not as cryptographic keys, and frame integrity is only a **CRC16 checksum** — a non-cryptographic check that an on-path attacker can recompute after modifying a packet.
 
 **Current state.** Plaintext peer transport with no key exchange, no encryption, and no cryptographic integrity. This is the weakest peer networking among the post-quantum-native chains: it fails confidentiality and, notably, integrity — peer messages can be forged and peers impersonated by an active on-path attacker (classical or quantum). The category grades exposed.
 
