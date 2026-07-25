@@ -1,9 +1,9 @@
 project,ticker,tier,category,tx_signature_exposure,consensus_exposure,p2p_exposure,onchain_exposure,other_exposure,ec_sunset,date_last_updated,audit,report
 Cellframe,CELL,A,L1 (PQC-native),a-done.svg,a-done.svg,a-done.svg,a-done.svg,a-done.svg,n-not-applicable.svg,2026-04-30,,chains/pq/cellframe.md
-Mochimo,MCM,D,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,n-not-applicable.svg,a-done.svg,n-not-applicable.svg,2026-06-26,,chains/pq/mochimo.md
+Mochimo,MCM,F,L1 (PQC-native),a-done.svg,a-done.svg,f-nothing.svg,n-not-applicable.svg,a-done.svg,n-not-applicable.svg,2026-07-25,,chains/pq/mochimo.md
 QANplatform,QANX,D,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,a-done.svg,n-not-applicable.svg,f-nothing.svg,2026-06-26,,chains/pq/qanplatform.md
-QRL,QRL,D,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,b-dev.svg,a-done.svg,n-not-applicable.svg,2026-06-26,,chains/pq/qrl.md
-Abelian,ABEL,D,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,d-discussed.svg,a-done.svg,n-not-applicable.svg,2026-04-30,,chains/pq/abelian.md
+QRL,QRL,F,L1 (PQC-native),a-done.svg,a-done.svg,f-nothing.svg,b-dev.svg,a-done.svg,n-not-applicable.svg,2026-07-25,,chains/pq/qrl.md
+Abelian,ABEL,F,L1 (PQC-native),a-done.svg,a-done.svg,f-nothing.svg,d-discussed.svg,a-done.svg,n-not-applicable.svg,2026-07-25,,chains/pq/abelian.md
 Naoris Protocol,NAORIS,D,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,d-discussed.svg,d-discussed.svg,n-not-applicable.svg,2026-04-30,,chains/pq/naoris-protocol.md
-Neptune Cash,NPT,D,L1 (PQC-native),a-done.svg,a-done.svg,d-discussed.svg,a-done.svg,a-done.svg,n-not-applicable.svg,2026-07-25,,chains/pq/neptune-cash.md
+Neptune Cash,NPT,F,L1 (PQC-native),a-done.svg,a-done.svg,f-nothing.svg,a-done.svg,a-done.svg,f-nothing.svg,2026-07-25,,chains/pq/neptune-cash.md
 XX Network,XX,F,L1 (PQC-native),f-nothing.svg,f-nothing.svg,f-nothing.svg,f-nothing.svg,d-discussed.svg,f-nothing.svg,2026-04-30,,chains/pq/xx-network.md

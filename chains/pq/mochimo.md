@@ -16,7 +16,7 @@
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | A | ✅ | Shipped |
 | Consensus | A | ✅ | Shipped |
-| P2P Networking | D | ⚠️ | Discussed |
+| P2P Networking | F | ❌ | Exposed |
 | On-Chain Logic | ➖ | ➖ | Not Applicable |
 | Other Features | A | ✅ | Shipped |
 | EC Sunset | ➖ | ➖ | Not Applicable |
@@ -54,13 +54,13 @@ Consensus runs on **Peach**, a custom proof-of-work algorithm designed to resist
 
 ## 3. P2P Networking
 
-**Grade: D ⚠️**
+**Grade: F ❌**
 
-Node identity on the Mochimo network is hash-based rather than elliptic-curve-based, and peer discovery uses a seed-node mechanism. Transport encryption is implemented, but its post-quantum readiness is not documented in public materials — in particular, the key-exchange and cipher-suite choices used at the transport layer are unconfirmed.
+Source review corrected an earlier assumption that "transport encryption is implemented" — it is not. Mochimo's C node exchanges peer data over raw sockets (`send()`/`recv()`), with **no SSL/TLS or any encryption library** in the codebase. Peers are identified by IPv4 address only, with no node keys and no peer authentication. The 16-bit session identifiers in the protocol are used for liveness and self-connection detection, not as cryptographic keys, and frame integrity is only a **CRC16 checksum** — a non-cryptographic check that an on-path attacker can recompute after modifying a packet.
 
-**Current state.** The P2P network has operated since genesis with hash-based node identity. The post-quantum properties of the transport-encryption layer are not publicly documented.
+**Current state.** Plaintext peer transport with no key exchange, no encryption, and no cryptographic integrity. This is the weakest peer networking among the post-quantum-native chains: it fails confidentiality and, notably, integrity — peer messages can be forged and peers impersonated by an active on-path attacker (classical or quantum). The category grades exposed.
 
-**Planned future work.** A public audit of the transport-encryption stack — its cipher suites and key-exchange protocols — would clarify this category. Where a quantum-vulnerable key exchange is in use, it could be upgraded to a post-quantum key-establishment scheme. No specific public roadmap commitment for this work has been identified.
+**Planned future work.** Adding an authenticated, encrypted transport — ideally with a post-quantum (hybrid) key exchange and a real message-authentication code in place of CRC16 — would close this gap. No specific public roadmap commitment for this work has been identified.
 
 ## 4. On-Chain Logic
 
@@ -105,7 +105,7 @@ Recent governance activity has centered on the proposed v4.0 consensus mechanism
 
 ---
 
-_Generated on 24 Jun 2026 based on information as of 11 May 2026._
+_Generated on 25 Jul 2026 based on information as of 25 Jul 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

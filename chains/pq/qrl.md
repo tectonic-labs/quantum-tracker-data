@@ -15,7 +15,7 @@
 |----------|-------|------|--------|
 | Transaction Signatures | A | ✅ | Shipped |
 | Consensus | A | ✅ | Shipped |
-| P2P Networking | D | ⚠️ | Discussed |
+| P2P Networking | F | ❌ | Exposed |
 | On-Chain Logic | B | 🔧 | In Development |
 | Other Features | A | ✅ | Shipped |
 | EC Sunset | ➖ | ➖ | Not Applicable |
@@ -50,11 +50,11 @@ Transaction signatures, consensus, and the protocol's other quantum-safe feature
 
 ## 3. P2P Networking
 
-**Grade: D ⚠️**
+**Grade: F ❌**
 
-**Current state.** QRL runs a custom peer-to-peer protocol (not based on libp2p or other common stacks), with seed-node bootstrapping and a gossip protocol for peer propagation. Node identity and peer authentication use XMSS public keys, so node authentication is post-quantum. However, the transport-layer security model — specifically whether the handshake and key exchange use post-quantum-safe schemes — is not fully documented in public sources, so the networking layer cannot yet be confirmed quantum-safe against the full post-quantum threat model.
+**Current state.** Source review of the node software found that QRL's peer transport is **plaintext TCP** (a custom protocol over Twisted's `listenTCP`/`connectTCP`, with no SSL/TLS), carrying length-prefixed protobuf frames. There is **no key exchange, no session encryption, and no cryptographic peer authentication** — peers are validated only by a genesis-hash and version check. An earlier assessment described node identity as XMSS-based; that was incorrect. XMSS secures QRL *transactions*, not the peer link, which carries no per-peer keys at all. Because the transport is unencrypted and unauthenticated, it fails both confidentiality and integrity: an on-path adversary (classical or quantum) can read peer traffic, forge messages, and impersonate peers. The category grades exposed.
 
-**Planned future work.** A peer-to-peer layer redesign is expected alongside the Zond consensus migration and is anticipated to include explicit post-quantum key-exchange protocols. Full specification and audit of the handshake are planned before the Zond mainnet launch, and community documentation efforts on the existing P2P layer are underway.
+**Planned future work.** A peer-to-peer layer redesign has been discussed alongside the Zond migration and is anticipated to include explicit key-exchange and transport security; adopting a post-quantum (hybrid) handshake at that point would close this gap. No shipped implementation exists today.
 
 ## 4. On-Chain Logic
 
@@ -87,7 +87,7 @@ QRL is developed under a Foundation-led model (the QRL Foundation) with communit
 
 ---
 
-_Generated on 24 Jun 2026 based on information as of 06 May 2026._
+_Generated on 25 Jul 2026 based on information as of 25 Jul 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

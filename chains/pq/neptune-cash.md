@@ -16,16 +16,16 @@
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | A | ✅ | Shipped |
 | Consensus | A | ✅ | Shipped |
-| P2P Networking | D | ⚠️ | Discussed |
+| P2P Networking | F | ❌ | Exposed |
 | On-Chain Logic | A | ✅ | Shipped |
 | Other Features | A | ✅ | Shipped |
-| EC Sunset | ➖ | ➖ | Not Applicable |
+| EC Sunset | F | ❌ | Exposed |
 
-Neptune Cash is a privacy-focused layer-1 that has been post-quantum since its mainnet genesis. Rather than migrating away from elliptic-curve cryptography, it never used it: transaction validity and privacy are enforced with **zk-STARK proofs** produced by **Triton VM**, block production runs on a **memory-hard, hash-based proof-of-work**, and spending is authorized by hash-based post-quantum lock scripts. Because the chain's security rests on hash-function assumptions and transparent proofs rather than the algebraic structures broken by Shor's algorithm, its signature, consensus, and on-chain layers are post-quantum from day one.
+Neptune Cash is a privacy-focused layer-1 whose **ledger** has been post-quantum since its mainnet genesis. Transaction validity and privacy are enforced with **zk-STARK proofs** produced by **Triton VM**, block production runs on a **memory-hard, hash-based proof-of-work**, and spending is authorized by hash-based post-quantum lock scripts. Because those layers rest on hash-function assumptions and transparent proofs rather than the algebraic structures broken by Shor's algorithm, its signature, consensus, and on-chain categories are post-quantum from day one.
 
 A distinguishing property for a privacy chain: because Neptune's confidentiality is built on hash-based commitments and STARKs — not on elliptic-curve discrete-log hardness — a future quantum computer does **not** retroactively deanonymize its historical ledger. This is a structural advantage over elliptic-curve-based privacy designs, whose past confidential transactions become exposed once the underlying curve is broken.
 
-The one open area is P2P networking: peer connections use plain TCP/IP with no documented transport encryption or post-quantum handshake, so that category cannot yet be rated a pass. Elliptic-curve sunset does not apply — there is no elliptic-curve cryptography anywhere in the protocol to retire.
+The gap is the **peer transport**. Source review found that Neptune has the most complete peer networking of any post-quantum-native chain — libp2p over TCP+QUIC with an authenticated, encrypted, multiplexed Noise transport — but its Noise handshake uses **classical X25519** key exchange and **Ed25519** node identity, both of which a quantum computer breaks. No post-quantum key-establishment is used on the wire. Under the readiness rubric an encrypted-but-classical transport with no post-quantum handshake grades ❌: it protects confidentiality and integrity against classical adversaries today, but a quantum-capable active attacker could decrypt peer traffic and — the point worth stressing — defeat **message integrity and peer authentication** (impersonate peers, forge gossip, intercept the topology). This classical transport crypto is also the only elliptic-curve cryptography left in the protocol, so EC Sunset is likewise ❌ (no stated plan to migrate or remove it). Encouragingly, the libp2p/Noise design is the easiest place to add a hybrid post-quantum key exchange, so the fix is well-scoped.
 
 ## Proposed and Implemented PQC Algorithms
 
@@ -58,15 +58,17 @@ Consensus runs on a **memory-hard, hash-based proof-of-work** with adaptive bloc
 
 ## 3. P2P Networking
 
-**Grade: D ⚠️**
+**Grade: F ❌**
 
-The reference client, neptune-core, connects to peers over **plain TCP/IP**, with its RPC server exposed via `tarpc` using JSON over a serde transport, and peer discovery driven by a distance-based scheme. Public documentation notes that the RPC interface lacks encryption. No post-quantum-secured handshake, authenticated key exchange, or encrypted transport is documented for peer connections.
+The reference client, neptune-core, has the most complete peer transport of any post-quantum-native chain surveyed: **libp2p over TCP and QUIC**, with a **Noise** security transport (encrypted and authenticated) and **Yamux** multiplexing, carrying JSON-framed peer messages. Node identity is a libp2p `PeerId` derived from an **Ed25519** public key.
 
-Node identity is not elliptic-curve-based, so there is no *classical* key exchange to be broken — but the absence of any documented transport-security layer means this category cannot be rated a pass.
+The problem is that this transport is **classical**. The Noise handshake performs an **X25519** elliptic-curve Diffie-Hellman key exchange (with ChaCha20/AES-GCM authenticated encryption), and node identity is Ed25519 — both are broken by a sufficiently large quantum computer. No post-quantum key-encapsulation mechanism (such as ML-KEM/Kyber, in hybrid or pure form) is used for the peer handshake.
 
-**Current state.** Peer transport is unencrypted plain TCP/IP; no post-quantum transport layer is documented.
+So while the link is confidential and authenticated against classical adversaries today, it is quantum-vulnerable at the handshake. A quantum-capable active attacker could not only decrypt captured traffic but also defeat **message integrity and peer authentication** — impersonating peers, forging gossip, and intercepting the network topology. For a chain built and marketed as post-quantum, an EC-based transport is a real gap, so the category grades exposed.
 
-**Planned future work.** A public specification and audit of the peer transport — cipher suites and key-establishment — would clarify this category. If an encrypted transport is added, a post-quantum key-establishment scheme would keep it aligned with the rest of the protocol. No specific public roadmap commitment for this work has been identified.
+**Current state.** Encrypted and authenticated peer transport (libp2p + Noise + Yamux), but the handshake is classical X25519 with Ed25519 identity; no post-quantum key exchange on the wire.
+
+**Planned future work.** The libp2p/Noise architecture is the natural place to add a hybrid post-quantum key exchange (Noise has established PQC-hybrid patterns), which would bring the transport in line with the chain's post-quantum ledger. No specific public roadmap commitment for this work has been identified.
 
 ## 4. On-Chain Logic
 
@@ -92,13 +94,13 @@ Crucially, because the privacy guarantees do not depend on elliptic-curve discre
 
 ## 6. EC Sunset
 
-**Grade: ➖ Not Applicable**
+**Grade: F ❌**
 
-Neptune Cash never used elliptic-curve cryptography. It launched as a post-quantum chain in February 2026 with hash-based lock scripts, hash-based proof-of-work, and STARK-based on-chain verification, so there is nothing to retire — no EC keys, precompiles, or builtins exist anywhere in the protocol. The concept of sunsetting elliptic-curve cryptography therefore does not apply.
+Neptune's **ledger** uses no elliptic-curve cryptography — hash-based lock scripts, hash-based proof-of-work, and STARK-based on-chain verification mean there are no EC keys, precompiles, or builtins on-chain to retire. However, source review confirmed that the **peer transport does retain classical elliptic-curve cryptography**: X25519 for the Noise key exchange and Ed25519 for node identity. Because a quantum-vulnerable elliptic-curve primitive genuinely remains in the protocol (in networking), and there is no stated plan to migrate it to a post-quantum scheme or remove it, EC Sunset is not "not applicable" here — it is exposed.
 
-**Current state.** No elliptic-curve cryptography is present in the protocol.
+**Current state.** No EC on-chain, but classical X25519/Ed25519 remains in the peer transport with no announced migration or removal plan.
 
-**Planned future work.** None required.
+**Planned future work.** Migrating the Noise handshake to a hybrid post-quantum KEM would both fix P2P and clear this category. No public commitment identified.
 
 ## Governance
 

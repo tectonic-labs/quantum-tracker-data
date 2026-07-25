@@ -15,7 +15,7 @@
 |----------|-------|------|--------|
 | Transaction Signatures | A | ✅ | Shipped |
 | Consensus | A | ✅ | Shipped |
-| P2P Networking | D | ⚠️ | Discussed |
+| P2P Networking | F | ❌ | Exposed |
 | On-Chain Logic | D | ⚠️ | Discussed |
 | Other Features | A | ✅ | Shipped |
 | EC Sunset | ➖ | ➖ | Not Applicable |
@@ -32,7 +32,6 @@ A note specific to privacy chains: a future break of the underlying cryptography
 |-----------|----------|----------|--------|
 | **Lattice-based linkable ring signatures (CRYSTALS-Dilithium-inspired)** | (PQC-native; no EC predecessor) | Transaction Signatures | Shipped |
 | **Lattice-based commitments and zero-knowledge proofs** | (PQC-native; no EC predecessor) | Other Features | Shipped |
-| **CRYSTALS-Kyber-inspired key encapsulation** | (PQC-native; no EC predecessor) | P2P Networking | Discussed |
 
 ## 1. Transaction Signatures
 
@@ -52,11 +51,11 @@ A note specific to privacy chains: a future break of the underlying cryptography
 
 ## 3. P2P Networking
 
-**Grade: D ⚠️**
+**Grade: F ❌**
 
-**Current state.** The peer-to-peer layer is provided by the `abec` full-node software. Given Abelian's post-quantum-native architecture, node identities and handshakes are likely lattice-based, but the transport and handshake cryptography are not explicitly confirmed in public documentation — so the networking layer should be treated as "likely post-quantum, but unverified." There is no evidence of elliptic-curve cryptography in the P2P layer; the uncertainty is one of documentation, not of a known elliptic-curve dependency. Peer discovery follows a standard mechanism with no special post-quantum requirements documented.
+**Current state.** Source review resolved the earlier "likely post-quantum, but unverified" placeholder: the `abec` node is a **btcd (Bitcoin Core-lineage) fork**, and its peer transport carries **no encryption**. Peers connect with plain sockets using Bitcoin wire framing (magic + command + length + a non-cryptographic double-SHA256 checksum); there is no key exchange, no session encryption, and no peer authentication (peers are addresses only). The self-signed TLS present in the software guards the **RPC control channel**, not peer gossip — a common point of confusion for Bitcoin-lineage nodes. There is no elliptic curve in the transport, but there is also no post-quantum protection: the link fails both confidentiality and integrity, and an on-path attacker can read and forge peer traffic. The category grades exposed.
 
-**Planned future work.** No specific peer-to-peer post-quantum upgrades have been announced; the status here reflects a gap in public documentation rather than a committed roadmap item.
+**Planned future work.** No peer-to-peer transport-security upgrade has been announced. Adding an authenticated, encrypted transport with a post-quantum (hybrid) handshake would close this gap.
 
 ## 4. On-Chain Logic
 
@@ -92,7 +91,7 @@ Abelian is developed under a foundation-led model with no on-chain governance vo
 
 ---
 
-_Generated on 24 Jun 2026 based on information as of 30 Apr 2026._
+_Generated on 25 Jul 2026 based on information as of 25 Jul 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
