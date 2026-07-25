@@ -17,12 +17,12 @@
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | B+ | 🧪 | Testnet Live |
 | Consensus | B+ | 🧪 | Testnet Live |
-| P2P Networking | B+ | 🧪 | Testnet Live |
+| P2P Networking | F | ❌ | Exposed |
 | On-Chain Logic | B+ | 🧪 | Testnet Live |
 | Other Features | D | ⚠️ | Discussed |
 | EC Sunset | F | ❌ | Not Discussed |
 
-> **Testnet activity**: The [Nile testnet](https://www.cryptotimes.io/2026/07/03/justin-suns-tron-activates-quantum-resistant-signatures-on-nile-testnet/) has been running dual-scheme post-quantum signing — **FN-DSA-512** (Falcon-512) as default and **ML-DSA-44** (Dilithium2) optional — since 2026-07-03, spanning transaction signatures, super-representative block-production signatures, P2P handshakes, and TVM contract verification. This is not yet active on mainnet (Q3 2026 target).
+> **Testnet activity**: The [Nile testnet](https://www.cryptotimes.io/2026/07/03/justin-suns-tron-activates-quantum-resistant-signatures-on-nile-testnet/) has been running dual-scheme post-quantum signing — **FN-DSA-512** (Falcon-512) as default and **ML-DSA-44** (Dilithium2) optional — since 2026-07-03, spanning transaction signatures, super-representative block-production signatures, and TVM contract verification. This is not yet active on mainnet (Q3 2026 target). (The post-quantum work does not include peer-transport encryption — see P2P Networking below.)
 
 TRON has moved from having no verifiable post-quantum deployment to a concrete, governance-gated testnet activation. On 2026-07-02, [Committee Proposal No. 20628](https://blockonomi.com/tron-post-quantum-signatures-launch-on-nile-testnet-after-vote/) passed, and on 2026-07-03 the Nile testnet went live with quantum-resistant signing running two NIST post-quantum signature schemes in parallel behind on-chain governance flags. The upgrade — shipped in the [GreatVoyage-v4.8.2-PQ1 build](https://www.cryptopolitan.com/tron-network-quantum-resistant-sign/) — covers transaction signatures, block production by super representatives, peer-to-peer node handshakes, and on-chain (TVM) signature verification. Mainnet migration is targeted for Q3 2026 and requires further super-representative governance approval.
 
@@ -32,8 +32,8 @@ Separately, an earlier community-submitted draft, [tips#891](https://github.com/
 
 | Algorithm | Replaces | Category | Status |
 |-----------|----------|----------|--------|
-| **FN-DSA-512** (Falcon-512) | ECDSA secp256k1 | Tx Signatures, Consensus, P2P, On-Chain | Testnet Live |
-| **ML-DSA-44** (Dilithium2, FIPS 204) | ECDSA secp256k1 | Tx Signatures, Consensus, P2P, On-Chain | Testnet Live |
+| **FN-DSA-512** (Falcon-512) | ECDSA secp256k1 | Tx Signatures, Consensus, On-Chain | Testnet Live |
+| **ML-DSA-44** (Dilithium2, FIPS 204) | ECDSA secp256k1 | Tx Signatures, Consensus, On-Chain | Testnet Live |
 | **OTAK-PQ** (hash-based one-time access keys) | ECDSA secp256k1 | Tx Signatures | Discussed |
 
 ## Transaction Signatures
@@ -58,13 +58,15 @@ TRON uses [Delegated Proof of Stake (DPoS)](https://tronprotocol.github.io/docum
 
 ## P2P Networking
 
-**Grade: B+ 🧪**
+**Grade: F ❌**
 
-TRON's [P2P networking](https://medium.com/tronnetwork/a-detailed-description-of-p2p-network-modules-ff8f03ebda20) uses a Kademlia distributed hash table for peer discovery, with 512-bit node IDs and XOR distance.
+TRON's [peer-to-peer networking](https://medium.com/tronnetwork/a-detailed-description-of-p2p-network-modules-ff8f03ebda20) uses a Kademlia distributed hash table for peer discovery, with 512-bit node IDs and XOR distance.
 
-**Current state.** Under Committee Proposal No. 20628, fast-forward node handshakes carry [post-quantum signatures](https://blockonomi.com/tron-post-quantum-signatures-launch-on-nile-testnet-after-vote/) (**FN-DSA-512** / **ML-DSA-44**) on the Nile testnet as of 2026-07-03. Mainnet peer identity remains EC-based.
+**Current state.** The peer transport is **plaintext**: nodes exchange raw protobuf over TCP with no transport-layer encryption (no TLS/SSL, no ECIES/RLPx codec, no session key). Peer identity is also **unauthenticated** on ordinary connections — a node's secp256k1 `nodeId` is asserted in a cleartext hello message and accepted at face value, with signature verification only on the witness-to-witness fast-forward relay path. Because there is no per-message authentication, an on-path attacker can eavesdrop on peer traffic, impersonate any peer by claiming an arbitrary `nodeId`, and **modify messages (blocks, transactions, consensus data) without the receiver detecting the tampering**. Under the readiness rubric, a peer transport where a man-in-the-middle can tamper undetected is graded exposed (F), regardless of post-quantum work elsewhere on the chain.
 
-**Planned future work.** Mainnet activation targeted Q3 2026, pending SR governance.
+TRON's post-quantum program does reach the P2P handshake, but only as an *identity signature* on the fast-forward relay path (a planned `pq_auth_sig` field using FN-DSA-512 / ML-DSA-44), not as transport encryption — and ordinary peer connections remain unsigned. So even as that work ships, the plaintext transport and the general peer-spoofing gap remain.
+
+**Planned future work.** Closing this category would require an authenticated, encrypted peer transport — ideally with a post-quantum key exchange and a per-message authentication code covering all peer links, not only the witness relay. No such transport-security work is currently on TRON's public roadmap.
 
 ## On-Chain Logic
 
@@ -96,7 +98,7 @@ TRON's [TVM](https://developers.tron.network/v4.4.0/docs/vm-vs-evm) is EVM-compa
 
 **Grade: F ❌**
 
-Adding PQC alongside EC is not the same as retiring EC. For reference, TRON's PQC-adoption ratings per category are: Tx Signatures 🧪, Consensus 🧪, P2P 🧪, On-Chain 🧪, Other ⚠️.
+Adding PQC alongside EC is not the same as retiring EC. For reference, TRON's PQC-adoption ratings per category are: Tx Signatures 🧪, Consensus 🧪, P2P ❌, On-Chain 🧪, Other ⚠️.
 
 The Proposal-20628 upgrade is additive — it runs post-quantum schemes alongside ECDSA behind governance flags rather than removing ECDSA. No policy, milestone, or proposal to retire ECDSA has been published by the TRON Foundation or core developers.
 
@@ -116,7 +118,7 @@ PQ-adjacent proposals (existing EC-based work):
 
 ---
 
-_Generated on 06 Jul 2026 based on information as of 06 Jul 2026._
+_Generated on 25 Jul 2026 based on information as of 25 Jul 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 

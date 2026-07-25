@@ -17,7 +17,7 @@
 |----------|:-----:|:----:|--------|
 | Transaction Signatures | A | ✅ | Shipped |
 | Consensus | D | ⚠️ | Discussed |
-| P2P Networking | D | ⚠️ | Discussed |
+| P2P Networking | F | ❌ | Exposed |
 | On-Chain Logic | F | ❌ | Not Discussed |
 | Other Features | B | 🔧 | In Development |
 | EC Sunset | F | ❌ | Not Discussed |
@@ -76,15 +76,13 @@ The [Near One blog (2026-05-06)](https://www.near.org/blog/making-near-protocol-
 
 ## P2P Networking
 
-**Grade: D ⚠️**
+**Grade: F ❌**
 
-NEAR uses a [custom peer-to-peer networking layer](https://near.github.io/nearcore/architecture/network) built on an actor framework. Node identity is based on Ed25519 keys. Peer connections use Ed25519 edge signatures for authentication.
+NEAR uses a [custom peer-to-peer networking layer](https://near.github.io/nearcore/architecture/network) built on an actor framework.
 
-P2P is included in Near One's stated longer-term PQC research scope ([2026-05-06 blog](https://www.near.org/blog/making-near-protocol-post-quantum-safe)), but no specific migration plan, algorithm, or timeline has been published.
+**Current state.** The peer transport is **plaintext TCP**: nodes exchange raw length-prefixed messages with no transport-layer encryption, no session key, and no per-message authentication code. NEAR does one thing well here — a signed-edge handshake, in which both peers sign a shared nonce, **cryptographically authenticates each peer's Ed25519 identity** (stronger than chains that accept an asserted node ID at face value). But authenticating *who* the peer is does not authenticate *each message*: after the handshake, per-message traffic is unprotected, so a man-in-the-middle can **modify individual messages without the receiver detecting the tampering**. Under the readiness rubric, a peer transport where tampering goes undetected is graded exposed (F), regardless of the strength of the identity handshake or of post-quantum work elsewhere on the chain. NEAR's mainnet post-quantum signatures (ML-DSA-65) secure transactions, not the peer link.
 
-**Current state.** Ed25519 for node identity and peer authentication. No post-quantum alternatives drafted.
-
-**Planned future work.** Within Near One's research scope; no concrete proposal.
+**Planned future work.** P2P is included in Near One's stated longer-term post-quantum research scope ([2026-05-06 blog](https://www.near.org/blog/making-near-protocol-post-quantum-safe)), but no specific migration plan, algorithm, or timeline has been published. Closing this category would require an encrypted, per-message-authenticated peer transport (ideally with a post-quantum key exchange), not only the existing identity handshake.
 
 ## On-Chain Logic
 
@@ -126,7 +124,7 @@ Near One is researching an emergency fallback mechanism — allowing users to pr
 
 **Grade: F ❌**
 
-> Adding PQC alongside EC is not the same as retiring EC. For reference, NEAR's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ⚠️, P2P ⚠️, On-Chain ❌, Other 🔧.
+> Adding PQC alongside EC is not the same as retiring EC. For reference, NEAR's PQC-adoption ratings per category are: Tx Signatures ✅, Consensus ⚠️, P2P ❌, On-Chain ❌, Other 🔧.
 
 NEAR's current strategy is additive: ML-DSA-65 will be offered alongside Ed25519 and ECDSA, and users will rotate keys voluntarily. No deprecation, forced migration, or removal timeline has been announced for any EC-based cryptography across any layer.
 
@@ -162,7 +160,7 @@ PQ-relevant announcements and reference documentation:
 
 ---
 
-_Generated on 20 Jul 2026 based on information as of 20 Jul 2026._
+_Generated on 25 Jul 2026 based on information as of 25 Jul 2026._
 
 _[Propose a correction or update](https://github.com/tectonic-labs/quantum-tracker-data/issues/new?template=data-correction.yml)_
 
